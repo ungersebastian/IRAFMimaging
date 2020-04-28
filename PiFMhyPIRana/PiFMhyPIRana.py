@@ -25,7 +25,7 @@ path_final = join(path_dir, path_import)
 
 #%% functions
 
-def mean_spectrum(spec_norm, my_data):
+def mean_spectrum(spc_norm, my_data):
     '''
     Calculates and plots mean spectra with standard deviations
     '''
