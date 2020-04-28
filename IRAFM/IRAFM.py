@@ -11,13 +11,53 @@ from os.path import isfile, join, splitext
 from os import listdir
 import numpy as np
 import matplotlib.pyplot as plt
+from pkg_resources import resource_filename, resource_listdir
 
 
-class pifm_image(dict):
+class IRAFM(dict):
     
-    def __init__(self, path, headerfile, *args, **kwargs):
-        super(pifm_image, self).__init__(*args, **kwargs)
+    @property
+    def _constructor(self):
+        def _c(*args, **kwargs):
+            return IRAFM(*args, **kwargs).__finalize__(self)
+        return _c
+    
+    def __init__(self, *args, **kwargs):
+        
+        
+        
+        # unpacking of args and kwargs:
+        i_args = 0
+        n_args = len(args)
+        use_example = 0    
+        
+        path = ''
+        
+        if 'path' in kwargs:
+            path = kwargs.pop('path')
+        elif n_args>i_args:
+            path = args[i_args]
+            i_args = i_args+1
+        else:
+            use_example = 1
+            
+        if use_example == 0:
+            if 'headerfile' in kwargs:
+                headerfile = kwargs.pop('headerfile')
+            elif n_args>i_args:
+                headerfile = args[i_args]
+                i_args = i_args+1
+            else:
+                use_example = 1
+        
+
+        if use_example == 1:
+            print('Parameter unsufficient. Using example data.')
+            path = resource_filename("IRAFM","resources") 
+            headerfile = 'Ret29r20006.txt'
+
         self._data_type_  = np.dtype(np.int32)
+        
         file_list = np.array([(
             f,
             join(path, f),
