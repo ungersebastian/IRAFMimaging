@@ -25,7 +25,7 @@ path_final = join(path_dir, path_import)
 
 #%% functions
 
-def mean_spec(my_sum, coord):
+def mean_spectrum(spec_norm, my_data):
     '''
     Calculates and plots mean spectra with standard deviations
     '''
@@ -42,6 +42,7 @@ def mean_spec(my_sum, coord):
     ax.set_yticklabels([])
     plt.title('mean spectrum')
     my_fig.tight_layout()
+    return mean_spc
 
 #%% loads data and plots associated VistaScan parameter images
 
@@ -84,19 +85,7 @@ spc_norm = np.array([spc/s for spc, s in zip(spc_train, my_sum)])
 
 #%%
 # PlotIt
-mean_spc = np.mean(spc_norm, axis = 0)
-std_spc = np.std(spc_norm, axis = 0)
-
-my_fig = plt.figure()
-ax = plt.subplot(111)
-ax.fill_between(x = my_data['wavelength'], y1 = mean_spc+std_spc, y2 = mean_spc-std_spc, alpha = 0.6)
-plt.gca().invert_xaxis() #inverts values of x-axis
-ax.plot(my_data['wavelength'], mean_spc)
-ax.set_xlabel('wavenumber ['+my_data['PhysUnitWavelengths']+']')
-ax.set_ylabel('intensity (normalized)')
-ax.set_yticklabels([])
-plt.title('mean spectrum')
-my_fig.tight_layout()
+mean_spc = mean_spectrum(spc_norm, my_data)
 
 
 #%%
