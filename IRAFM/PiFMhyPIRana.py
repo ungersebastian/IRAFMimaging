@@ -50,6 +50,25 @@ my_data = IRAFM(path_final, headerfile)
 
 my_data.plot_all()
 
+
+#%% Part1
+
+from AreaSelect import AreaSelect
+testIm = my_data['files'][0]
+data = testIm['data']
+
+c = AreaSelect(None, data)
+
+#%% Part2
+my_p=c.points
+my_a=c.area
+
+
+pos =  [my_file['Caption']=='hyPIRFwd' for my_file in my_data['files']]
+hyPIRFwd = np.array(my_data['files'])[pos][0]
+data = hyPIRFwd['data']
+data_select = data[my_a == 1]   # here are now just the selected spectra
+
 #%% checks validity of data and sorts them
 
 my_spc = my_data.return_spc()
@@ -87,6 +106,9 @@ spc_norm = np.array([spc/s for spc, s in zip(spc_train, my_sum)])
 # PlotIt
 mean_spc = mean_spectrum(spc_norm, my_data)
 
+#%%
+# simple explort
+np.savetxt(r'C:\Users\ungersebastian\Programmierung\Python\Projekte\irafmimaging\meanspc.txt', mean_spc)
 
 #%%
 
