@@ -1,0 +1,264 @@
+
+;ANFATEC Parameterfile
+
+Version : 1.12
+VistaScanVersion : 2.0.0.38
+Date : 11/28/2019
+Time : 11:15:49 AM
+UTCDateTime : 2019/11/28 10:15:49
+UserName : Daniela
+ComputerName : 
+SampleName : Per-PDAGA-NP
+CantileverType : NCHAu
+CantileverID : NCHAu1dt
+Lens : None
+Scanner : Scanner
+Scanner calibration : Scanner parameters from VS22 12APR18.ini
+Objective calibration : softlinObjective.ini
+Head calibration : softlinHead.ini
+Lockin calibration : controller_574-580-549-16.ini
+StartDate : 12/30/1899
+StartTime : 12:00:00 AM
+
+FeedbackMode     : opticalforce
+FeedbackModePiFM : 22
+SetPoint         : 85
+SetPointPhysUnit : V
+FeedBackModus    : ncAFM R
+Bias             : 0
+BiasPhysUnit     : mV
+Ki               : 1000
+Kp               : 1
+
+FastZKi    : 1
+FastZKp    : 0
+FastZTd    : 0
+FastZAlpha : 3
+
+XStage     : -1743.30802 ; µm
+YStage     : -83608.316845 ; µm
+XScanRange : 1
+YScanRange : 1
+XPhysUnit  : µm
+YPhysUnit  : µm
+Speed      : 0.5 ; lines/sec
+Angle      : 0 ; degrees
+xPixel     : 256
+yPixel     : 256
+yCenter    : -4.67058823529412
+xCenter    : 1.70588235294118
+dzdx       : 0
+dzdy       : 0
+overscan[%]: 2.5
+
+LockInFreq         : 1577395.75
+LockInFreqPhysUnit : Hz
+LockInAmpl         : 0.166043995460257
+LockInAmplPhysUnit : V
+
+TimeConstant  : 2 ms
+RollOff       : 12 db/oct
+DetectionFrequency : 251089.579836095
+Laser1State     : On
+Laser1Name     : Block Engineering LaserTune LT-OEM [Q0252]
+Laser1LaserWavelength: 7352.94117647059 ; nm
+Laser1DutyCycle : 30 ; %
+Laser1VoltageLow: 0.5 ; V
+Laser1VoltageHigh: 5 ; V
+Laser1Frequency : 1326306.17016391 ; Hz
+
+BottomObjectiveFocus : 0 ; µm
+FileDescBegin
+FileName : Per-PDAGA-NP0010TopographyFwd.int
+Caption  : TopographyFwd
+Scale    : 3.9014e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010TopographyBwd.int
+Caption  : TopographyBwd
+Scale    : 3.9014e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010ScanSensor-YFwd.int
+Caption  : ScanSensor-YFwd
+Scale    : -4.46e-8
+PhysUnit : µm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010ScanSensor-YBwd.int
+Caption  : ScanSensor-YBwd
+Scale    : -4.46e-8
+PhysUnit : µm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010ScanSensor-XFwd.int
+Caption  : ScanSensor-XFwd
+Scale    : -4.308e-8
+PhysUnit : µm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010ScanSensor-XBwd.int
+Caption  : ScanSensor-XBwd
+Scale    : -4.308e-8
+PhysUnit : µm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010AFMHead-ZFwd.int
+Caption  : AFMHead-ZFwd
+Scale    : -2.834e-7
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010AFMHead-ZBwd.int
+Caption  : AFMHead-ZBwd
+Scale    : -2.834e-7
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010Scanner-ZFwd.int
+Caption  : Scanner-ZFwd
+Scale    : -3.618e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010Scanner-ZBwd.int
+Caption  : Scanner-ZBwd
+Scale    : -3.618e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010AmplitudeFwd.int
+Caption  : AmplitudeFwd
+Scale    : 3.01143288806455e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010AmplitudeBwd.int
+Caption  : AmplitudeBwd
+Scale    : 3.01143288806455e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010PhaseFwd.int
+Caption  : PhaseFwd
+Scale    : 1e-3
+PhysUnit : °
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010PhaseBwd.int
+Caption  : PhaseBwd
+Scale    : 1e-3
+PhysUnit : °
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010LIA1 XFwd.int
+Caption  : LIA1 XFwd
+Scale    : 4.959108e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010LIA1 XBwd.int
+Caption  : LIA1 XBwd
+Scale    : 4.959108e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010LIA1 YFwd.int
+Caption  : LIA1 YFwd
+Scale    : 4.959108e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010LIA1 YBwd.int
+Caption  : LIA1 YBwd
+Scale    : 4.959108e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010PiFFwd.int
+Caption  : PiFFwd
+Scale    : 3.01143288806455e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010PiFBwd.int
+Caption  : PiFBwd
+Scale    : 3.01143288806455e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010LIA1 PhaseFwd.int
+Caption  : LIA1 PhaseFwd
+Scale    : 1.68224299065421e-7
+PhysUnit : deg
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010LIA1 PhaseBwd.int
+Caption  : LIA1 PhaseBwd
+Scale    : 1.68224299065421e-7
+PhysUnit : deg
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010Topo OutFwd.int
+Caption  : Topo OutFwd
+Scale    : -4.055e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0010Topo OutBwd.int
+Caption  : Topo OutBwd
+Scale    : -4.055e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+
+;(at 2019/11/28 11:15:49): Completed scan

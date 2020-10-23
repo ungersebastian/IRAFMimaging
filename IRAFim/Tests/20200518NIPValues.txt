@@ -1,0 +1,12 @@
+Please position markers in alternating elements.
+Lauching View5D: with datatype: float64
+Basic analysis yields:
+MAX=	1.0012134313583374
+MIN=	-0.0019018151797354221
+MEAN=	0.3073611855506897
+MEDIAN=	0.1780296415090561
+VAR=	0.0685977041721344
+NVAR=	0.7261252403259277
+Image value-range = 1.0031153
+Lauching View5D: with datatype: float64
+Lauching View5D: with datatype: float32

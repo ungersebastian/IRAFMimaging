@@ -1,0 +1,299 @@
+
+;ANFATEC Parameterfile
+
+Version : 1.12
+VistaScanVersion : 2.0.0.38
+Date : 11/27/2019
+Time : 09:13:23 PM
+UTCDateTime : 2019/11/27 20:13:23
+UserName : Daniela
+ComputerName : 
+SampleName : Per-PDAGA-NP
+CantileverType : NCHAu
+CantileverID : NCHAu1dt
+Lens : None
+Scanner : Scanner
+Scanner calibration : Scanner parameters from VS22 12APR18.ini
+Objective calibration : softlinObjective.ini
+Head calibration : softlinHead.ini
+Lockin calibration : controller_574-580-549-16.ini
+StartDate : 12/30/1899
+StartTime : 12:00:00 AM
+
+FeedbackMode     : opticalforce
+FeedbackModePiFM : 22
+SetPoint         : 85
+SetPointPhysUnit : V
+FeedBackModus    : ncAFM R
+Bias             : 0
+BiasPhysUnit     : mV
+Ki               : 1000
+Kp               : 1
+
+FastZKi    : 1
+FastZKp    : 0
+FastZTd    : 0
+FastZAlpha : 3
+
+XStage     : 83.2643899999997 ; µm
+YStage     : -232.800705 ; µm
+XScanRange : 1
+YScanRange : 1
+XPhysUnit  : µm
+YPhysUnit  : µm
+Speed      : 0.5 ; lines/sec
+Angle      : 0 ; degrees
+xPixel     : 512
+yPixel     : 512
+yCenter    : -4.7
+xCenter    : 1.75490196078431
+dzdx       : 0
+dzdy       : 0
+overscan[%]: 2.5
+
+LockInFreq         : 1577426.3125
+LockInFreqPhysUnit : Hz
+LockInAmpl         : 0.397474293887058
+LockInAmplPhysUnit : V
+
+TimeConstant  : 1 ms
+RollOff       : 12 db/oct
+DetectionFrequency : 252838.859375
+Laser1State     : On
+Laser1Name     : Block Engineering LaserTune LT-OEM [Q0252]
+Laser1LaserWavelength: 7352.94117647059 ; nm
+Laser1DutyCycle : 30 ; %
+Laser1VoltageLow: 0.5 ; V
+Laser1VoltageHigh: 5 ; V
+Laser1Frequency : 1324587.453125 ; Hz
+
+BottomObjectiveFocus : 0 ; µm
+FileDescBegin
+FileName : Per-PDAGA-NP0004TopographyFwd.int
+Caption  : TopographyFwd
+Scale    : 3.9014e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004TopographyBwd.int
+Caption  : TopographyBwd
+Scale    : 3.9014e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004ScanSensor-YFwd.int
+Caption  : ScanSensor-YFwd
+Scale    : -4.46e-8
+PhysUnit : µm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004ScanSensor-YBwd.int
+Caption  : ScanSensor-YBwd
+Scale    : -4.46e-8
+PhysUnit : µm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004ScanSensor-XFwd.int
+Caption  : ScanSensor-XFwd
+Scale    : -4.308e-8
+PhysUnit : µm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004ScanSensor-XBwd.int
+Caption  : ScanSensor-XBwd
+Scale    : -4.308e-8
+PhysUnit : µm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004AFMHead-ZFwd.int
+Caption  : AFMHead-ZFwd
+Scale    : -2.834e-7
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004AFMHead-ZBwd.int
+Caption  : AFMHead-ZBwd
+Scale    : -2.834e-7
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004Scanner-ZFwd.int
+Caption  : Scanner-ZFwd
+Scale    : -3.618e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004Scanner-ZBwd.int
+Caption  : Scanner-ZBwd
+Scale    : -3.618e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004AmplitudeFwd.int
+Caption  : AmplitudeFwd
+Scale    : 3.01143288806455e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004AmplitudeBwd.int
+Caption  : AmplitudeBwd
+Scale    : 3.01143288806455e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004PhaseFwd.int
+Caption  : PhaseFwd
+Scale    : 1e-3
+PhysUnit : °
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004PhaseBwd.int
+Caption  : PhaseBwd
+Scale    : 1e-3
+PhysUnit : °
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004LIA1 XFwd.int
+Caption  : LIA1 XFwd
+Scale    : 4.959108e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004LIA1 XBwd.int
+Caption  : LIA1 XBwd
+Scale    : 4.959108e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004LIA1 YFwd.int
+Caption  : LIA1 YFwd
+Scale    : 4.959108e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004LIA1 YBwd.int
+Caption  : LIA1 YBwd
+Scale    : 4.959108e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004PiFFwd.int
+Caption  : PiFFwd
+Scale    : 3.01143288806455e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004PiFBwd.int
+Caption  : PiFBwd
+Scale    : 3.01143288806455e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004LIA1 PhaseFwd.int
+Caption  : LIA1 PhaseFwd
+Scale    : 1.68224299065421e-7
+PhysUnit : deg
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004LIA1 PhaseBwd.int
+Caption  : LIA1 PhaseBwd
+Scale    : 1.68224299065421e-7
+PhysUnit : deg
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004Topo OutFwd.int
+Caption  : Topo OutFwd
+Scale    : -4.055e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Per-PDAGA-NP0004Topo OutBwd.int
+Caption  : Topo OutBwd
+Scale    : -4.055e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+
+;(at 2019/11/27 21:13:23): Completed scan
+
+AFMSpectrumDescBegin
+FileName  : Per-PDAGA-NP0004_afmspectrum0002.txt
+SpectrumType: Optical
+PositionX : 1.93333333333333
+PositionY : -4.96078431372549
+Attenuation: 1
+Clip      : 0.02
+TimeConstant: 50 ms
+AFMSpectrumDescEnd
+
+AFMSpectrumDescBegin
+FileName  : Per-PDAGA-NP0004powerspectrum.txt
+SpectrumType: Optical
+AFMSpectrumDescEnd
+
+AFMSpectrumDescBegin
+FileName  : Per-PDAGA-NP0004_afmspectrum0004.txt
+SpectrumType: Optical
+PositionX : 1.92941176470588
+PositionY : -4.91764705882353
+Attenuation: 1
+Clip      : 0.02
+TimeConstant: 50 ms
+AFMSpectrumDescEnd
+
+AFMSpectrumDescBegin
+FileName  : Per-PDAGA-NP0004_afmspectrum0006.txt
+SpectrumType: Optical
+PositionX : 1.92941176470588
+PositionY : -4.91764705882353
+Attenuation: 0.1
+Clip      : 1
+TimeConstant: 20 ms
+AFMSpectrumDescEnd
