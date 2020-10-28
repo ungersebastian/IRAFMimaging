@@ -9,8 +9,10 @@ from PIL import Image
 from PIL.ImageQt import ImageQt
 
 from PyQt5.QtGui import QImage,QPixmap, QTransform, QPainter, QPen, QPolygon, QBrush, QColor
-from PyQt5.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QFrame
+from PyQt5.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QFrame, QApplication
 from PyQt5.QtCore import Qt, QPoint
+
+import sys
 
 import numpy as np
 
@@ -20,7 +22,7 @@ class AreaSelect(QGraphicsView):
     
     DELTA = 10 #for the minimum distance
     
-    def __init__(self, parent, image):
+    def __init__(self, image, parent = None, points = None):
         super(AreaSelect, self).__init__(parent)
         
         self.draggin_idx = -1  
@@ -47,7 +49,6 @@ class AreaSelect(QGraphicsView):
         
         imgShow =  Image.fromarray(array)
         
-        
         if imgShow.mode == 'F':
             imgShow = self.image_to_uint8(array)
         elif imgShow.mode == 'I;16':
@@ -64,11 +65,14 @@ class AreaSelect(QGraphicsView):
         
         self._image.setPixmap(self.pixmap)
         
-        self.points = [
-                [self.h//2, self.w//3],
-                [self.h//3, 2*self.w//3],
-                [2*self.h//3, 2*self.w//3]
-                ]
+        if points == None:
+            self.points = [
+                    [self.h//2, self.w//3],
+                    [self.h//3, 2*self.w//3],
+                    [2*self.h//3, 2*self.w//3]
+                    ]
+        else:
+            self.points = points
 
         self.__create_new_plotmap__()
         self.win_scale = [1,1]
@@ -80,6 +84,27 @@ class AreaSelect(QGraphicsView):
         self.win_scale = [1,1]
         self.area = np.zeros([self.w, self.h]).astype(int)
         self.__create_region__()
+        self.__resize__()
+        
+    def __resize__(self):
+        h = self.mapToScene(self.viewport().rect()).boundingRect().height()
+        r = self.sceneRect()
+
+        r.setHeight(h)
+        self.setSceneRect(r)
+
+        height = self.viewport().height()
+        width = self.viewport().width()
+        
+        self.win_scale = [self.width / width, self.height / height]
+        
+        for item in self.items():
+            item_height = item.boundingRect().height()
+            item_width = item.boundingRect().width()
+            tr = QTransform()
+            tr.scale(width / item_width, height / item_height)
+            item.setTransform(tr)
+        
         
     def image_to_uint8(self, my_image):
         temp = (my_image - my_image.min())
@@ -159,35 +184,25 @@ class AreaSelect(QGraphicsView):
         self.area = arr
         
     def resizeEvent(self, event):
-        
-        h = self.mapToScene(self.viewport().rect()).boundingRect().height()
-        r = self.sceneRect()
-
-        r.setHeight(h)
-        self.setSceneRect(r)
-
-        height = self.viewport().height()
-        width = self.viewport().width()
-        
-        self.win_scale = [self.width / width, self.height / height]
-        
-        for item in self.items():
-            item_height = item.boundingRect().height()
-            item_width = item.boundingRect().width()
-            tr = QTransform()
-            tr.scale(width / item_width, height / item_height)
-            item.setTransform(tr)
-        
+        self.__resize__()       
         super(AreaSelect, self).resizeEvent(event)
     
     def _get_point(self, evt):
-        return np.array([evt.pos().x(),evt.pos().y()])*np.array(self.win_scale)
+        point = np.array([evt.pos().x(),evt.pos().y()])*np.array(self.win_scale)
+        if point[1] > self.height - 1:
+            point[1] = self.height - 1
+        if point[1] < 0:
+            point[1] = 0
+        if point[0] > self.width - 1:
+            point[0] = self.width - 1
+        if point[0] < 0:
+            point[0] = 0
+        return point
     
     def mouseDoubleClickEvent(self, evt):
         if evt.button() == Qt.LeftButton and self.draggin_idx == -1:
             point = self._get_point(evt)
             dist = self.points - point
-            
             dist = np.sqrt(dist[:,0]**2 + dist[:,1]**2)
             if dist.min() > self.DELTA:
                 poly = Polygon(self.points)
@@ -243,18 +258,26 @@ class AreaSelect(QGraphicsView):
             self.__update_plotmap__()
             self.__create_region__()
     
-#%% part1 - selct region
+    def closeEvent(self,evt):
+        QApplication.quit()
+
+def getArea(image, points = None, delta = 10):
+    app = QApplication(sys.argv)
+    ex = AreaSelect(image = image, points = points)
+    ex.DELTA = delta
+    app.exec_()
+    
+    my_p=ex.points
+    my_a=ex.area
+    
+    return my_p, my_a
+
+#%% Example 1: select Area on example image
 if __name__ == '__main__':
     import NanoImagingPack as nip
     my_im = nip.readim('lena')[:,50:]
-    c = AreaSelect(None, my_im)
-    
-#%% part2 - test
+    my_p, my_a = getArea(my_im)
+#%% Example 2: use previously obtained points
 if __name__ == '__main__':
-    test = my_im.__copy__()
-    my_p=c.points
-    my_a=c.area
-    test[my_a == 0] = 0
-    nip.view(test)
-    
-    
+    my_p, my_a = getArea(my_im, my_p)
+
