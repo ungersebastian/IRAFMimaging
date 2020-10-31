@@ -15,7 +15,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from IRAFspec.IRAFM import IRAFM
-from IRAFspec.AreaSelect import AreaSelect
+from IRAFspec.AreaSelect import getArea
 
 path_import = r'PiFM/Retina/200405_Ret29'
 headerfile = 'Ret29r20006.txt'
@@ -108,17 +108,13 @@ my_data.plot_all()
 testIm = my_data['files'][0]
 data = testIm['data']
 
-c = AreaSelect(None, data)
-c.DELTA = 3
-#%% Part2
-my_p=c.points
-my_a=c.area
-
+my_p, my_a = getArea(image = data, delta = 3)
 
 pos =  [my_file['Caption']=='hyPIRFwd' for my_file in my_data['files']]
 hyPIRFwd = np.array(my_data['files'])[pos][0]
 data = hyPIRFwd['data']
 data_select = data[my_a == 1]   # here are now just the selected spectra
+
 
 #%% checks validity of data and sorts them
 
