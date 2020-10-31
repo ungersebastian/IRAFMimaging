@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-hyper is a program for analysis of PiFM hyPIR spectra acquired using VistaScan
+hyPirana is a program for analysis of PiFM hyPIR spectra acquired using VistaScan
 Created on Fri Apr 24 08:06:26 2020
 
 @author: ungersebastian
 
-Modified on Thu Apr 28 by Daniela Taeuber
+Last modified on Fri Oct 16 by Daniela Taeuber for application to the spectral range of one tuner only
 """
 
 #%% imports & parameters
