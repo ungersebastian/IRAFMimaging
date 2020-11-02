@@ -19,7 +19,12 @@ import numpy as np
 from shapely.geometry import Polygon, Point, LinearRing, LineString
 
 class AreaSelect(QGraphicsView):
+    '''
+    In the image, the area inside the polygonal countour line is selected.
+    New points are added by either drag and drop or by a double click in the image
+    Existing points are deleted by a double click near the point
     
+    '''    
     DELTA = 10 #for the minimum distance
     
     def __init__(self, image, parent = None, points = None):
