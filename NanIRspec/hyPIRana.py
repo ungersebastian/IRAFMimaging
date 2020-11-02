@@ -14,8 +14,8 @@ from os.path import join
 import numpy as np
 import matplotlib.pyplot as plt
 
-from IRAFspec.IRAFM import IRAFM
-from IRAFspec.AreaSelect import getArea
+from NanIRspec.IRAFM import IRAFM
+from NanIRspec.AreaSelect import getArea
 
 path_import = r'PiFM/Retina/200405_Ret29'
 headerfile = 'Ret29r20006.txt'
