@@ -14,12 +14,16 @@ from os.path import join
 import numpy as np
 import matplotlib.pyplot as plt
 
-from NanIRspec.IRAFM import IRAFM
-from NanIRspec.AreaSelect import getArea
+from IRAFM import IRAFM
+from AreaSelect import getArea
 
-path_import = r'PiFM/Retina/200405_Ret29'
-headerfile = 'Ret29r20006.txt'
-path_dir = r'//mars/usr/FA8_Mikroskopie/FAG82_BiomedizinischeBildgebung/BioPOLIM/'
+path_import = r'PiFM/Retina/200404_Ret29'
+headerfile = 'Ret29r0006.txt'
+path_dir = 'r//mars/usr/FA8_Mikroskopie/FAG82_BiomedizinischeBildgebung/BioPOLIM/PiFM/'
+
+#path_import = r'resources/200405_Ret29r0006HyPIR'
+#headerfile = 'Ret29r20006.txt'
+#path_dir = r'F:\daniela\retina\NanIRspec\resources\200405_Ret29r0006HyPIR'
 
 path_final = join(path_dir, path_import)
 
@@ -99,7 +103,7 @@ def PCA_spectrum(my_spectra, my_wl, my_data, my_coord):
 
 #%% loads data and plots associated VistaScan parameter images
 
-my_data = IRAFM(path_final, headerfile) 
+my_data = IRAFM(path='resources/',headerfile='Ret29r20006.txt')
 
 my_data.plot_all()
 
@@ -114,18 +118,23 @@ pos =  [my_file['Caption']=='hyPIRFwd' for my_file in my_data['files']]
 hyPIRFwd = np.array(my_data['files'])[pos][0]
 data = hyPIRFwd['data']
 data_select = data[my_a == 1]   # here are now just the selected spectra
+print(data_select.shape)
+print(data.shape)
 
+# our_data=data[:,:,1]*np.array(my_a)
 
 #%% checks validity of data and sorts them
-
-my_spc = my_data.return_spc()
+w,h=my_a.shape
+my_spc = my_data.return_spc()*np.reshape(my_a,newshape=(w*h,1))
+# my_spc = our_data
 my_wl  = my_data['wavelength']
 
 split_wl = 1644
 
 my_wl_low = my_wl[my_wl <= split_wl]
 my_wl_high = my_wl[my_wl > split_wl]
-
+print('*'*25)
+print()
 spc_low = my_spc[:,my_wl <= split_wl]
 spc_high = my_spc[:,my_wl > split_wl]
 
@@ -200,3 +209,4 @@ PCA_spectrum(spc_high_s, my_wl_high, my_data, coord_high)
 
 mean_spc = mean_spectrum(spc_high_n, my_wl_high, my_data)
 PCA_spectrum(spc_high_n, my_wl_high, my_data, coord_high)
+plt.show()
