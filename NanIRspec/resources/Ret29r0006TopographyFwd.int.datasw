@@ -1,0 +1,19 @@
+<datasw type="image">
+  <subcontents item="functions_data" initialized="true"/>
+  <subcontents item="functions_display">
+    <function name="data_offsettozero" AdjustHistogramOffset="true"/>
+  </subcontents>
+  <subcontents item="gradient_image">
+    <colorgradient>
+      <controlpoint position="0" red="0" green="0" blue="0"/>
+      <controlpoint position="0.21" red="0.153846" green="0.153846" blue="0.384615"/>
+      <controlpoint position="0.415" red="0.292308" green="0.384615" blue="0.461538"/>
+      <controlpoint position="0.615" red="0.846154" green="0.484615" blue="0.253846"/>
+      <controlpoint position="0.81" red="1" green="0.846154" blue="0.346154"/>
+      <controlpoint position="1" red="1" green="1" blue="1"/>
+    </colorgradient>
+  </subcontents>
+  <subcontents item="masks_level">
+    <mask/>
+  </subcontents>
+</datasw>
