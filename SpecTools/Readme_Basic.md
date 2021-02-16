@@ -4,4 +4,6 @@ This folder contains basic tools
 
 - normalisation
 
+- smoothing spectra
+
 - deconvolution using known components: [two Components](https://stackoverflow.com/questions/63003805/determining-relative-contribution-of-two-components-to-a-measured-spectrum)
