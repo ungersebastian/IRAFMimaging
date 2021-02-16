@@ -7,7 +7,7 @@ So far experimental methods have been:
 - photo-induced force microscopy (PiFM)
 - FTIR
 - Raman-spectroscopy
-- optical photo-thermal resonance (O-PTIR)
+- optical photo-thermal induced resonance (O-PTIR)
 
 Subtopics are sorted in folders:
 - NanIRim: processing and comparing scan images (mainly PiFM)
