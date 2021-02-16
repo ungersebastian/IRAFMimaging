@@ -1,4 +1,4 @@
-This repository was crated by Daniela Täuber in 2020
+This repository was created by Daniela Täuber in 2020
 
 It aims at developing tools for processing spectral data from vibrational nanospectroscopy methods, 
 and conventional FTIR and Raman-spectroscopy for comparison.
