@@ -1,7 +1,9 @@
 This folder (will) contain basic tools:
 
 **baselinepolyfit.py**
+
 _Authored by Mohammad Soltaninezhad_
+
 This program is designed to correct baseline with polynomial method and subtracting old spectrum with fitted
 polynomial graph.
 1. plot raw spectrum so client will be able to decide the best method (have a fit on whole spectrum or choose a
