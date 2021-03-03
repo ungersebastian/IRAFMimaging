@@ -14,6 +14,7 @@ desire wavelength)
 5. Separated regions recombine in one plot in the end
 6. Data export?
 
+**Further planned tools:**
 
 - normalisation
 
