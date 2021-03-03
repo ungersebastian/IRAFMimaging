@@ -4,13 +4,12 @@ Dr.Daniela Täuber
  23 FEB 2021 '''
 '''program help:
 raw spectra plot After run ,then you asked if you want to do whole spectrum fitting or region select mode?
-1.you can set whole spc fit poly,program ask for polynomial degree for each stage 
-2.if you select region select mode you have 3 choice!!!
+1.you can set whole spc fit poly in line <49> 2.if you select region select mode you have 3 choice!!!
 2.1By input==1 you  can select a desire regions by set upper and lower wavelength,
-!2.2By input==2 you are able to divide spc into two different regions,
-and fit every region with ideal poly order,
+you can set spc fit poly in line <73>!2.2By input==2 you are able to divide spc into two different regions,
+and fit every region with ideal poly order,you can set each region fit poly in line <95,96>,
 2.3By input==3 program divide spc into 3 different regions,each can be fitted by desire poly order
- '''
+you can set each region fit poly in line <152,153,154>,3.program plot recombination of all regions '''
 import peakutils
 from peakutils.plot import plot as pplot
 import pandas as pd
@@ -20,6 +19,8 @@ import numpy as np
 def find_index(wavelenght_arr,number):
     for index,value in enumerate(wavelenght_arr):
         if abs(value-number)<0.0000001:
+            print(value)
+            print(number)
             return index
     return index
 #recive data
@@ -28,6 +29,10 @@ df=pd.read_csv(PATH, sep="\t", skiprows=[0,1,2,3,4] , delimiter=",") #in skiprow
 data=df.values.T
 y=data
 x=data[0] #wavelenght
+np.isnan(x).any()
+np.isnan(y).any()
+np.isinf(x).any()
+np.isinf(y).any()
 x = np.nan_to_num(x)
 y = np.nan_to_num(y)
 y = np.delete(y, 0, 0 )
@@ -38,15 +43,14 @@ g=int(np.size(y, 1))
 l=input("Do you need to select desire regions? yes =y no =n").lower()
 if l == "n": #1. whole spectrum fitting
     b = len(y)
-    t = int( input( "plz enter polynomial degree " ) )
     c = np.zeros(y.shape)
     for i in range(b):
-        base = peakutils.baseline(y[i], t)  # choose order of polynomial here
+        base = peakutils.baseline(y[i], 3)  # choose order of polynomial here
         c[i] = y[i] - base
         c[c < 0] = 0
     np.savetxt('baseline corrected spectra.txt', c) #change plot title base on your poly degree
     fig, (ax1, ax2, ax3) = plt.subplots( 3 )
-    fig.suptitle( f'FTIR poly :{t}' )
+    fig.suptitle( 'FTIR poly3' )
     ax1.plot( x, y.T )
     ax2.plot( x, c.T )
     ax3.plot( x, base )
@@ -58,19 +62,18 @@ elif l == "y": #2.region select mode
         wu=float(input("plz enter upper boundry wavelenght "))
         ou = find_index(x, wu)
         wl=float(input("plz enter lower boundry wavelenght "))
-        t=int(input("plz enter polynomial degree "))
         ol = find_index(x, wl)
         xi=x[ol:ou,]
         yi=y[:,ol:ou]
         b = len( yi )
         ci = np.zeros( yi.shape )
         for i in range( b ):
-            basei = peakutils.baseline( yi[i], t )  # choose order of polynomial here
+            basei = peakutils.baseline( yi[i], 3 )  # choose order of polynomial here
             ci[i] = yi[i] - basei
             ci[ci < 0] = 0
         np.savetxt( 'baseline corrected spectra.txt', ci ) #change plot title base on your poly degree
         fig, (ax1, ax2, ax3) = plt.subplots( 3 )
-        fig.suptitle( f'FTIR poly3{t}' )
+        fig.suptitle( 'FTIR poly3' )
         ax1.plot( xi, yi.T )
         ax2.plot( xi, ci.T )
         ax3.plot( xi, basei )
@@ -80,18 +83,16 @@ elif l == "y": #2.region select mode
     elif f==2: #2.2.two different region
         f1=float(input("choose boundry wavelenght"))
         o=find_index(x,f1)
-        y1 = y[:,:o ]
+        y1 = y[:,0:o ]
         y2= y[:, o:]
         xd = x[:o,]
         xu = x[o:,]
         b = len( y )
-        t1 = int( input( "plz enter polynomial degree for first region " ) )
-        t2 = int( input( "plz enter polynomial degree for second region " ) )
         c1 = np.zeros( y1.shape )
         c2 = np.zeros( y2.shape )
         for i in range( b ):
-            base1 = peakutils.baseline( y1[i], t1 ) #select first region poly order
-            base2 = peakutils.baseline( y2[i], t2 )  #select second region poly order
+            base1 = peakutils.baseline( y1[i], 3 ) #select first region poly order
+            base2 = peakutils.baseline( y2[i], 3 )  #select second region poly order
             c1[i] = y1[i] - base1
             c2[i] = y2[i] - base2
             c1[c1 < 0] = 0
@@ -99,17 +100,36 @@ elif l == "y": #2.region select mode
         np.savetxt( 'baseline corrected spectra1.txt', c1 )
         np.savetxt( 'baseline corrected spectra2.txt', c2 )
         fig, (ax1, ax2, ax3) = plt.subplots( 3 )
-        fig.suptitle( f'First region poly{t1}' ) #change title base on your poly degree
+        fig.suptitle( 'First region poly3' ) #change title base on your poly degree
         ax1.plot( xd, y1.T )
         ax2.plot( xd, c1.T )
         ax3.plot( xd, base1 )
         plt.title( "noise" )
         plt.show()
         fig, (ax1, ax2, ax3) = plt.subplots( 3 )
-        fig.suptitle( f'second region poly{t2}' )
+        fig.suptitle( 'second region poly3' )
         ax1.plot( xu, y2.T )
         ax2.plot( xu, c2.T )
         ax3.plot( xu, base2 )
+        plt.title( "noise" )
+        plt.show()
+        fig, (ax1, ax2, ax3) = plt.subplots( 3 )
+        fig.suptitle( 'recombine!!! poly3+3' ) #recombination
+        yrec = np.zeros(g,)
+        yrec[:o,] = y1
+        yrec[o:,] = y2
+        crec=np.zeros((g,))
+        crec[:o, ] = c1
+        crec[o:, ] = c2
+        basrec = np.zeros( (g,) )
+        basrec[:o, ] = base1
+        basrec[o:, ] = base2
+        xrec=np.zeros((g,))
+        xrec[:o, ] = xd
+        xrec[o:, ] = xu
+        ax1.plot( xrec, yrec.T )
+        ax2.plot( xrec, crec.T )
+        ax3.plot( xrec, basrec )
         plt.title( "noise" )
         plt.show()
     elif f==3: #2.3.three different regions
@@ -123,9 +143,6 @@ elif l == "y": #2.region select mode
         xd = x[:ol, ]
         xm=x[ol:oh,]
         xu = x[oh:, ]
-        t1 = int( input( "plz enter first region polynomial degree " ) )
-        t2 = int( input( "plz enter second regionpolynomial degree " ) )
-        t3 = int( input( "plz enter third region polynomial degree " ) )
         b = len( y )
         cl = np.zeros( yl.shape )
         cm = np.zeros( ym.shape )
@@ -144,26 +161,48 @@ elif l == "y": #2.region select mode
         np.savetxt( 'baseline corrected spectra2.txt', cm )
         np.savetxt( 'baseline corrected spectra3.txt', ch )
         fig, (ax1, ax2, ax3) = plt.subplots( 3 )
-        fig.suptitle( f'First region poly{t1}' )
+        fig.suptitle( 'First region poly3' )
         ax1.plot( xd, yl.T )
         ax2.plot( xd, cl.T )
         ax3.plot( xd, basel )
         plt.title( "noise" )
         plt.show()
         fig, (ax1, ax2, ax3) = plt.subplots( 3 )
-        fig.suptitle( f'second region poly{t2}' )
+        fig.suptitle( 'second region poly3' )
         ax1.plot( xm, ym.T )
         ax2.plot( xm, cm.T )
         ax3.plot( xm, basem )
         plt.title( "noise" )
         plt.show()
         fig, (ax1, ax2, ax3) = plt.subplots( 3 )
-        fig.suptitle( f'third region poly{t3}' )
+        fig.suptitle( 'third region poly3' )
         ax1.plot( xu, yh.T )
         ax2.plot( xu, ch.T )
         ax3.plot( xu, baseh )
         plt.title( "noise" )
         plt.show()
-
+        fig, (ax1, ax2, ax3) = plt.subplots( 3 )
+        fig.suptitle( 'recombine!!! poly3+3+3' )
+        yrec = np.zeros( g, )
+        yrec[:ol, ] = yl
+        yrec[ol:oh,] = ym
+        yrec[oh:, ] = yh
+        crec = np.zeros( (g,) )
+        crec[:ol, ] = cl
+        crec[ol:oh, ] = cm
+        crec[oh:, ] = ch
+        basrec = np.zeros( (g,) )
+        basrec[:ol, ] = basel
+        basrec[ol:oh, ] = basem
+        basrec[oh:, ] = baseh
+        xrec = np.zeros( (g,) )
+        xrec[:ol, ] = xd
+        xrec[ol:oh, ] = xm
+        xrec[oh:, ] = xu
+        ax1.plot( xrec, yrec.T )
+        ax2.plot( xrec, crec.T )
+        ax3.plot( xrec, basrec )
+        plt.title( "noise" )
+        plt.show()
 
 
