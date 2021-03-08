@@ -23,8 +23,8 @@ def find_index(wavelenght_arr,number):
             return index
     return index
 #recive data
-PATH="PDha_1.csv" #csv or txt format
-#PATH="D:/SpecTools/Tabelle2.txt" #csv or txt format
+#PATH="PDha_1.csv" #csv or txt format
+PATH="D:/SpecTools/RetavforAnaconda.txt" #csv or txt format
 df=pd.read_csv(PATH, sep="\t", skiprows=[0,1,2,3,4] , delimiter=",") #in skiprows write the rows which contain text in order to elliminate them
 data=df.values.T
 y=data
