@@ -11,6 +11,8 @@ raw spectra plot After run ,then you asked if you want to do whole spectrum fitt
 and fit every region with ideal poly order,
 2.3By input==3 program divide spc into 3 different regions,each can be fitted by desire poly order
  '''
+#%%
+#Imports and plot of original data
 import peakutils
 from peakutils.plot import plot as pplot
 import pandas as pd
@@ -23,9 +25,10 @@ def find_index(wavelenght_arr,number):
             return index
     return index
 #recive data
-#PATH="SpecTools_Examples_Ret avfor Anaconda.csv" #csv or txt format
-PATH="D:/SpecTools/RetavforAnaconda.txt" #csv or txt format
-df=pd.read_csv(PATH, sep="\t", skiprows=[0] , delimiter=",") #in skiprows write the rows which contain text in order to elliminate them
+PATH="D:/SpecTools/RetavforAnaconda.csv" #csv or txt format
+#PATH="D:/SpecTools/200129_Ret240001_RawSpectra_DivCaF2002_SG355_test.txt" #csv or txt format
+#df=pd.read_csv(PATH, sep="\t", skiprows=[0] , delimiter="\t") #in skiprows 0 refers to one text line, \t = delimited by tab
+df=pd.read_csv(PATH, sep="\t", skiprows=[0] , delimiter=",") #delimiter =n ,
 data=df.values.T
 y=data
 x=data[0] #wavelenght
@@ -35,8 +38,10 @@ y = np.delete(y, 0, 0 )
 plt.plot(x,y.T)
 plt.title('raw spectral')
 plt.show()
+#%%
+#fitting
 g=int(np.size(y, 1))
-l=input("Do you need to select desire regions? yes =y no =n").lower()
+l=input("Do you need to select desire regions? yes =y no =n ").lower()
 if l == "n": #1. whole spectrum fitting
     b = len(y)
     t = int( input( "plz enter polynomial degree " ) )
@@ -165,6 +170,8 @@ elif l == "y": #2.region select mode
         ax3.plot( xu, baseh )
         plt.title( "noise" )
         plt.show()
-
+#%% Transpose and Export corrected data
+#Transpose results data set
+#corrected=c.values.T
 
 
