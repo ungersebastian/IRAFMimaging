@@ -25,10 +25,10 @@ def find_index(wavelenght_arr,number):
             return index
     return index
 #recive data
-PATH="D:/SpecTools/RetavforAnaconda.csv" #csv or txt format
-#PATH="D:/SpecTools/200129_Ret240001_RawSpectra_DivCaF2002_SG355_test.txt" #csv or txt format
-#df=pd.read_csv(PATH, sep="\t", skiprows=[0] , delimiter="\t") #in skiprows 0 refers to one text line, \t = delimited by tab
-df=pd.read_csv(PATH, sep="\t", skiprows=[0] , delimiter=",") #delimiter =n ,
+#PATH="D:/SpecTools/RetavforAnaconda.csv" #csv or txt format
+PATH="D:/SpecTools/AuPMMA_60nm_FTIRspecularReflection_H20.txt" #csv or txt format
+df=pd.read_csv(PATH, sep="\t", skiprows=[0] , delimiter="\t") #in skiprows 0 refers to one text line, \t = delimited by tab
+#df=pd.read_csv(PATH, sep="\t", skiprows=[0] , delimiter=",") #delimiter =n ,
 data=df.values.T
 y=data
 x=data[0] #wavelenght
