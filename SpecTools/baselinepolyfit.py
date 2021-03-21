@@ -50,7 +50,7 @@ if l == "n": #1. whole spectrum fitting
         base = peakutils.baseline(y[i], t)  # choose order of polynomial here
         c[i] = y[i] - base
         c[c < 0] = 0
-    np.savetxt('baseline corrected spectra.txt', c) #change plot title base on your poly degree
+    np.savetxt('baseline corrected spectra.txt', c.T) #Sa
     fig, (ax1, ax2, ax3) = plt.subplots( 3 )
     fig.suptitle( f'FTIR poly :{t}' )
     ax1.plot( x, y.T )
