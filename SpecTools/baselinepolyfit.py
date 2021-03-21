@@ -56,7 +56,7 @@ if l == "n": #1. whole spectrum fitting
     ax1.plot( x, y.T )
     ax2.plot( x, c.T )
     ax3.plot( x, base )
-    plt.title( "noise" )
+    plt.title( "background" )
     plt.savefig( 'FTIR poly.png' )
     plt.show()
     plt.plot(x,c.T)
