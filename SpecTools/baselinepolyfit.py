@@ -25,10 +25,10 @@ def find_index(wavelenght_arr,number):
             return index
     return index
 #recive data
-PATH="PDha_1.csv" #csv or txt format
-#PATH="D:/SpecTools/200129_Ret240001_RawSpectra_DivCaF2002_SG355_test.txt" #csv or txt format
-#df=pd.read_csv(PATH, sep="\t", skiprows=[0] , delimiter="\t") #in skiprows 0 refers to one text line, \t = delimited by tab
-df=pd.read_csv(PATH, sep=".", skiprows=[0,1,2,3,4] , delimiter=",") #use delimiter =fo import file and sep for export file
+#PATH="D:/SpecTools/RetavforAnaconda.csv" #csv or txt format
+PATH="D:/SpecTools/AuPMMA_60nm_FTIRspecularReflection_H20.txt" #csv or txt format
+df=pd.read_csv(PATH, sep="\t", skiprows=[0] , delimiter="\t") #in skiprows 0 refers to one text line, \t = delimited by tab
+#df=pd.read_csv(PATH, sep="\t", skiprows=[0,1,2,3,4] , delimiter=",") #use delimiter =for import file and sep for export file
 df.to_numpy() #set export file format
 data=df.values.T
 print("data",data.shape)
@@ -56,18 +56,18 @@ if l == "n": #1. whole spectrum fitting
         c[c < 0] = 0
     r[:,0]=x.transpose()
     r[:,1:]=c.transpose()
-    np.savetxt('baseline corrected spectra.txt', r,delimiter='\t') #change plot title base on your poly degree
+    np.savetxt('baseline corrected spectra.txt', r,delimiter='\t') #change plot title based on your poly degree
     fig, (ax1, ax2, ax3) = plt.subplots( 3 )
     fig.suptitle( f'FTIR poly :{t}' )
     ax1.plot( x, y.T )
     ax2.plot( x, c.T )
     ax3.plot( x, base )
     plt.title( "noise" )
-    plt.savefig( 'FTIR poly.png' )
+#plt.savefig( 'FTIR poly.png' )
     plt.show()
     plt.plot(x,c.T)
     plt.title( "FTIR corrected" )
-    plt.savefig( 'FTIR corrected.png' )
+#plt.savefig( 'FTIR corrected.png' )
     plt.show()
 elif l == "y": #2.region select mode
     f=int(input("How many regions do you need(between 2-3)enter 1 for specific region"))
