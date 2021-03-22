@@ -25,16 +25,20 @@ def find_index(wavelenght_arr,number):
             return index
     return index
 #recive data
-#PATH="D:/SpecTools/RetavforAnaconda.csv" #csv or txt format
-PATH="D:/SpecTools/AuPMMA_60nm_FTIRspecularReflection_H20.txt" #csv or txt format
-df=pd.read_csv(PATH, sep="\t", skiprows=[0] , delimiter="\t") #in skiprows 0 refers to one text line, \t = delimited by tab
-#df=pd.read_csv(PATH, sep="\t", skiprows=[0] , delimiter=",") #delimiter =n ,
+PATH="PDha_1.csv" #csv or txt format
+#PATH="D:/SpecTools/200129_Ret240001_RawSpectra_DivCaF2002_SG355_test.txt" #csv or txt format
+#df=pd.read_csv(PATH, sep="\t", skiprows=[0] , delimiter="\t") #in skiprows 0 refers to one text line, \t = delimited by tab
+df=pd.read_csv(PATH, sep=".", skiprows=[0,1,2,3,4] , delimiter=",") #use delimiter =fo import file and sep for export file
+df.to_numpy() #set export file format
 data=df.values.T
+print("data",data.shape)
 y=data
 x=data[0] #wavelenght
 x = np.nan_to_num(x)
 y = np.nan_to_num(y)
 y = np.delete(y, 0, 0 )
+r=np.zeros(df.shape)
+print("df",df.shape)
 plt.plot(x,y.T)
 plt.title('raw spectral')
 plt.show()
@@ -50,13 +54,15 @@ if l == "n": #1. whole spectrum fitting
         base = peakutils.baseline(y[i], t)  # choose order of polynomial here
         c[i] = y[i] - base
         c[c < 0] = 0
-    np.savetxt('baseline corrected spectra.txt', c.T) #Sa
+    r[:,0]=x.transpose()
+    r[:,1:]=c.transpose()
+    np.savetxt('baseline corrected spectra.txt', r,delimiter='\t') #change plot title base on your poly degree
     fig, (ax1, ax2, ax3) = plt.subplots( 3 )
     fig.suptitle( f'FTIR poly :{t}' )
     ax1.plot( x, y.T )
     ax2.plot( x, c.T )
     ax3.plot( x, base )
-    plt.title( "background" )
+    plt.title( "noise" )
     plt.savefig( 'FTIR poly.png' )
     plt.show()
     plt.plot(x,c.T)
@@ -81,14 +87,14 @@ elif l == "y": #2.region select mode
             ci[ci < 0] = 0
         np.savetxt( 'baseline corrected spectra.txt', ci ) #change plot title base on your poly degree
         fig, (ax1, ax2, ax3) = plt.subplots( 3 )
-        fig.suptitle( f'FTIR poly3{t}' )
+        fig.suptitle( f'FTIR poly{t}')
         ax1.plot( xi, yi.T )
         ax2.plot( xi, ci.T )
         ax3.plot( xi, basei )
-        plt.title("background")
+        plt.title("noise")
         plt.savefig( 'FTIR poly.png' )
         plt.show()
-        plt.plot( x, ci.T )
+        plt.plot( xi, ci.T )
         plt.title( "FTIR corrected" )
         plt.savefig( 'FTIR corrected.png' )
         plt.show()
@@ -119,10 +125,10 @@ elif l == "y": #2.region select mode
         ax1.plot( xd, y1.T )
         ax2.plot( xd, c1.T )
         ax3.plot( xd, base1 )
-        plt.title( "Background" )
+        plt.title( "noise" )
         plt.savefig( 'FTIR poly.png' )
         plt.show()
-        plt.plot( x, c1.T )
+        plt.plot( xd, c1.T )
         plt.title( "FTIR corrected" )
         plt.savefig( 'FTIR corrected.png' )
         plt.show()
@@ -131,10 +137,10 @@ elif l == "y": #2.region select mode
         ax1.plot( xu, y2.T )
         ax2.plot( xu, c2.T )
         ax3.plot( xu, base2 )
-        plt.title( "background" )
+        plt.title( "noise" )
         plt.savefig( 'FTIR poly.png' )
         plt.show()
-        plt.plot( x, c2.T )
+        plt.plot( xu, c2.T )
         plt.title( "FTIR corrected" )
         plt.savefig( 'FTIR corrected.png' )
         plt.show()
@@ -174,10 +180,10 @@ elif l == "y": #2.region select mode
         ax1.plot( xd, yl.T )
         ax2.plot( xd, cl.T )
         ax3.plot( xd, basel )
-        plt.title( "background" )
+        plt.title( "noise" )
         plt.savefig( 'FTIR poly.png' )
         plt.show()
-        plt.plot( x, cl.T )
+        plt.plot( xd, cl.T )
         plt.title( "FTIR corrected" )
         plt.savefig( 'FTIR corrected.png' )
         plt.show()
@@ -187,10 +193,10 @@ elif l == "y": #2.region select mode
         ax1.plot( xm, ym.T )
         ax2.plot( xm, cm.T )
         ax3.plot( xm, basem )
-        plt.title( "background" )
+        plt.title( "noise" )
         plt.savefig( 'FTIR poly.png' )
         plt.show()
-        plt.plot( x, cm.T )
+        plt.plot( xm, cm.T )
         plt.title( "FTIR corrected" )
         plt.savefig( 'FTIR corrected.png' )
         plt.show()
@@ -200,10 +206,10 @@ elif l == "y": #2.region select mode
         ax1.plot( xu, yh.T )
         ax2.plot( xu, ch.T )
         ax3.plot( xu, baseh )
-        plt.title( "background" )
+        plt.title( "noise" )
         plt.savefig( 'FTIR poly.png' )
         plt.show()
-        plt.plot( x, ch.T )
+        plt.plot( xu, ch.T )
         plt.title( "FTIR corrected" )
         plt.savefig( 'FTIR corrected.png' )
         plt.show()
