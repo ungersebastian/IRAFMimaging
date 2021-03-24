@@ -28,7 +28,7 @@ if False:  # to conserve order (which gets swirled up by pep)
 from pifm_image import pifm_image
 import os
 PATH_substrate = "CaF20002mean1349-1643.txt"  # csv or txt format enter substrate data
-df_sub = pd.read_csv( PATH_substrate, sep=".",skiprows=[],delimiter="\t" )  # in skiprows write the rows which contain text in order to elliminate them
+df_sub = pd.read_csv( PATH_substrate, sep=".",skiprows=[],delimiter="\t" )  # in skiprows write the rows which contain text in order to eliminate them
 print("df",df_sub.shape)
 y_sub = df_sub.values.T
 print("y_sub",y_sub.shape)
