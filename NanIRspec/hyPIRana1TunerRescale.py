@@ -27,16 +27,16 @@ if False:  # to conserve order (which gets swirled up by pep)
 
 from pifm_image import pifm_image
 import os
-PATH_substrate = "CaF20002mean1349-1643.txt"  # csv or txt format enter substrate data
-df_sub = pd.read_csv( PATH_substrate, sep=".",skiprows=[],delimiter="\t" )  # in skiprows write the rows which contain text in order to eliminate them
+PATH_substrate = "CaF20001mean1349-1643.txt"  # csv or txt format enter substrate data
+df_sub = pd.read_csv( PATH_substrate, sep=".",skiprows=[],delimiter="\t" )  # in skiprows write the rows which contain text in order to elliminate them
 print("df",df_sub.shape)
 y_sub = df_sub.values.T
 print("y_sub",y_sub.shape)
-path_import = r'F:\daniela\retina\NanIRspec\resources\Ret240012HyPIR'
+path_import = r'F:\daniela\retina\NanIRspec\resources'
 headerfile = 'Ret240012.txt'
 #path_import = r'PiFM/Retina/200405_Ret29'
 #headerfile = 'Ret29r20006.txt'
-path_dir = r'resources/Ret240012HyPIR'
+path_dir = r'retina/NanIRspec/resources'
 path_final = join(path_dir, path_import)
 today = datetime.strftime(datetime.now(), "%Y%m%d")
 #save_path = path_final + today + '/' #does not work !
@@ -100,21 +100,13 @@ data_select = data[my_a == 1]   # here are now just the selected spectra
 #%% checks validity of data and sorts them
 w,h=my_a.shape
 my_spc = my_data.return_spc()*np.reshape(my_a,newshape=(w*h,1))
-#Rescalling
-y_sub = np.nan_to_num(y_sub)
-y_sub= np.delete( y_sub, 0, 0 )
-b=len(my_spc)
-print("y_sub",y_sub.shape)
-print("b",b)
-# print("myw1",my_wl.shape)
-for i in range( b ):
-    my_spc[i, :] = my_spc[i, :] / y_sub
-#rescaling finished
+# np.savetxt("myspcrescale.txt",my_spc,delimiter="\t")
 print("my_spc",my_spc.shape)
-# print(my_spc.shape)
-# print(my_data.return_spc().shape)
-# print(my_a.shape)
+print(my_spc.shape)
+print(my_data.return_spc().shape)
+print(my_a.shape)
 my_wl  = my_data['wavelength']
+# np.savetxt("WaVeLeNgTh.txt",my_wl,delimiter="\t")
 pos =  [my_file['Caption']=='hyPIRFwd' for my_file in my_data['files']]
 hyPIRFwd = np.array(my_data['files'])[pos][0]
 data = np.reshape(hyPIRFwd['data'], (hyPIRFwd['data'].shape[0]*hyPIRFwd['data'].shape[1], hyPIRFwd['data'].shape[2]))
@@ -127,15 +119,27 @@ my_sum = my_sum[my_sum != 0]
 
 
 spc_norm = np.array([spc/s for spc, s in zip(data, my_sum)])
+print("spcnorm",spc_norm.shape)
+#Rescalling
+y_sub = np.nan_to_num(y_sub)
+y_sub= np.delete( y_sub, 0, 0 )
+b=len(spc_norm)
+print("y_sub",y_sub.shape)
+print("b",b)
+# np.savetxt("myspcraw.txt",my_spc,delimiter="\t")
 
-
+# print("myw1",my_wl.shape)
+for i in range( b ):
+    spc_norm[i, :] = spc_norm[i, :] / y_sub
+#rescaling finished
 
 
 #%%
 # PlotIt
 mean_spc = np.mean(spc_norm, axis = 0)
 std_spc = np.std(spc_norm, axis = 0)
-
+print("mean spc",mean_spc.shape)
+print("std spc",std_spc.shape)
 my_fig = plt.figure()
 ax = plt.subplot(111)
 ax.fill_between(x = my_data['wavelength'], y1 = mean_spc+std_spc, y2 = mean_spc-std_spc, alpha = 0.6)
@@ -145,7 +149,7 @@ ax.set_xlabel('wavenumber ['+my_data['PhysUnitWavelengths']+']')
 ax.set_ylabel('intensity (normalized)')
 ax.set_yticklabels([])
 plt.title('mean spectrum')
-my_fig.savefig( 'resources/ret24pic/1meanspectrum.png' )
+my_fig.savefig( 'mean spectrum.png' )
 my_fig.tight_layout()
 
 #save data as text
@@ -184,7 +188,7 @@ ax.set_ylabel('intensity (normalized)')
 ax.set_yticklabels([])
 ax.legend()
 plt.title('PCA-Loadings')
-my_fig.savefig( 'resources/ret24pic/1PCA-Loadings.png' )
+my_fig.savefig( 'PCA-Loadings.png' )
 my_fig = plt.figure()
 ax = plt.subplot(111)
 ax.plot(transformed_data[0], transformed_data[1], '.')
@@ -193,7 +197,7 @@ ax.set_ylim(np.quantile(transformed_data[1], 0.05),np.quantile(transformed_data[
 ax.set_xlabel('PC1')
 ax.set_ylabel('PC2')
 plt.title('scatterplot')
-my_fig.savefig( 'resources/ret24pic/1scatterplot.png' )
+my_fig.savefig( 'scatterplot.png' )
 my_fig.tight_layout()
 
 maps = [zeros.copy() for icomp in range(ncomp)]
@@ -208,7 +212,7 @@ for icomp in range(ncomp):
     ax.set_xlabel('x scan ['+my_data['XPhysUnit']+']')
     ax.set_ylabel('y scan ['+my_data['YPhysUnit']+']')
     plt.title('factors PC'+str(icomp+1))
-    my_fig.savefig( 'resources/ret24pic/1factors PC.png' )
+    my_fig.savefig( 'factors PC.png' )
 
     my_fig.tight_layout()
 
