@@ -29,15 +29,14 @@ if False:  # to conserve order (which gets swirled up by pep)
 
 from pifm_image import pifm_image
 
-
-#PATH_substrate = "CaF20001mean1349-1643.txt"  # csv or txt format enter substrate data
+#paths used in various computers, please do not delete, but activate or deactivate!!!
+# PATH_substrate causes errors for importing - use path_substrate instead
+#substratefile = "CaF20001mean1349-1643.txt"  # csv or txt format enter substrate data
 #path_import = r'F:\daniela\retina\NanIRspec\resources'
 #headerfile = 'Ret240012.txt'
 #path_dir = r'retina/NanIRspec/resources'
 path_import = r'PiFM/Retina/200229_Ret24'
 headerfile = 'Ret240033.txt'
-#path_import = r'PiFM/Retina/200405_Ret29'
-#headerfile = 'Ret29r20006.txt'
 path_dir = r'//mars/usr/FA8_Mikroskopie/FAG82_BiomedizinischeBildgebung/BioPOLIM/'
 #headerfile = 'Ret240012.txt'
 substratefile = "Test_heavyside_Tuner1349-1643.txt"
