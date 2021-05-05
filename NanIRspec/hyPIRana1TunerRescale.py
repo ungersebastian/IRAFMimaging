@@ -5,7 +5,9 @@ Created on Fri Apr 24 08:06:26 2020
 
 @author: ungersebastian
 
-Last modified on Fri Oct 16 by Daniela Taeuber for application to the spectral range of one tuner only
+modified on Fri Oct 16 by Daniela Taeuber for application to the spectral range of one tuner only
+modified by Mohammad Soltaninezhad for rescaling intensities and saving figures
+last modified on Wed May 5 by Daniela Taeuber: re-arrangement of structural elements
 """
 
 #%% imports & parameters
@@ -26,18 +28,21 @@ if False:  # to conserve order (which gets swirled up by pep)
     import MicroPy as mipy
 
 from pifm_image import pifm_image
-import os
-PATH_substrate = "CaF20001mean1349-1643.txt"  # csv or txt format enter substrate data
-df_sub = pd.read_csv( PATH_substrate, sep=".",skiprows=[],delimiter="\t" )  # in skiprows write the rows which contain text in order to elliminate them
-print("df",df_sub.shape)
-y_sub = df_sub.values.T
-print("y_sub",y_sub.shape)
-path_import = r'F:\daniela\retina\NanIRspec\resources'
-headerfile = 'Ret240012.txt'
+
+
+#PATH_substrate = "CaF20001mean1349-1643.txt"  # csv or txt format enter substrate data
+#path_import = r'F:\daniela\retina\NanIRspec\resources'
+#headerfile = 'Ret240012.txt'
+#path_dir = r'retina/NanIRspec/resources'
+path_import = r'PiFM/Retina/200229_Ret24'
+headerfile = 'Ret240033.txt'
 #path_import = r'PiFM/Retina/200405_Ret29'
 #headerfile = 'Ret29r20006.txt'
-path_dir = r'retina/NanIRspec/resources'
+path_dir = r'//mars/usr/FA8_Mikroskopie/FAG82_BiomedizinischeBildgebung/BioPOLIM/'
+#headerfile = 'Ret240012.txt'
+substratefile = "Test_heavyside_Tuner1349-1643.txt"
 path_final = join(path_dir, path_import)
+path_substrate = join(path_final, substratefile)
 today = datetime.strftime(datetime.now(), "%Y%m%d")
 #save_path = path_final + today + '/' #does not work !
 #save_path = join(path_final, today, '/')
@@ -49,6 +54,7 @@ if 0:
 
 if 0:
     il.reload(mipy)
+    
 
 #%% functions
 
@@ -120,7 +126,15 @@ my_sum = my_sum[my_sum != 0]
 
 spc_norm = np.array([spc/s for spc, s in zip(data, my_sum)])
 print("spcnorm",spc_norm.shape)
-#Rescalling
+
+
+#%% Rescale data by substrate data
+df_sub = pd.read_csv( path_substrate, sep=".",skiprows=[],delimiter="\t" )  # in skiprows write the rows which contain text in order to elliminate them
+print("df",df_sub.shape)
+y_sub = df_sub.values.T
+print("y_sub",y_sub.shape)
+
+
 y_sub = np.nan_to_num(y_sub)
 y_sub= np.delete( y_sub, 0, 0 )
 b=len(spc_norm)
