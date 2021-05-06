@@ -7,7 +7,14 @@ Created on Fri Apr 24 08:06:26 2020
 
 modified on Fri Oct 16 by Daniela Taeuber for application to the spectral range of one tuner only
 modified by Mohammad Soltaninezhad for rescaling intensities and saving figures
-last modified on Wed May 5 by Daniela Taeuber: re-arrangement of structural elements
+last modified on Wed Thu 6 by Daniela Taeuber: re-arrangement of structural elements & commenting
+
+hyPirana1TunerRescale.py can do:
+- read a hyperspectral data set from a Vistascope
+- use AreaSelect for selecting a region of interest in the data via a GUI
+- use a substrate spectrum for calibrating the hyperspectral data. The substrate text-file should have one line with column titles and consist of two entries (wavelengths and intensities) separated by tabs "\t"
+- calculate mean spectra
+- run a PCA on the data set
 """
 
 #%% imports & parameters
