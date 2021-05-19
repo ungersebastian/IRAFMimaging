@@ -18,7 +18,6 @@ hyPirana1TunerRescale.py can do:
 """
 
 #%% imports & parameters
-import pandas as pd
 from os.path import join
 import numpy as np
 import matplotlib.pyplot as plt
@@ -43,10 +42,10 @@ from pifm_image import pifm_image
 #headerfile = 'Ret240012.txt'
 #path_dir = r'retina/NanIRspec/resources'
 path_import = r'PiFM/Retina/200229_Ret24'
-headerfile = 'Ret240033.txt'
+headerfile = 'Ret240012.txt'
 path_dir = r'//mars/usr/FA8_Mikroskopie/FAG82_BiomedizinischeBildgebung/BioPOLIM/'
 #headerfile = 'Ret240012.txt'
-substratefile = "Test_heavyside_Tuner1349-1643.txt"
+substratefile = "Ret24_CaF_2001_Tuner1349-1643.txt"
 path_final = join(path_dir, path_import)
 path_substrate = join(path_final, substratefile)
 today = datetime.strftime(datetime.now(), "%Y%m%d")
