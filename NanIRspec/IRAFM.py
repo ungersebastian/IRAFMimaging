@@ -112,6 +112,7 @@ class IRAFM(dict):
          }
         
         files = [self._return_dict_(f) for f in files]
+        files = [f for f in files if f !=  {}]
         files.append(newfile)
         
         self.add('files', files)
@@ -162,11 +163,26 @@ class IRAFM(dict):
         for l in arr:
             self.add(l.split(':', 1)[0], self._return_value_(l.split(':', 1)[1]) )
     
+    def _cleanData_(self, s):
+        s = s.split(':')
+        s0 = s[0]
+        s1 = s[1]
+        if ''.join(s0.split()) == 'FileName':
+            if len(s1.split()) > 1:
+                return False
+        return True
+    
     def _return_dict_(self, arr):
+        
         arr = arr[[':' in l for l in arr]]
-        arr = [''.join(l.split()) for l in arr]
-        arr = [''.join(l.split('\n')) for l in arr]
-        return {l.split(':', 1)[0]: self._return_value_(l.split(':', 1)[1]) for l in arr}
+        
+        check = [self._cleanData_(l) for l in arr]
+        if False in check:
+            return {}
+        else:
+            arr = [''.join(l.split()) for l in arr]
+            arr = [''.join(l.split('\n')) for l in arr]
+            return {l.split(':', 1)[0]: self._return_value_(l.split(':', 1)[1]) for l in arr}
     
     def extent(self):
         dpx = self['XScanRange']/self['xPixel']
