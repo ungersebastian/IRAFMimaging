@@ -1,0 +1,11 @@
+runfile('C:/Users/taeuberdaniela/Documents/GitHub/irafmimaging/NanIRspec/hyPIRana1TunerRescale.py', wdir='C:/Users/taeuberdaniela/Documents/GitHub/irafmimaging/NanIRspec')
+Reloaded modules: AreaSelect, pifm_image
+Traceback (most recent call last):
+
+  File "C:\Users\taeuberdaniela\Documents\GitHub\irafmimaging\NanIRspec\hyPIRana1TunerRescale.py", line 84, in <module>
+    my_data = pifm_image(path_final, headerfile)
+
+  File "C:\Users\taeuberdaniela\Documents\GitHub\irafmimaging\NanIRspec\pifm_image.py", line 85, in __init__
+    with open(path_file, 'rb') as fopen:
+
+FileNotFoundError: [Errno 2] No such file or directory: '//mars/usr/FA8_Mikroskopie/FAG82_BiomedizinischeBildgebung/BioPOLIM/PiFM/Retina/200229_Ret24\\Ret240012.hyPIRFwdsummedat16401cm.int'
