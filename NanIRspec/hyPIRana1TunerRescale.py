@@ -5,15 +5,22 @@ Created on Fri Apr 24 08:06:26 2020
 
 @author: ungersebastian
 
-Last modified on Fri Oct 16 by Daniela Taeuber for application to the spectral range of one tuner only
-"""
+modified on Fri Oct 16 by Daniela Taeuber for application to the spectral range of one tuner only
+modified by Mohammad Soltaninezhad for rescaling intensities and saving figures
+last modified on Fri June 11 by Daniela Taeuber: re-arrangement of structural elements & commenting
+
+hyPirana1TunerRescale.py can do:
+- read a hyperspectral data set from a Vistascope
+- use AreaSelect for selecting a region of interest in the data via a GUI
+- use a substrate spectrum for calibrating the hyperspectral data. The substrate text-file should have one line with column titles and consist of two entries (wavelengths and intensities) separated by tabs "\t"
+- calculate mean spectra
+- run a PCA on the data se"""
 
 #%% imports & parameters
-import pandas as pd
+#import pandas as pd
 from os.path import join
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
 import sys
 import os
 from AreaSelect import getArea
@@ -26,16 +33,16 @@ if False:  # to conserve order (which gets swirled up by pep)
     import MicroPy as mipy
 
 from pifm_image import pifm_image
-import os
-pathsub="F:/daniela/retina/NanIRspec/resources/CaF20001mean1349-1643.txt"
-path_import = r'F:\daniela\retina\NanIRspec\resources'
+#pathsub="F:/daniela/retina/NanIRspec/resources/CaF20001mean1349-1643.txt"
+#path_import = r'F:\daniela\retina\NanIRspec\resources'
+#headerfile = 'Ret240012.txt'
+#path_import = r'PiFM/Retina/200405_Ret29'
+#headerfile = 'Ret29r20006.txt'
+path_import = r'PiFM/Retina/200229_Ret24'
 headerfile = 'Ret240012.txt'
-#path_import = r'PiFM/Retina/200405_Ret29'
-#headerfile = 'Ret29r20006.txt'
-#path_import = r'PiFM/Retina/200405_Ret29'
-#headerfile = 'Ret29r20006.txt'
-#path_dir = r'//mars/usr/FA8_Mikroskopie/FAG82_BiomedizinischeBildgebung/BioPOLIM/'
-path_dir = r'retina/NanIRspec/resources'
+path_dir = r'//mars/usr/FA8_Mikroskopie/FAG82_BiomedizinischeBildgebung/BioPOLIM/'
+pathsub='/Ret24_CaF_2001_Tuner1349-1643.txt'
+#path_dir = r'retina/NanIRspec/resources'
 path_final = join(path_dir, path_import)
 path_substrate = join(path_final, pathsub)
 today = datetime.strftime(datetime.now(), "%Y%m%d")
@@ -120,7 +127,8 @@ my_sum = my_sum[my_sum != 0]
 
 spc_norm = np.array([spc/s for spc, s in zip(data, my_sum)])
 print("spcnorm",spc_norm.shape)
-#Rescalling
+
+#%%Rescaling
 
 b=len(spc_norm)
 
@@ -128,7 +136,7 @@ print("b",b)
 # np.savetxt("myspcraw.txt",my_spc,delimiter="\t")
 
 # print("myw1",my_wl.shape)
-with open( pathsub, 'r' ) as fopen:
+with open( path_substrate, 'r' ) as fopen:
     y_sub = np.array(fopen.readlines())
 y_sub = [''.join(l.split('\n')) for l in y_sub][1:]
 y_sub = (np.array([l.split('\t') for l in y_sub]).T).astype(float)
