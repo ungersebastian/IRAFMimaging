@@ -23,7 +23,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 import os
-#from AreaSelect import getArea
+from AreaSelect import getArea
 
 from datetime import datetime
 import importlib as il
@@ -41,10 +41,10 @@ from pifm_image import pifm_image
 path_import = r'PiFM/Retina/200229_Ret24'
 headerfile = 'Ret240012.txt'
 path_dir = r'//mars/usr/FA8_Mikroskopie/FAG82_BiomedizinischeBildgebung/BioPOLIM/'
-#pathsub='/Ret24_CaF_2001_Tuner1349-1643.txt'
+pathsub='/Ret24_CaF_2001_Tuner1349-1643.txt'
 #path_dir = r'retina/NanIRspec/resources'
 path_final = join(path_dir, path_import)
-#path_substrate = join(path_final, pathsub)
+path_substrate = join(path_final, pathsub)
 today = datetime.strftime(datetime.now(), "%Y%m%d")
 #save_path = path_final + today + '/' #does not work !
 #save_path = join(path_final, today, '/')
@@ -129,8 +129,8 @@ spc_norm = np.array([spc/s for spc, s in zip(data, my_sum)])
 print("spcnorm",spc_norm.shape)
 
 #%%Rescaling
-pathsub='/Ret24_CaF_2001_Tuner1349-1643.txt'
-path_substrate = join(path_final, pathsub)
+#pathsub='/Ret24_CaF_2001_Tuner1349-1643.txt'
+#path_substrate = join(path_final, pathsub)
 
 b=len(spc_norm)
 
