@@ -6,12 +6,13 @@ and conventional FTIR (and Raman-spectroscopy) for comparison.
 So far experimental methods have been:
 - photo-induced force microscopy (PiFM)
 - FTIR
-- Raman-spectroscopy
-- optical photo-thermal induced resonance (O-PTIR)
+- Raman spectroscopy
+- optical photothermal infrared spectroscopy (O-PTIR)
 
 Subtopics are sorted in folders:
-- NanIRim: processing and comparing scan images (mainly PiFM)
-- NanIRspec: processing and analyzing spectral data:
-    hyPIRana: analysis of PiFM hyperspectral data (callibration, mean spectra, PCA) 
-    monIRana analysis of single spectra (mean spectra, PCA)
-- SpecTools: basic tools for background subtraction etc.
+1. NanIRim: processing and comparing scan images (mainly PiFM)
+2. NanIRspec: processing and analyzing spectral data:  
+-  _hyPIRana_: analysis of PiFM hyperspectral data (callibration, mean spectra, PCA) 
+-  _monIRana_: analysis of single spectra (mean spectra, PCA)
+3. SpecTools: basic tools for background subtraction etc.
+
