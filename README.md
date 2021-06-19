@@ -1,4 +1,5 @@
-This repository was created by Daniela Täuber in 2020
+This repository was created by Daniela Täuber in 2020.
+
 Contributions so far have been made by Sebastian Unger, René Lachmann, Rainer Heintzmann, Meng Luo, and Mohammad Soltaninezhad
 
 It aims at developing tools for processing spectral data from vibrational nanospectroscopy methods, 
