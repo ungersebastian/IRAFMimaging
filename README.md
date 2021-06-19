@@ -12,7 +12,7 @@ So far experimental methods have been:
 Subtopics are sorted in folders:
 1. NanIRim: processing and comparing scan images (mainly PiFM)
 2. NanIRspec: processing and analyzing spectral data:  
--  _hyPIRana_: analysis of PiFM hyperspectral data (providing callibration, mean spectra, PCA); _AreaSelect_ allows to choose a spacial region of interest uisng a gui
+-  _hyPIRana_: analysis of PiFM hyperspectral data (providing callibration, mean spectra, PCA); _AreaSelect_ allows to choose a spacial region of interest using a gui
 -  _monIRana_: analysis of already callibrated single spectra (providing mean spectra, PCA)
 3. SpecTools: basic tools for background subtraction etc.
 
