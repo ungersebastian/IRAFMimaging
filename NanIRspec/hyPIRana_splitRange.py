@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 """
+hyPIRana_splitRange is a modification of hyPIRana which provides individual processing of two seperate spectral ranges in the data set. The modification was implemented by Daniela Taeuber on Thu Apr. 29
+
 hyPIRana is a program for analysis of PiFM hyPIR spectra acquired using VistaScan
 Created on Fri Apr 24 08:06:26 2020
 
 @author: ungersebastian
 
-(Last) Modified on Thu Apr 29 by Daniela Taeuber
+Modified on Thu Apr 29 by Daniela Taeuber for application to two separate spectral ranges
+Further modified by Mohammad Soltaninezhad, implementing calibration fo data sets by blank spectra from substrates and extending data export options
 """
 
 #%% imports & parameters

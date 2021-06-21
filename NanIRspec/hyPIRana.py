@@ -1,36 +1,69 @@
 # -*- coding: utf-8 -*-
 """
-hyPIRana is a program for analysis of PiFM hyPIR spectra acquired using VistaScan
+hyPirana is a program for analysis of PiFM hyPIR spectra acquired using VistaScan
 Created on Fri Apr 24 08:06:26 2020
 
 @author: ungersebastian
 
-(Last) Modified on Thu Apr 29 by Daniela Taeuber
+modified on Fri Oct 16 by Daniela Taeuber for application to the spectral range of one tuner only
+modified by Mohammad Soltaninezhad for rescaling intensities and saving figures
+last modified on Fri June 11 by Daniela Taeuber: re-arrangement of structural elements & commenting
+
+hyPirana.py can do:
+- read a hyperspectral data set from a Vistascope
+- use AreaSelect for selecting a region of interest in the data via a GUI
+- use a substrate spectrum for calibrating the hyperspectral data. The substrate text-file should have one line with column titles and consist of two entries (wavelengths and intensities) separated by tabs "\t"
+- calculate mean spectra
+- run a PCA on the data set
+
+For application to two seperate spectral ranges, see "hyPIRana_splitRange.py"
 """
 
 #%% imports & parameters
-
+#import pandas as pd
 from os.path import join
 import numpy as np
 import matplotlib.pyplot as plt
-
-from IRAFM import IRAFM
+import sys
+import os
 from AreaSelect import getArea
 
-path_import = r'PiFM/Retina/200404_Ret29'
-headerfile = 'Ret29r0006.txt'
-path_dir = 'r//mars/usr/FA8_Mikroskopie/FAG82_BiomedizinischeBildgebung/BioPOLIM/PiFM/'
+from datetime import datetime
+import importlib as il
+if False:  # to conserve order (which gets swirled up by pep)
+    sys.path.append(
+        "r//mars/usr/FA8_Mikroskopie/FAG82_BiomedizinischeBildgebung/BioPOLIM/PiFM/")
+    import MicroPy as mipy
 
-#path_import = r'resources/200405_Ret29r0006HyPIR'
+from pifm_image import pifm_image
+#pathsub="F:/daniela/retina/NanIRspec/resources/CaF20001mean1349-1643.txt"
+#path_import = r'F:\daniela\retina\NanIRspec\resources'
+#headerfile = 'Ret240012.txt'
+#path_import = r'PiFM/Retina/200405_Ret29'
 #headerfile = 'Ret29r20006.txt'
-#path_dir = r'F:\daniela\retina\NanIRspec\resources\200405_Ret29r0006HyPIR'
-
+path_import = r'PiFM/Retina/200229_Ret24'
+headerfile = 'Ret240033.txt'
+path_dir = r'//mars/usr/FA8_Mikroskopie/FAG82_BiomedizinischeBildgebung/BioPOLIM/'
+pathsub='/Ret24_CaF_2001_Tuner1349-1643.txt'
+#path_dir = r'retina/NanIRspec/resources'
 path_final = join(path_dir, path_import)
+#path_substrate = join(path_final, pathsub)
+path_substrate = path_final + pathsub
+today = datetime.strftime(datetime.now(), "%Y%m%d")
+#save_path = path_final + today + '/' #does not work !
+#save_path = join(path_final, today, '/')
+#save_path = path_final + '/' + '200405_Ret29Results' + '/'
+save_path = path_final + '/'
 
+if 0:
+    il.reload(mipy)
+
+if 0:
+    il.reload(mipy)
 
 #%% functions
 
-def mean_spectrum(spc_norm, my_wl, my_data):
+def mean_spec(my_sum, coord):
     '''
     Calculates and plots mean spectra with standard deviations
     '''
@@ -39,73 +72,26 @@ def mean_spectrum(spc_norm, my_wl, my_data):
 
     my_fig = plt.figure()
     ax = plt.subplot(111)
-    ax.fill_between(x = my_wl, y1 = mean_spc+std_spc, y2 = mean_spc-std_spc, alpha = 0.6)
+    ax.fill_between(x = my_data['wavelength'], y1 = mean_spc+std_spc, y2 = mean_spc-std_spc, alpha = 0.6)
     plt.gca().invert_xaxis() #inverts values of x-axis
-    ax.plot(my_wl, mean_spc)
+    ax.plot(my_data['wavelength'], mean_spc)
     ax.set_xlabel('wavenumber ['+my_data['PhysUnitWavelengths']+']')
-    ax.set_ylabel('PiFM [V]') #+my_data['files'=6,'PhysUnit']+'
-    #ax.set_yticklabels([])
+    ax.set_ylabel('intensity (normalized)')
+
+    ax.set_yticklabels([])
     plt.title('mean spectrum')
+
     my_fig.tight_layout()
-    return mean_spc
-
-def export_spectrum(spectrum):
-    '''
-    Exports (saves) spectral data in ascii(?) text(?) format  - planned
-    '''
-  
-def PCA_spectrum(my_spectra, my_wl, my_data, my_coord):
-    '''
-    Calculates and plots two principal components for a set of spectral data
-    '''
-    from sklearn.decomposition import PCA
-    ncomp = 2
-    model = PCA(n_components=ncomp)
-
-    transformed_data = model.fit(my_spectra).transform(my_spectra).T
-    loadings = model.components_
-
-    my_fig = plt.figure()
-    ax = plt.subplot(111)
-    plt.gca().invert_xaxis() #inverts values of x-axis
-    for icomp in range(ncomp):
-        ax.plot(my_wl, loadings[icomp], label='PC'+str(icomp+1) )
-    ax.set_xlabel('wavenumber ['+my_data['PhysUnitWavelengths']+']')
-    ax.set_ylabel('PiFM [V]')
-    #ax.set_yticklabels([])
-    ax.legend()
-    plt.title('PCA-Loadings (principal components)')
-
-    my_fig = plt.figure()
-    ax = plt.subplot(111)
-    ax.plot(transformed_data[0], transformed_data[1], '.')
-    ax.set_xlim(np.quantile(transformed_data[0], 0.05),np.quantile(transformed_data[0], 0.95))
-    ax.set_ylim(np.quantile(transformed_data[1], 0.05),np.quantile(transformed_data[1], 0.95))
-    ax.set_xlabel('PC1')
-    ax.set_ylabel('PC2')
-    plt.title('scatterplot')
-    my_fig.tight_layout()
-
-    maps = [zeros.copy() for icomp in range(ncomp)]
-    for icomp in range(ncomp):
-        maps[icomp][my_coord] = transformed_data[icomp]
-        maps[icomp] = np.reshape(maps[icomp], (my_data['xPixel'], my_data['yPixel']) )
-    
-        my_fig = plt.figure()
-        ax = plt.subplot(111)
-        plt.colorbar( ax.imshow(maps[icomp], cmap = 'coolwarm', extent = my_data.extent()) )
-    
-        ax.set_xlabel('x scan ['+my_data['XPhysUnit']+']')
-        ax.set_ylabel('y scan ['+my_data['YPhysUnit']+']')
-        plt.title('factors PC'+str(icomp+1))    
-
-        my_fig.tight_layout() 
 
 #%% loads data and plots associated VistaScan parameter images
 
-my_data = IRAFM(path='resources/',headerfile='Ret29r20006.txt')
+my_data = pifm_image(path_final, headerfile) 
 
 my_data.plot_all()
+
+
+# establish save-path
+#dir_test_existance(save_path)
 
 #%% Part1
 
@@ -118,95 +104,139 @@ pos =  [my_file['Caption']=='hyPIRFwd' for my_file in my_data['files']]
 hyPIRFwd = np.array(my_data['files'])[pos][0]
 data = hyPIRFwd['data']
 data_select = data[my_a == 1]   # here are now just the selected spectra
-print(data_select.shape)
-print(data.shape)
+# print("dataselectshape",data_select.shape)
+# print("datashpe",data.shape)
 
-# our_data=data[:,:,1]*np.array(my_a)
 
 #%% checks validity of data and sorts them
 w,h=my_a.shape
 my_spc = my_data.return_spc()*np.reshape(my_a,newshape=(w*h,1))
-# my_spc = our_data
+# np.savetxt("myspcrescale.txt",my_spc,delimiter="\t")
+print("my_spc",my_spc.shape)
+print(my_spc.shape)
+print(my_data.return_spc().shape)
+print(my_a.shape)
 my_wl  = my_data['wavelength']
+# np.savetxt("WaVeLeNgTh.txt",my_wl,delimiter="\t")
+pos =  [my_file['Caption']=='hyPIRFwd' for my_file in my_data['files']]
+hyPIRFwd = np.array(my_data['files'])[pos][0]
+data = np.reshape(hyPIRFwd['data'], (hyPIRFwd['data'].shape[0]*hyPIRFwd['data'].shape[1], hyPIRFwd['data'].shape[2]))
+my_sum = np.sum(my_spc, axis = 1)
+coord = np.arange(len(my_sum))
+zeros = np.zeros(len(my_sum))
+data = data[my_sum != 0]
+coord = coord[my_sum != 0]
+my_sum = my_sum[my_sum != 0]
 
-split_wl = 1644
 
-my_wl_low = my_wl[my_wl <= split_wl]
-my_wl_high = my_wl[my_wl > split_wl]
-print('*'*25)
-print()
-spc_low = my_spc[:,my_wl <= split_wl]
-spc_high = my_spc[:,my_wl > split_wl]
+spc_norm = np.array([spc/s for spc, s in zip(data, my_sum)])
+print("spcnorm",spc_norm.shape)
 
-my_sum_low = np.sum(spc_low, axis = 1)
-my_sum_high = np.sum(spc_high, axis = 1)
+#%%Rescaling
+#pathsub='/Ret24_CaF_2001_Tuner1349-1643.txt'
+#path_substrate = join(path_final, pathsub)
 
-select_low = my_sum_low != 0
-select_high = my_sum_high != 0
-select = my_sum_low * my_sum_high != 0
+b=len(spc_norm)
 
-coord = np.arange(len(spc_low))
-zeros = np.zeros(len(spc_low))
+print("b",b)
+# np.savetxt("myspcraw.txt",my_spc,delimiter="\t")
 
-#%% Evaluates spectra from spatial positions where both laser tuners recorded and plots mean spectra and PCA
+# print("myw1",my_wl.shape)
+with open( path_substrate, 'r' ) as fopen:
+    y_sub = np.array(fopen.readlines())
+y_sub = [''.join(l.split('\n')) for l in y_sub][1:]
+y_sub = (np.array([l.split('\t') for l in y_sub]).T).astype(float)
+y_sub=y_sub[1,:]
+print("ysub",y_sub.shape)
+for i in range( b ):
+    spc_norm[i, :] = spc_norm[i, :] / y_sub
+#rescaling finished
 
-coord = coord[select]
-spc_low_s = spc_low[select]
-spc_high_s = spc_high[select]
-my_sum_low_s = my_sum_low[select]
-my_sum_high_s = my_sum_high[select]
 
-spc_low_n = np.array([spc/s for spc, s in zip(spc_low_s, my_sum_low_s)])
-spc_high_n = np.array([spc/s for spc, s in zip(spc_high_s, my_sum_high_s)])
-
-spc_train = np.concatenate([spc_low_s, spc_high_s], axis = 1)
-my_sum = np.sum(spc_train, axis = 1)
-spc_norm = np.array([spc/s for spc, s in zip(spc_train, my_sum)])
-
+#%%
 # PlotIt
-mean_spc = mean_spectrum(spc_train, my_data['wavelength'], my_data)
-PCA_spectrum(spc_train, my_data['wavelength'], my_data, coord) #why is this already showing normalized plots?
+mean_spc = np.mean(spc_norm, axis = 0)
+std_spc = np.std(spc_norm, axis = 0)
+print("mean spc",mean_spc.shape)
+print("std spc",std_spc.shape)
+my_fig = plt.figure()
+ax = plt.subplot(111)
+ax.fill_between(x = my_data['wavelength'], y1 = mean_spc+std_spc, y2 = mean_spc-std_spc, alpha = 0.6)
+plt.gca().invert_xaxis() #inverts values of x-axis
+ax.plot(my_data['wavelength'], mean_spc)
+ax.set_xlabel('wavenumber ['+my_data['PhysUnitWavelengths']+']')
+ax.set_ylabel('intensity (normalized)')
+ax.set_yticklabels([])
+plt.title('mean spectrum')
+my_fig.savefig( 'mean spectrum.png' )
+my_fig.tight_layout()
 
-mean_spc = mean_spectrum(spc_norm, my_data['wavelength'], my_data)
-#spc_norm-mean_spc; substracting the mean_spc does not make any difference
-PCA_spectrum(spc_norm, my_data['wavelength'], my_data, coord)
+#save data as text
+mypath = join(save_path,'1meanspec.txt')
+np.savetxt(mypath, mean_spc)
+mypath = join(save_path, '1myspectrum.txt')
+np.savetxt(mypath, my_a)
+mypath = join(save_path, '1mypoint.txt')
+np.savetxt(mypath, my_p)
+mypath = join(save_path, '1stdspec.txt')
+np.savetxt(mypath,std_spc)
 
+#%%
 
-#%% Evaluates spectra from spatial positions where the lower spectral range tuners recorded and plots mean and PCS
-coord_low = np.arange(len(spc_low))
-zeros = np.zeros(len(spc_low))
-coord_low = coord_low[select_low]
-spc_low_s = spc_low[select_low]
-my_sum_low_s = my_sum_low[select_low]
+from sklearn.decomposition import PCA
+ncomp = 2
+model = PCA(n_components=ncomp)
 
+transformed_data = model.fit(spc_norm-mean_spc).transform(spc_norm-mean_spc).T
+loadings = model.components_
+print("loadingtype",type(model))
+print("mysum",my_sum.shape)
+print("data",data.shape)
+print("spc_norm",spc_norm.shape)
+print("meanspc",mean_spc.shape)
+print("std",std_spc.shape)
+print("transform",transformed_data.shape)
+print("loading",loadings.shape)
+my_fig = plt.figure()
+ax = plt.subplot(111)
+plt.gca().invert_xaxis() #inverts values of x-axis
+for icomp in range(ncomp):
+    ax.plot(my_data['wavelength'], loadings[icomp], label='PC'+str(icomp+1) )
+ax.set_xlabel('wavenumber ['+my_data['PhysUnitWavelengths']+']')
+ax.set_ylabel('intensity (normalized)')
+ax.set_yticklabels([])
+ax.legend()
+plt.title('PCA-Loadings')
+my_fig.savefig( 'PCA-Loadings.png' )
+my_fig = plt.figure()
+ax = plt.subplot(111)
+ax.plot(transformed_data[0], transformed_data[1], '.')
+ax.set_xlim(np.quantile(transformed_data[0], 0.05),np.quantile(transformed_data[0], 0.95))
+ax.set_ylim(np.quantile(transformed_data[1], 0.05),np.quantile(transformed_data[1], 0.95))
+ax.set_xlabel('PC1')
+ax.set_ylabel('PC2')
+plt.title('scatterplot')
+my_fig.savefig( 'scatterplot.png' )
+my_fig.tight_layout()
 
-spc_low_n = np.array([spc/s for spc, s in zip(spc_low_s, my_sum_low_s)])
-my_sum = np.sum(spc_low_n, axis = 1)
-spc_norm = np.array([spc/s for spc, s in zip(spc_low_s, my_sum)])
+maps = [zeros.copy() for icomp in range(ncomp)]
+for icomp in range(ncomp):
+    maps[icomp][coord] = transformed_data[icomp]
+    maps[icomp] = np.reshape(maps[icomp], (my_data['xPixel'], my_data['yPixel']) )
+    
+    my_fig= plt.figure()
+    ax = plt.subplot(111)
+    plt.colorbar( ax.imshow(maps[icomp], cmap = 'coolwarm', extent = my_data.extent()) )
+    
+    ax.set_xlabel('x scan ['+my_data['XPhysUnit']+']')
+    ax.set_ylabel('y scan ['+my_data['YPhysUnit']+']')
+    plt.title('factors PC'+str(icomp+1))
+    my_fig.savefig( 'factors PC.png' )
 
-# PlotIt
-mean_spc = mean_spectrum(spc_low_s, my_wl_low, my_data)
-PCA_spectrum(spc_low_s, my_wl_low, my_data, coord_low)
+    my_fig.tight_layout()
 
-mean_spc = mean_spectrum(spc_low_n, my_wl_low, my_data)
-PCA_spectrum(spc_low_n, my_wl_low, my_data, coord_low)
-
-#%% Evaluates spectra from spatial positions where the higher spectral range tuners recorded and plots mean and PCS
-coord_high = np.arange(len(spc_high))
-zeros = np.zeros(len(spc_high))
-coord_high = coord_high[select_high]
-spc_high_s = spc_high[select_high]
-my_sum_high_s = my_sum_high[select_high]
-
-
-spc_high_n = np.array([spc/s for spc, s in zip(spc_high_s, my_sum_high_s)])
-my_sum = np.sum(spc_high_n, axis = 1)
-spc_norm = np.array([spc/s for spc, s in zip(spc_high_s, my_sum)])
-
-# PlotIt
-mean_spc = mean_spectrum(spc_high_s, my_wl_high, my_data)
-PCA_spectrum(spc_high_s, my_wl_high, my_data, coord_high)
-
-mean_spc = mean_spectrum(spc_high_n, my_wl_high, my_data)
-PCA_spectrum(spc_high_n, my_wl_high, my_data, coord_high)
 plt.show()
+
+
+
+
