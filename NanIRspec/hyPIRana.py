@@ -22,6 +22,7 @@ For application to two seperate spectral ranges, see "hyPIRana_splitRange.py"
 #%% imports & parameters
 #import pandas as pd
 from os.path import join
+import os.path as path
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
@@ -35,25 +36,32 @@ if False:  # to conserve order (which gets swirled up by pep)
         "r//mars/usr/FA8_Mikroskopie/FAG82_BiomedizinischeBildgebung/BioPOLIM/PiFM/")
     import MicroPy as mipy
 
-from pifm_image import pifm_image
+from IRAFM import IRAFM as ir
 #pathsub="F:/daniela/retina/NanIRspec/resources/CaF20001mean1349-1643.txt"
 #path_import = r'F:\daniela\retina\NanIRspec\resources'
 #headerfile = 'Ret240012.txt'
 #path_import = r'PiFM/Retina/200405_Ret29'
 #headerfile = 'Ret29r20006.txt'
-path_import = r'PiFM/Retina/200229_Ret24'
-headerfile = 'Ret240033.txt'
-path_dir = r'//mars/usr/FA8_Mikroskopie/FAG82_BiomedizinischeBildgebung/BioPOLIM/'
-pathsub='/Ret24_CaF_2001_Tuner1349-1643.txt'
+#path_import = r'PiFM/Retina/200229_Ret24'
+#headerfile = 'Ret240033.txt'
+#path_dir = r'//mars/usr/FA8_Mikroskopie/FAG82_BiomedizinischeBildgebung/BioPOLIM/'
+#pathsub='/Ret24_CaF_2001_Tuner1349-1643.txt'
 #path_dir = r'retina/NanIRspec/resources'
-path_final = join(path_dir, path_import)
+#path_final = join(path_dir, path_import)
 #path_substrate = join(path_final, pathsub)
-path_substrate = path_final + pathsub
-today = datetime.strftime(datetime.now(), "%Y%m%d")
+#path_substrate = path_final + pathsub
+#today = datetime.strftime(datetime.now(), "%Y%m%d")
 #save_path = path_final + today + '/' #does not work !
 #save_path = join(path_final, today, '/')
 #save_path = path_final + '/' + '200405_Ret29Results' + '/'
-save_path = path_final + '/'
+#save_path = path_final + '/'
+
+"""#####################################################"""
+## Dev-Sebastian: hotlink to resources for testing purposes
+path_project = path.dirname(path.realpath(__file__))
+path_final = path.join(path_project, r'resources')
+headerfile = 'Ret240012.txt'
+"""#####################################################"""
 
 if 0:
     il.reload(mipy)
@@ -61,6 +69,33 @@ if 0:
 if 0:
     il.reload(mipy)
 
+#%%
+my_data = ir(path_final, headerfile) 
+
+pos =  [my_file['Caption']=='hyPIRFwd' for my_file in my_data['files']]
+hyPIRFwd = np.array(my_data['files'])[pos][0]
+data = np.reshape(hyPIRFwd['data'], (hyPIRFwd['data'].shape[0]*hyPIRFwd['data'].shape[1], hyPIRFwd['data'].shape[2]))
+
+my_sum = np.sum(data, axis = 1)
+data_train = data[my_sum != 0]
+
+#my_data.plot_all()
+
+from utils_chemometrics import pca, norm
+from utils_plot import stack_plot, pairs
+
+my_pca = pca(
+    data = data_train, 
+    nComp = 3, # integer==number of pc components, float (0,1)== number of pc components which yields that amount of variance explained
+    center = True,
+    pNorm = 1, # p-Norm to this power (even odd numbers), also possible: infinity-normalization using np.infty
+    normAxis = 1
+    )
+
+scores, loadings = my_pca.scores, my_pca.components
+
+stack_plot(loadings)
+d = pairs(scores)
 #%% functions
 
 def mean_spec(my_sum, coord):
@@ -85,7 +120,7 @@ def mean_spec(my_sum, coord):
 
 #%% loads data and plots associated VistaScan parameter images
 
-my_data = pifm_image(path_final, headerfile) 
+my_data = ir(path_final, headerfile) 
 
 my_data.plot_all()
 
@@ -183,12 +218,23 @@ np.savetxt(mypath,std_spc)
 
 #%%
 
+
+#%%
 from sklearn.decomposition import PCA
-ncomp = 2
+
+ncomp = 3
+
+
 model = PCA(n_components=ncomp)
 
 transformed_data = model.fit(spc_norm-mean_spc).transform(spc_norm-mean_spc).T
 loadings = model.components_
+stack_plot(loadings)
+
+
+#%%
+
+#%%
 print("loadingtype",type(model))
 print("mysum",my_sum.shape)
 print("data",data.shape)

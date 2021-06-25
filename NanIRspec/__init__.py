@@ -11,3 +11,4 @@ import numpy as np;
 # modules
 from .IRAFM import *;
 from .AreaSelect import *;
+from utils_chemometrics import *;
