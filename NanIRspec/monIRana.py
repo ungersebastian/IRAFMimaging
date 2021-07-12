@@ -1,7 +1,14 @@
-"""" PCA_CAL is a program to calculate PCA for different spectral data's
+"""" monIRana is a program for analysis of a set of spectral data provided in a tabulated textfile
 Created on 4 july 2021
 @author: Mohammad Soltaninezhad
-Supervisor: Dr.Daniela Täuber """
+Supervisor: Daniela Täuber
+
+monIRana can do:
+- calculate mean spectra of the complete data set
+- run a PCA on the data set and provide plots of results
+"""
+
+
 from os.path import join
 import numpy as np
 import matplotlib.pyplot as plt
