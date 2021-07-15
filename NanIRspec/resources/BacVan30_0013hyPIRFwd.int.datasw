@@ -1,0 +1,32 @@
+<datasw type="image">
+  <subcontents item="functions_data"/>
+  <subcontents item="functions_display"/>
+  <subcontents item="gradient_image"/>
+  <subcontents item="lines"/>
+  <subcontents item="masks_area0">
+    <mask/>
+  </subcontents>
+  <subcontents item="masks_area1">
+    <mask/>
+  </subcontents>
+  <subcontents item="masks_area2">
+    <mask/>
+  </subcontents>
+  <subcontents item="masks_raman0">
+    <mask/>
+  </subcontents>
+  <subcontents item="masks_raman1">
+    <mask/>
+  </subcontents>
+  <subcontents item="masks_raman2">
+    <mask/>
+  </subcontents>
+  <subcontents item="params_raman" view="line" countPoints="20">
+    <line pointStart="0.90234375,0.12109375" pointEnd="0.16796875,0.8359375" width="1" rangetype="full"/>
+    <offset offset="0"/>
+  </subcontents>
+  <subcontents item="params_spectra"/>
+  <subcontents item="masks_level">
+    <mask/>
+  </subcontents>
+</datasw>
