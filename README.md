@@ -17,7 +17,7 @@ So far experimental methods have been:
 
 2. NanIRspec: processing and analyzing spectral data:  
 -  _hyPIRana_: analysis of PiFM hyperspectral data (providing callibration, mean spectra, PCA); Applicable to one complete spetral region (1 laser tuner)
--  _AreaSelect_ allows to choose a spacial region of interest via a gui
+-  _AreaSelect_ allows to choose a spatial region of interest via a gui
 -  _hyPIRana_SplitRange_: Other than _hyPIRana_ it allows to split the data set into two spectral ranges which will be analyzed independently (two laser tuners)
 -  _monIRana_: analysis of already callibrated single spectra (providing mean spectra, PCA)
 
