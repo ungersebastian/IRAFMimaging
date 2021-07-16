@@ -53,10 +53,10 @@ from IRAFM import IRAFM as ir
 #path_dir = r'retina/NanIRspec/resources'
 """#####################################################"""
 ## Robin: links to resources
-#path_import =
-#headerfile =
-#path_dir =
-#pathsub =
+#path_import = r'210514BacVan30/BacVan_30'
+#headerfile = 'BacVan30_0013.txt'
+#path_dir = r'C:/Users/Robin/Documents/HS Aalen/Masterarbeit/Daten/'
+#pathsub = 'BacVan30_CaF2_av_Tuner2.txt'
 """#####################################################"""
 
 #path_final = join(path_dir, path_import)
