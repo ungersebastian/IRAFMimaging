@@ -37,21 +37,31 @@ if False:  # to conserve order (which gets swirled up by pep)
     import MicroPy as mipy
 
 from IRAFM import IRAFM as ir
-#pathsub="F:/daniela/retina/NanIRspec/resources/CaF20001mean1349-1643.txt"
-#path_import = r'F:\daniela\retina\NanIRspec\resources'
-#headerfile = 'Ret240012.txt'
-#path_import = r'PiFM/Retina/200405_Ret29'
-#headerfile = 'Ret29r20006.txt'
+"""#####################################################"""
+## Daniela: links to resources
 #path_import = r'PiFM/Retina/200229_Ret24'
 #headerfile = 'Ret240033.txt'
+#path_import = r'PiFM/Retina/200405_Ret29'
+#headerfile = 'Ret29r20006.txt'
 #path_dir = r'//mars/usr/FA8_Mikroskopie/FAG82_BiomedizinischeBildgebung/BioPOLIM/'
-#pathsub='/Ret24_CaF_2001_Tuner1349-1643.txt'
+#pathsub = '/Ret24_CaF_2001_Tuner1349-1643.txt'
+"""#####################################################"""
+## Mohammad: links to resources
+#pathsub = "F:/daniela/retina/NanIRspec/resources/CaF20001mean1349-1643.txt"
+#path_import = r'F:\daniela\retina\NanIRspec\resources'
+#headerfile = 'Ret240012.txt'
 #path_dir = r'retina/NanIRspec/resources'
+"""#####################################################"""
+## Robin: links to resources
+#path_import =
+#headerfile =
+#path_dir =
+#pathsub =
+"""#####################################################"""
+
 #path_final = join(path_dir, path_import)
 #path_substrate = join(path_final, pathsub)
-#path_substrate = path_final + pathsub
-#today = datetime.strftime(datetime.now(), "%Y%m%d")
-#save_path = path_final + today + '/' #does not work !
+today = datetime.strftime(datetime.now(), "%Y%m%d")!
 #save_path = join(path_final, today, '/')
 #save_path = path_final + '/' + '200405_Ret29Results' + '/'
 #save_path = path_final + '/'
