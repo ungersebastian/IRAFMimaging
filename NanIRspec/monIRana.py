@@ -107,8 +107,8 @@ class PCA_calculator:
         save_PC2[:,1]=loadings[1]
         np.savetxt( "mean spectra.txt", save_mean, delimiter='\t', header='wavenumber\tmean_spc', fmt="%8.5f" )
         np.savetxt( "std spectra.txt", save_std, delimiter='\t', header='wavenumber\tstd_spc', fmt="%8.5f" )
-        np.savetxt( "PCA Loadings.txt", save_PC1, delimiter='\t', header='wavenumber\tPC1', fmt="%8.5f" )
-        np.savetxt( "PCA Loadings.txt", save_PC2, delimiter='\t', header='wavenumber\tPC1', fmt="%8.5f" )
+        np.savetxt( "PCA1 Loadings.txt", save_PC1, delimiter='\t', header='wavenumber\tPC1', fmt="%8.5f" )
+        np.savetxt( "PCA2 Loadings.txt", save_PC2, delimiter='\t', header='wavenumber\tPC2', fmt="%8.5f" )
         join( self.path, "mean_spc.txt" )
         join( self.path, "std_spc.txt" )
 
