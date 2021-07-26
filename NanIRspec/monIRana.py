@@ -15,9 +15,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn import preprocessing
-path =r"F:/daniela/retina/NanIRspec/resources/BacVan30Control30_OPTIR.txt"
+path =r"C:\Users\ungersebastian\Programmierung\Python\Projekte\irafmimaging\NanIRspec\resources\BacVan30Control30_OPTIR.txt"
 df = pd.read_csv(path,skiprows=[0],delimiter="\t" )
-df.to_numpy()
+
+
+#%%df.to_numpy()
 class PCA_calculator:
     def __init__(self, path):
         self.path = path
@@ -121,6 +123,25 @@ a.export() #save mean , std , PC1 and PC2
 a.plot() #plot PCA loadings
 a.pca_var(ncomp=3) #plot variance percentages
 
+#%%
 
+x = transformed_data[0]
+y = transformed_data[1]
+n = np.arange(transformed_data.shape[-1])+1
 
+xMin, xMax = np.amin(x), np.amax(x)
+yMin, yMax = np.amin(y), np.amax(y)
 
+d = 0.1
+dx = d*(xMax-xMin)
+dy = d*(yMax-yMin)
+xMin, xMax = xMin-dx, xMax+dx
+yMin, yMax = yMin-dy, yMax+dy
+
+fig, ax = plt.subplots()
+ax.scatter(x, y)
+
+for i, txt in enumerate(n):
+    ax.annotate(txt, (x[i], y[i]))
+ax.set_xlim((xMin, xMax))
+ax.set_ylim((yMin, yMax))
