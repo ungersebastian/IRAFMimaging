@@ -1,7 +1,7 @@
 """" monIRana is a program for analysis of a set of spectral data provided in a tabulated textfile
 Created on 4 july 2021
 @author: Mohammad Soltaninezhad
-Supervisor: Daniela Täuber
+Contributions by Sebastian Unger, ideas and testing by Daniela Taeuber and Robin Schneider
 
 monIRana can do:
 - calculate mean spectra of the complete data set
@@ -54,7 +54,7 @@ class PCA_calculator:
         labels = ['pc' + str( x ) for x in range( 1, len( per_var ) + 1 )]
         plt.bar( x=range( 1, len( per_var ) + 1 ), height=per_var, tick_label=labels )
         plt.ylabel( "percantage of explained variance" )
-        plt.xlabel( "Principle Components" )
+        plt.xlabel( "Principal Components" )
         plt.title( "Bar plot" )
         plt.show()
         data_acc = []
@@ -64,7 +64,7 @@ class PCA_calculator:
             data_acc.append( i_old )
         plt.bar( x=range( 1, len( data_acc ) + 1 ), height=data_acc, tick_label=labels )
         plt.ylabel( "accumulate variance" )
-        plt.xlabel( "Principle Components" )
+        plt.xlabel( "Principal Components" )
         plt.title( "Bar plot" )
         plt.show()
         return
