@@ -1,0 +1,210 @@
+
+;ANFATEC Parameterfile
+
+Version : 1.12
+VistaScanVersion : 2.2.0.42
+Date : 07/27/2021
+Time : 08:41:44 PM
+UTCDateTime : 2021/07/27 18:41:44
+UserName : Daniela
+ComputerName : PIFM-1925773
+SampleName : BacVan15
+CantileverType : NCHPt
+CantileverID : NCHPt-dte20
+Scanner : Scan controller (Scanner)
+Scanner calibration : Scanner parameters from VS22 12APR18.ini
+Objective calibration : softlinObjective.ini
+Head calibration : softlinHead.ini
+Lockin calibration : controller_574-580-549-16.ini
+StartDate : 07/27/2021
+StartTime : 08:09:18 PM
+
+FeedbackMode     : opticalforce
+FeedbackModePiFM : 22
+SetPoint         : 85
+SetPointPhysUnit : V
+FeedBackModus    : ncAFM R
+Bias             : 0
+BiasPhysUnit     : mV
+Ki               : 3000
+Kp               : 1
+
+FastZKi    : 0.2
+FastZKp    : 0
+FastZTd    : 0
+FastZAlpha : 3
+
+XStage     : -266.54499 ; µm
+YStage     : 746.937375 ; µm
+XScanRange : 1
+YScanRange : 1
+XPhysUnit  : µm
+YPhysUnit  : µm
+Speed      : 0.2 ; lines/sec
+Angle      : 0 ; degrees
+xPixel     : 256
+yPixel     : 256
+yCenter    : -16.58
+xCenter    : -24.25
+dzdx       : 0
+dzdy       : 0
+overscan[%]: 2.5
+
+LockInFreq         : 1625663.75
+LockInFreqPhysUnit : Hz
+LockInAmpl         : 0.224258988991031
+LockInAmplPhysUnit : V
+LockInPhysAmpl         : 1
+LockInPhysAmplPhysUnit : nm
+
+TimeConstant  : 5 ms
+RollOff       : 12 db/oct
+DetectionFrequency : 271863.796875
+Laser1State     : On
+Laser1Name     : Laser wrapper [Q0259]
+Laser1LaserWavelength: 6578.94736842105 ; nm
+Laser1DutyCycle : 50 ; %
+Laser1VoltageLow: 0.5 ; V
+Laser1VoltageHigh: 5 ; V
+Laser1Frequency : 1353799.953125 ; Hz
+
+FileDescBegin
+FileName : BacVan15_0022PiFMFwd.int
+Caption  : PiFMFwd
+Scale    : 6.47387399210592e-7
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : BacVan15_0022PiFMBwd.int
+Caption  : PiFMBwd
+Scale    : 6.47387399210592e-7
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : BacVan15_0022TopographyFwd.int
+Caption  : TopographyFwd
+Scale    : 3.9014e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : BacVan15_0022TopographyBwd.int
+Caption  : TopographyBwd
+Scale    : 3.9014e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : BacVan15_0022AFMHead-ZFwd.int
+Caption  : AFMHead-ZFwd
+Scale    : -2.834e-7
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : BacVan15_0022AFMHead-ZBwd.int
+Caption  : AFMHead-ZBwd
+Scale    : -2.834e-7
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : BacVan15_0022Scanner-ZFwd.int
+Caption  : Scanner-ZFwd
+Scale    : -3.618e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : BacVan15_0022Scanner-ZBwd.int
+Caption  : Scanner-ZBwd
+Scale    : -3.618e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : BacVan15_0022AmplitudeFwd.int
+Caption  : AmplitudeFwd
+Scale    : 3.01143288806455e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : BacVan15_0022AmplitudeBwd.int
+Caption  : AmplitudeBwd
+Scale    : 3.01143288806455e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : BacVan15_0022PhaseFwd.int
+Caption  : PhaseFwd
+Scale    : 1e-3
+PhysUnit : °
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : BacVan15_0022PhaseBwd.int
+Caption  : PhaseBwd
+Scale    : 1e-3
+PhysUnit : °
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : BacVan15_0022PolarizerPositionFwd.int
+Caption  : PolarizerPositionFwd
+Scale    : 1
+PhysUnit : steps
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : BacVan15_0022PolarizerPositionBwd.int
+Caption  : PolarizerPositionBwd
+Scale    : 1
+PhysUnit : steps
+Offset   : 0
+FileDescEnd
+
+FileDesc2Begin
+FileName : BacVan15_0022PiFM TunerFwd.int
+Caption  : PiFM TunerFwd
+BytesPerPixel : 120
+Scale    : 3.01143e-9
+PhysUnit : V
+Offset   : 0
+DataType : Spectrogram
+BytesPerReading : 4
+FileNameWavelengths : BacVan15_0022PiFM TunerFwdWavelengths.txt
+PhysUnitWavelengths : Hz
+FileDesc2End
+
+FileDesc2Begin
+FileName : BacVan15_0022PiFM TunerBwd.int
+Caption  : PiFM TunerBwd
+BytesPerPixel : 120
+Scale    : 3.01143e-9
+PhysUnit : V
+Offset   : 0
+DataType : Spectrogram
+BytesPerReading : 4
+FileNameWavelengths : BacVan15_0022PiFM TunerBwdWavelengths.txt
+PhysUnitWavelengths : Hz
+FileDesc2End
+
+
+;(at 2021/07/27 20:41:44): Completed scan
