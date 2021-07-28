@@ -57,6 +57,7 @@ data_type = np.dtype(np.int32)
 def load_daniela(load_path, load_wd, data_type):
     '''
     Loads data from a list using a given data_tpe
+    Be careful to check formats whether to be "PiFM" or "PiF"
     '''
     load_stack = []
     for m in range(len(load_wd)):
@@ -336,14 +337,14 @@ im1t = nip.image(transf.warp(im1, inverse_map=tform.inverse,order=4))
 nip.v5(nip.catE((im1,im1t,ims2)))
 
 # crop images
-#im1st = crop_fromshift(ims1, shift)
+im1st = crop_fromshift(ims1, shift)
 
 # get properties
 ims1p = get_properties(ims1)
 
 # rotation? -> compare by eye for now
-rotation, ims1p, ims2p = find_rotation(ims1, ims2)
-nip.v5(nip.catE((nip.image(ims1p), nip.image(ims2p))))
+#rotation, ims1p, ims2p = find_rotation(ims1, ims2)
+#nip.v5(nip.catE((nip.image(ims1p), nip.image(ims2p))))
 
 # works like a charem
 #b = nip.image(np.transpose(rotated, [2, 0, 1]))
@@ -351,4 +352,4 @@ nip.v5(nip.catE((nip.image(ims1p), nip.image(ims2p))))
 #nip.v5(nip.catE((nip.image(image)[:, :, 1], a)))
 
 # use edge-filters to find features -> check how it looks when using Sobel
-nip.v5(nip.catE((diff_sobel_vertical(ims1), diff_sobel_horizontal(ims1))))
+#nip.v5(nip.catE((diff_sobel_vertical(ims1), diff_sobel_horizontal(ims1))))

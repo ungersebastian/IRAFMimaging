@@ -1,0 +1,9 @@
+<datasw type="image">
+  <subcontents item="functions_data" initialized="true">
+    <function name="field_crop" left="0.00390625000000052" bottom="0.00390625000000052" right="0.996093749999997" top="0.996093749999997"/>
+  </subcontents>
+  <subcontents item="functions_display">
+    <function name="data_offsettozero" AdjustHistogramOffset="true"/>
+  </subcontents>
+  <subcontents item="gradient_image"/>
+</datasw>
