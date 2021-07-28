@@ -26,8 +26,8 @@ today = datetime.strftime(datetime.now(), "%Y%m%d")
 
 # %% parameters -------------------------------------------------
 general_path = r'//mars/usr/FA8_Mikroskopie/FAG82_BiomedizinischeBildgebung/BioPOLIM/PiFM/'
-load_path = general_path + 'MCNPs/191127_Per-PDAGA-NP/'
-save_path = general_path + 'MCNPs/191127_Per-PDAGA-NP/191127_Per-PDAGA-NP_Results' + today + '/'
+load_path = general_path + 'Bacteria/210727BacVan15/'
+save_path = general_path + 'Bacteria/210727BacVan15/BacVan15Results' + today + '/'
 
 
 if 0:
@@ -35,9 +35,9 @@ if 0:
 
 mysel = 1
 if mysel == 1:
-    load_wd = ['Per-PDAGA-NP0004PiFFwd.int', 'Per-PDAGA-NP0010PiFFwd.int']
-    load_topo = ['Per-PDAGA-NP0004TopographyFwd.int',
-                 'Per-PDAGA-NP0010TopographyFwd.int', ]
+    load_wd = ['BacVan15_0024PiFMFwd.int', 'BacVan15_0025PiFMFwd.int']#be aware of data type "PiFM" or "PiF"
+    load_topo = ['BacVan15_0024TopographyFwd.int',
+                 'BacVan15_0025TopographyFwd.int', ]
 else:
     pass
 
