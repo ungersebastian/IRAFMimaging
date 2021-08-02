@@ -1,7 +1,7 @@
 """" monIRana is a program for analysis of a set of spectral data provided in a tabulated textfile
 Created on 4 july 2021
 @author: Mohammad Soltaninezhad
-Contributions by Sebastian Unger, ideas and testing by Daniela Taeuber and Robin Schneider
+Supervisor: Daniela Täuber
 
 monIRana can do:
 - calculate mean spectra of the complete data set
@@ -15,11 +15,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn import preprocessing
-path =r"C:\Users\ungersebastian\Programmierung\Python\Projekte\irafmimaging\NanIRspec\resources\BacVan30Control30_OPTIR.txt"
+path =r"F:/daniela/retina/NanIRspec/resources/BacVan30Control30_OPTIR.txt"
 df = pd.read_csv(path,skiprows=[0],delimiter="\t" )
-
-
-#%%df.to_numpy()
+df.to_numpy()
 class PCA_calculator:
     def __init__(self, path):
         self.path = path
@@ -54,7 +52,7 @@ class PCA_calculator:
         labels = ['pc' + str( x ) for x in range( 1, len( per_var ) + 1 )]
         plt.bar( x=range( 1, len( per_var ) + 1 ), height=per_var, tick_label=labels )
         plt.ylabel( "percantage of explained variance" )
-        plt.xlabel( "Principal Components" )
+        plt.xlabel( "Principle Components" )
         plt.title( "Bar plot" )
         plt.show()
         data_acc = []
@@ -64,7 +62,7 @@ class PCA_calculator:
             data_acc.append( i_old )
         plt.bar( x=range( 1, len( data_acc ) + 1 ), height=data_acc, tick_label=labels )
         plt.ylabel( "accumulate variance" )
-        plt.xlabel( "Principal Components" )
+        plt.xlabel( "Principle Components" )
         plt.title( "Bar plot" )
         plt.show()
         return
@@ -72,6 +70,14 @@ class PCA_calculator:
         my_fig = plt.figure()
         ax = plt.subplot( 111 )
         plt.gca().invert_xaxis()  # inverts values of x-axis
+        x_min = np.amin(transformed_data[0])
+        y_min = np.amin(transformed_data[1])
+        x_max = np.amax(transformed_data[0])
+        y_max = np.amax(transformed_data[1])
+        print("PC1_min  :", x_min)
+        print("PC1_max :", x_max)
+        print("PC2_max :", y_max)
+        print("PC2_min :", y_min)
         ncomp = 2
         for icomp in range( ncomp ):
             ax.plot( self.my_wl , loadings[icomp], label='PC' + str( icomp + 1 ) )
@@ -123,25 +129,6 @@ a.export() #save mean , std , PC1 and PC2
 a.plot() #plot PCA loadings
 a.pca_var(ncomp=3) #plot variance percentages
 
-#%%
 
-x = transformed_data[0]
-y = transformed_data[1]
-n = np.arange(transformed_data.shape[-1])+1
 
-xMin, xMax = np.amin(x), np.amax(x)
-yMin, yMax = np.amin(y), np.amax(y)
 
-d = 0.1
-dx = d*(xMax-xMin)
-dy = d*(yMax-yMin)
-xMin, xMax = xMin-dx, xMax+dx
-yMin, yMax = yMin-dy, yMax+dy
-
-fig, ax = plt.subplots()
-ax.scatter(x, y)
-
-for i, txt in enumerate(n):
-    ax.annotate(txt, (x[i], y[i]))
-ax.set_xlim((xMin, xMax))
-ax.set_ylim((yMin, yMax))
