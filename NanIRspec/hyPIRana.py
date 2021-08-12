@@ -293,6 +293,9 @@ for icomp in range(ncomp):
 
 plt.show()
 
-
+mypath = join(save_path,'1loading.txt')
+np.savetxt(mypath, loading[1])
+mypath = join(save_path,'2loading.txt')
+np.savetxt(mypath, loading[2])
 
 
