@@ -7,7 +7,7 @@ Created on Fri Apr 24 08:06:26 2020
 
 modified on Fri Oct 16 by Daniela Taeuber for application to the spectral range of one tuner only
 modified by Mohammad Soltaninezhad for rescaling intensities and saving figures
-last modified on Fri June 11 by Daniela Taeuber: re-arrangement of structural elements & commenting
+last modified on Fri August 13 2021 by Daniela Taeuber: implemented export of loadings as text-files
 
 hyPirana.py can do:
 - read a hyperspectral data set from a Vistascope
