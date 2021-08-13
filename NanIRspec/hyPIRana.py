@@ -5,7 +5,7 @@ Created on Fri Apr 24 08:06:26 2020
 
 @author: ungersebastian
 
-@contributions: TauDan, 
+@contributions: TauDan, sinaravi
 
 modified on Fri Oct 16 by Daniela Taeuber for application to the spectral range of one tuner only
 modified by Mohammad Soltaninezhad for rescaling intensities and saving figures
