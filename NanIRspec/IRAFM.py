@@ -72,12 +72,14 @@ class IRAFM(dict):
              header_list = np.array(fopen.readlines())
              
         # extract the file list and supporting information
-
-        where = np.where(header_list == 'FileDescBegin\n')[0]
+        # be careful: could also be named 'FileDesc2Begin'
+        #where = np.where(header_list == 'FileDescBegin\n')[0]
+        where = np.where([('FileDesc' in hl) and ('Begin\n' in hl) for hl in header_list])[0]
         where = np.append(where, len(header_list))
         files = [header_list[where[i]:where[i+1]] for i in range(len(where)-1)]
-        files[-1] = files[-1][0:np.where(files[-1] == 'FileDescEnd\n')[0][0]+1]
-        files = [f[(np.where(f == 'FileDescBegin\n')[0][0]+1):(np.where(f == 'FileDescEnd\n')[0][0]-1)] for f in files]
+        files[-1] = files[-1][0:np.where([('FileDesc' in hl) and ('End\n' in hl) for hl in header_list])[0][0]+1]
+        
+        files = [f[( np.where([('FileDesc' in hl) and ('Begin\n' in hl) for hl in f])[0][0]+1):( np.where([('FileDesc' in hl) and ('End\n' in hl) for hl in f])[0][0])] for f in files]
         
         header_list = header_list[0:where[0]-1]
 
@@ -87,8 +89,21 @@ class IRAFM(dict):
         
         del(header_list)
         
-        # get the wavelength axis
-        path_wavelengths = self['FileNameWavelengths']
+        files = [self._return_dict_(f) for f in files]
+        files = [f for f in files if f !=  {}]
+        
+        # get the wavelength axis and the other main informations
+        
+        
+        if 'FileNameWavelengths' in self.keys():
+            path_wavelengths = self['FileNameWavelengths']
+        else:
+            path_wavelengths = ''
+            for f in files:
+                if 'FileNameWavelengths' in f and 'PhysUnitWavelengths' in f:
+                    path_wavelengths = f['FileNameWavelengths']
+                    break
+                                
         path_wavelengths = file_list[file_list[:,0]==path_wavelengths][0,1]
         
         with open(path_wavelengths, 'r') as fopen:
@@ -104,20 +119,9 @@ class IRAFM(dict):
         
         # extract the file information
 
-        newfile ={
-         'FileName' : self.pop('FileName'),
-         'Caption' : self.pop('Caption'),
-         'Scale' : self.pop('Scale'),
-         'PhysUnit' : self.pop('PhysUnit')
-         }
-        
-        files = [self._return_dict_(f) for f in files]
-        files = [f for f in files if f !=  {}]
-        files.append(newfile)
-        
         self.add('files', files)
         
-        del(files, newfile)
+        del(files)
 
         # read the images
         
