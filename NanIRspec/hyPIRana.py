@@ -63,7 +63,7 @@ from IRAFM import IRAFM as ir
 
 #path_final = join(path_dir, path_import)
 #path_substrate = join(path_final, pathsub)
-today = datetime.strftime(datetime.now(), "%Y%m%d")!
+today = datetime.strftime(datetime.now(), "%Y%m%d")
 #save_path = join(path_final, today, '/')
 #save_path = path_final + '/' + '200405_Ret29Results' + '/'
 #save_path = path_final + '/'
@@ -71,8 +71,11 @@ today = datetime.strftime(datetime.now(), "%Y%m%d")!
 """#####################################################"""
 ## Dev-Sebastian: hotlink to resources for testing purposes
 path_project = path.dirname(path.realpath(__file__))
-path_final = path.join(path_project, r'resources')
-headerfile = 'Ret240012.txt'
+path_final = path.join(path_project, r'resources\NewDataType')
+headerfile = 'BacVan30_0011.txt'
+#path_final = path.join(path_project, r'resources')
+#headerfile = 'Ret240012.txt'
+
 """#####################################################"""
 
 if 0:
@@ -81,7 +84,7 @@ if 0:
 if 0:
     il.reload(mipy)
 
-#%%
+
 my_data = ir(path_final, headerfile) 
 
 pos =  [my_file['Caption']=='hyPIRFwd' for my_file in my_data['files']]
