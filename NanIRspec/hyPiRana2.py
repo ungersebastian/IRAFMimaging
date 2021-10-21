@@ -59,7 +59,6 @@ data = data[rm_select==False]
 data_norm = data_norm[rm_select==False]
 data_id = data_id[rm_select==False]
 data_id_clean = np.arange(len(data_id))
-data_id_clean=data_id
 # %% creating lens values
 
 """########### lens 1: 1D, Variance ###################"""
@@ -135,7 +134,7 @@ lens_val = [lens1, lens2, lens3]
 
 # %% creating sub sets
 
-lens = lens_val[2]
+lens = lens_val[1]
 
 subset_n = 40
 subset_over = 0.1
@@ -145,6 +144,7 @@ else:
     n_lens_dim = lens.shape[-1]
 
 minmax = np.amax(lens, axis = 0) - np.amin(lens, axis = 0)
+mins = np.amin(lens, axis = 0)
 channels = subset_n
 
 if n_lens_dim > 1:
@@ -162,7 +162,7 @@ else:
 borders = [
     [ [ mm-subset_over*cw + kChan*cw,
         mm+subset_over*cw + (kChan+1)*cw] for kChan in range(c)]
-    for mm, cw, c in zip(minmax, channel_width,channels) ]
+    for mm, cw, c in zip(mins, channel_width,channels) ]
 
 #%% sorting lens values in subsets
 
@@ -183,3 +183,27 @@ FunID = lambda x: np.sum(x*weights).astype(int)
 FunID_inv = lambda x: permutationList[x]
 
 # part 2: look into each rectangle and look for possible spc ids
+
+hcidl = []
+
+for mi in permutationList:
+    a = [True,]*lens.shape[0]
+    for m in range(len(channels)):
+        mb=borders[m][mi[m]]
+        a*=(lens[:,m]>mb[0])*(lens[:,m]<mb[1])
+    hcidl.append(data_id_clean[a])
+    #
+
+#%%
+
+from scipy.cluster.hierarchy import linkage, dendrogram
+id_spc =hcidl[0]
+
+dat = data_norm[id_spc]
+x = linkage(dat)
+
+fig = plt.figure(figsize=(25, 10))
+
+dn = dendrogram(x)
+
+plt.show()
