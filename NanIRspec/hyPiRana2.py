@@ -51,14 +51,14 @@ data_id = np.arange(n_data)
 
 # remove some spectra
 
-#rm_select = l1==0
-#rm_select[570] = True # this one strange spc
-#rm_id = data_id[rm_select]
+rm_select = l1==0
+rm_select[570] = True # this one strange spc
+rm_id = data_id[rm_select]
 
-#data = data[rm_select==False]
-#data_norm = data_norm[rm_select==False]
-#data_id = data_id[rm_select==False]
-#data_id_clean = np.arange(len(data_id))
+data = data[rm_select==False]
+data_norm = data_norm[rm_select==False]
+data_id = data_id[rm_select==False]
+data_id_clean = np.arange(len(data_id))
 data_id_clean=data_id
 # %% creating lens values
 
@@ -105,7 +105,7 @@ plt.show()
 
 from sklearn.decomposition import PCA
 
-var_ceil = 0.50
+var_ceil = 0.53
 data_pca = data_norm - np.mean(data_norm, axis = 0)
 
 
@@ -135,7 +135,7 @@ lens_val = [lens1, lens2, lens3]
 
 # %% creating sub sets
 
-lens = lens_val[1]
+lens = lens_val[2]
 
 subset_n = 40
 subset_over = 0.1
@@ -145,14 +145,41 @@ else:
     n_lens_dim = lens.shape[-1]
 
 minmax = np.amax(lens, axis = 0) - np.amin(lens, axis = 0)
+channels = subset_n
 
 if n_lens_dim > 1:
     sd = 3*np.std(lens, axis = 0)
-    weights = sd/np.sum(sd)
+    weights = sd/minmax
     start = subset_n**(1/n_lens_dim)
     fac = (subset_n / np.prod(start*weights))**(1/n_lens_dim)
-    channels = np.ceil(fac*start*weights)
-    channel_width = sd/channels
-    
-    
+    channels = np.ceil(fac*start*weights).astype(int)
+    channel_width = minmax/channels
+else: 
+    channel_width = [minmax/channels]
+    channels = [channels]
+    minmax = [minmax]
 
+borders = [
+    [ [ mm-subset_over*cw + kChan*cw,
+        mm+subset_over*cw + (kChan+1)*cw] for kChan in range(c)]
+    for mm, cw, c in zip(minmax, channel_width,channels) ]
+
+#%% sorting lens values in subsets
+
+# part 1: creating an enumerated list of all possible permutations of rectangles
+
+import itertools
+
+permutationList = list(itertools.product(*[range(c) for c in channels]))
+
+weights = channels.__copy__()
+weights = np.flip(weights)
+weights[-1]=1
+weights = np.flip([np.prod(weights[0:i]) for i in range(len(weights))])
+
+idPL = [np.sum([ w*p for w, p in zip(weights, perm) ]).astype(int) for perm in permutationList]
+
+FunID = lambda x: np.sum(x*weights).astype(int)
+FunID_inv = lambda x: permutationList[x]
+
+# part 2: look into each rectangle and look for possible spc ids
