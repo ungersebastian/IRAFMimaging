@@ -59,6 +59,7 @@ data = data[rm_select==False]
 data_norm = data_norm[rm_select==False]
 data_id = data_id[rm_select==False]
 data_id_clean = np.arange(len(data_id))
+#data_id_clean=data_id
 # %% creating lens values
 
 """########### lens 1: 1D, Variance ###################"""
@@ -136,8 +137,17 @@ lens_val = [lens1, lens2, lens3]
 
 lens = lens_val[1]
 
-subset_n = 40
-subset_over = 0.1
+
+
+#method = 'maxclust'
+maxclust = 3
+
+method = 'distance'
+
+subset_n = 18
+subset_over = 0.5
+t = 0.6
+
 if lens.ndim == 1:
     n_lens_dim = 1
 else:
@@ -164,7 +174,7 @@ borders = [
         mm+subset_over*cw + (kChan+1)*cw] for kChan in range(c)]
     for mm, cw, c in zip(mins, channel_width,channels) ]
 
-#%% sorting lens values in subsets
+# sorting lens values in subsets
 
 # part 1: creating an enumerated list of all possible permutations of rectangles
 
@@ -172,38 +182,162 @@ import itertools
 
 permutationList = list(itertools.product(*[range(c) for c in channels]))
 
-weights = channels.__copy__()
-weights = np.flip(weights)
-weights[-1]=1
-weights = np.flip([np.prod(weights[0:i]) for i in range(len(weights))])
-
-idPL = [np.sum([ w*p for w, p in zip(weights, perm) ]).astype(int) for perm in permutationList]
-
-FunID = lambda x: np.sum(x*weights).astype(int)
-FunID_inv = lambda x: permutationList[x]
-
 # part 2: look into each rectangle and look for possible spc ids
 
-hcidl = []
+from scipy.cluster.hierarchy import linkage, fcluster,dendrogram
+
+topo_graph = nx.Graph()
+i_node = 0
 
 for mi in permutationList:
     a = [True,]*lens.shape[0]
     for m in range(len(channels)):
         mb=borders[m][mi[m]]
+        
         a*=(lens[:,m]>mb[0])*(lens[:,m]<mb[1])
-    hcidl.append(data_id_clean[a])
-    #
+    if np.sum(a) == 1:
+        spc_id = data_id_clean[a]
+        topo_graph.add_node(i_node, ids = spc_id, height = len(spc_id))
+        i_node = i_node+1
+    elif np.sum(a) > 1:
+    
+        spc_id = data_id_clean[a]
+       
+        # perform single linkage clustering
+        dat = [lens[ids] for ids in spc_id]
+        Z = linkage(dat)
+        #dat = data_norm[spc_id]
+        if method == 'maxclust':
+            cluster = fcluster(Z, t = maxclust, criterion = 'maxclust')
+        elif  method == 'distance':
+            cluster = fcluster(Z, t = t*max(Z[:,2]), criterion='distance')
+        
+        """
+        plt.figure()
+        plt.scatter(*np.transpose(dat), c = cluster)
+        plt.show()
+        """
+        n_cluster = len(np.unique(cluster))
+        
+        print(np.sum(a), len(spc_id), n_cluster)
+        for i_c in range(n_cluster):
+            id_list = spc_id[cluster==i_c+1]
+            if len(id_list) > 0:
+                topo_graph.add_node(i_node, ids = id_list, height = len(id_list))
+                i_node = i_node+1
+        
+
+n_nodes = len(topo_graph)
+
+for node_a in range(n_nodes):
+    l1 = topo_graph.nodes[node_a]['ids']
+    for node_b in range(node_a+1, n_nodes):
+        l2 = topo_graph.nodes[node_b]['ids']
+        d = set(l1).intersection(l2)
+        if (len(d)>0):
+            topo_graph.add_edge(node_a, node_b, weight=len(d)) 
+    #%%    
+pos_topo = nx.spring_layout(topo_graph, weight='weight')
+fig = plt.figure()
+title = 'TOPO'
+fig.canvas.set_window_title(title)
+nx.draw(topo_graph, pos_topo, node_size = 1)
+#plt.scatter(*np.transpose(np.array(list(pos_topo.values()))), c = np.log(list(nx.get_node_attributes(topo_graph, 'height').values()))+1)
+plt.scatter(*np.transpose(np.array(list(pos_topo.values()))), c = list(nx.get_node_attributes(topo_graph, 'height').values()))
+plt.title(title)
+plt.show()
+#%%
+
+topo_clust = nx.clustering(topo_graph, weight = 'height')
+fig = plt.figure()
+title = 'TOPO2'
+fig.canvas.set_window_title(title)
+nx.draw(topo_graph, pos_topo, node_size = 1)
+#plt.scatter(*np.transpose(np.array(list(pos_topo.values()))), c = np.log(list(nx.get_node_attributes(topo_graph, 'height').values()))+1)
+plt.scatter(*np.transpose(np.array(list(pos_topo.values()))), c = list(topo_clust.values()))
+plt.title(title)
+plt.show()
+
+c=np.log(1+np.array(list(nx.get_node_attributes(topo_graph, 'height').values()))*np.array(list(topo_clust.values())))
+fig = plt.figure()
+title = 'TOPO3'
+fig.canvas.set_window_title(title)
+nx.draw(topo_graph, pos_topo, node_size = 1)
+#plt.scatter(*np.transpose(np.array(list(pos_topo.values()))), c = np.log(list(nx.get_node_attributes(topo_graph, 'height').values()))+1)
+plt.scatter(*np.transpose(np.array(list(pos_topo.values()))), c = c)
+plt.title(title)
+plt.show()
 
 #%%
 
-from scipy.cluster.hierarchy import linkage, dendrogram
-id_spc =hcidl[0]
+from scipy.interpolate import griddata
 
-dat = data_norm[id_spc]
-x = linkage(dat)
+resolution = 1000
+scale_p = np.transpose(np.array(list(pos_topo.values())).__copy__())
+scale_p = np.transpose(np.array([(sp - np.amin(sp))/(np.amax(sp)-np.amin(sp)) * (resolution-1) for sp in scale_p]))
 
-fig = plt.figure(figsize=(25, 10))
+x = np.arange(resolution)
+x,y = np.meshgrid(x,x)
 
-dn = dendrogram(x)
+x = np.array([[iy, ix] for ix, iy in zip(x.flatten(),y.flatten())])
 
+Ztri = np.nan_to_num(griddata( scale_p, c,  x , method='linear').reshape((resolution,resolution)))
+
+plt.figure()
+plt.imshow(Ztri.T, extent=(0,1,0,1))
+plt.show()
+
+#%%
+
+def func(x, y):
+
+    return x*(1-x)*np.cos(4*np.pi*x) * np.sin(4*np.pi*y**2)**2
+grid_x, grid_y = np.mgrid[0:1:100j, 0:1:200j]
+
+
+#rng = np.random.default_rng()
+
+points = np.random.rand(1000, 2)
+
+values = func(points[:,0], points[:,1])
+
+
+from scipy.interpolate import griddata
+
+grid_z0 = griddata(points, values, (grid_x, grid_y), method='nearest')
+
+grid_z1 = griddata(points, values, (grid_x, grid_y), method='linear')
+
+grid_z2 = griddata(points, values, (grid_x, grid_y), method='cubic')
+#%%
+
+resolution = 512 
+scale_p = np.transpose(np.array(list(pos_topo.values())).__copy__())
+scale_p = np.transpose(np.round([(sp - np.amin(sp))/(np.amax(sp)-np.amin(sp)) * (resolution-1) for sp in scale_p]).astype(int))
+img = np.zeros((resolution,resolution))
+
+for i, p in enumerate(scale_p):
+    img[p[0],p[1]] = c[i]
+    
+
+g = 1
+gauss = lambda x: np.exp(-(x-resolution//2)**2/(2*g**2))
+
+x = np.arange(resolution)
+x,y = np.meshgrid(x,x)
+x = gauss(x)*gauss(y)
+
+blur = np.real(np.fft.ifft2(np.fft.fft2(img)*np.fft.fft2(np.fft.fftshift(x))))
+blur = np.abs(blur)
+mask = img.__copy__()
+mask[mask>0]=1
+
+mask = np.real(np.fft.ifft2(np.fft.fft2(mask)*np.fft.fft2(np.fft.fftshift(x))))
+mask[mask<0]=0
+mask=mask + np.amin(blur)+1E-3
+
+
+
+plt.figure()
+plt.imshow(blur/mask)
 plt.show()
