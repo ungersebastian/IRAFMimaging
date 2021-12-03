@@ -4,7 +4,7 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = empty-project-type
-recent_files = ['tda_test.py', 'tda_new_try.py', '..\\..\\..\\.conda\\envs\\savu\\lib\\site-packages\\numpy\\lib\\function_base.py']
+recent_files = ['tda_test.py', 'tda_new_try.py', 'utils_chemometrics.py', 'hyPiRana2.py']
 
 [main]
 version = 0.2.0
