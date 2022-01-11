@@ -15,8 +15,8 @@ Goals for publication:
 1. TDA on Bacillus subtilis
 - The scientific questions is to show: PiFM can reveal the local interaction of Vancomycin with the bacteria wall & TDA is a suitable tool to reveal this in the hyperspectral data
 - The interaction of the antibiotics Vancomycin with the bateria wall of Bacillus subtilis is well-studied. The spectral areas of interaction are seen in the difference spectra described in Robins Master Thesis which can be found in „Reports“
-— We have also spectra of Vancomycin and of peptidoglycan, as well as of D-Ala-D-Ala main ingredients of the interaction.
-— One advantage of TDA in this case is the sensitivity to small changes in small data sets
+- We have also spectra of Vancomycin and of peptidoglycan, as well as of D-Ala-D-Ala main ingredients of the interaction.
+- One advantage of TDA in this case is the sensitivity to small changes in small data sets
 
 2. TDA on human RPE granules (Retina)
 - The scientific question here is: PIFM can show reasonable differences between single granules. The method is suitable to study surface variations of granules related to age dependent degeneration
