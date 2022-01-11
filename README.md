@@ -47,6 +47,7 @@ Bacillus subtilis (data sets have different spectral range):
 - 2105_BacVan15_1490-1659cm-1 - CaF2 file for calibration not yet ready
 - 2105_BacVan30_1351-1659cm-1 — CaF2 file for calibration not yet ready
 - 2107_Control30_1351-1659cm-1 — CaF2 file for calibration not yet ready
+- 2107_BacVan30_1351-1659cm-1 - CaF2 file for calibration not ready
 - 2108_BacVan15_1400-1659cm-1 — CaF2 file for calibration not yet ready
 - 2108_BacVan60_1400-1659cm-1 — CaF2 file for calibration not yet ready
 - 2108_Control60_1400-1659cm-1 — CaF2 file for calibration not yet ready
