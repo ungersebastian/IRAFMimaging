@@ -11,6 +11,17 @@ So far experimental methods have been:
 - Raman spectroscopy
 - optical photothermal infrared spectroscopy (O-PTIR)
 
+Goals for publication:
+1. TDA on Bacillus subtilis
+- The scientific questions is to show: PiFM can reveal the local interaction of Vancomycin with the bacteria wall & TDA is a suitable tool to reveal this in the hyperspectral data
+— The interaction of the antibiotics Vancomycin with the bateria wall of Bacillus subtilis is well-studied. The spectral areas of interaction are seen in the difference spectra described in Robins Master Thesis which can be found in „Reports“
+— We have also spectra of Vancomycin and of peptidoglycan, as well as of D-Ala-D-Ala main ingredients of the interaction.
+— One advantage of TDA in this case is the sensitivity to small changes in small data sets
+
+2. TDA on human RPE granules (Retina)
+- The scientific question here is: PIFM can show reasonable differences between single granules. The method is suitable to study surface variations of granules related to age dependent degeneration
+- The surface chemistry of the granules is not fully known.
+- We have single spectra of some relevant chemicals, in particular one type of melanin and of retinal (see Robin’s internship report) 
 
 **Subtopics are sorted in folders:**
 1. NanIRim: processing and comparing scan images (mainly PiFM)
@@ -23,3 +34,9 @@ So far experimental methods have been:
 
 3. SpecTools: basic tools for background subtraction etc.
 
+**Ressources in folder ressources in NanIRspec:**
+Retina (many laser failures in those spectra):
+- 3 data sets on Ret 24 obtained on succeeding days. Two options for CaF2 substrate correction possible, but only the so far better one of the substrate calibration files uploaded
+- 2 data sets on ret29 from a very dry sample obtained on succeeding days. Two different QCL chips used for those hyperspectral scans. They failed not at the same time. So a suggestion would be to just analyse the matching range to Ret24 and leave the other one out
+
+Bacillus subtilis:
