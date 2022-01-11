@@ -40,11 +40,14 @@ Retina (many laser failures in those spectra):
 - 3 data sets on Ret 24 obtained on succeeding days. Two options for CaF2 substrate correction possible, but only the so far better one of the substrate calibration files uploaded
 - 2 data sets on ret29 from a very dry sample obtained on succeeding days. Two different QCL chips used for those hyperspectral scans. They failed not at the same time. So a suggestion would be to just analyse the matching range to Ret24 and leave the other one out
 
-Bacillus subtilis (data sets have different spectral range:
-- 2108_BacVan30_1400-1659cm-1 — CaF2 file for calibration available — best data set! —
+Bacillus subtilis (data sets have different spectral range):
+- 2108_BacVan30_1400-1659cm-1 — CaF2 file for calibration available — best data set!
 - 2108_Control30_1400-1659cm-1 — CaF2 file for calibration available
-- 2107_BacVan30-weak_989-1349cm-1 — CaF2 file for calibration available — vey weak data set
+- 2107_BacVan30-weak_989-1349cm-1 — CaF2 file for calibration available — very weak data set
 - 2105_BacVan15_1490-1659cm-1 - CaF2 file for calibration not yet ready
 - 2105_BacVan30_989-1349cm-1 — CaF2 file for calibration not yet ready
 - 2105_BacVan30_1351-1659cm-1 — CaF2 file for calibration not yet ready
-
+- 2107_Control30_1351-1659cm-1 — CaF2 file for calibration not yet ready
+- 2108_BacVan15_1400-1659cm-1 — CaF2 file for calibration not yet ready
+- 2108_BacVan60_1400-1659cm-1 — CaF2 file for calibration not yet ready
+- 2108_Control60_1400-1659cm-1 — CaF2 file for calibration not yet ready
