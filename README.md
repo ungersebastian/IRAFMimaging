@@ -35,6 +35,7 @@ Goals for publication:
 3. SpecTools: basic tools for background subtraction etc.
 
 **Ressources in folder ressources in NanIRspec:**
+
 Retina (many laser failures in those spectra):
 - 3 data sets on Ret 24 obtained on succeeding days. Two options for CaF2 substrate correction possible, but only the so far better one of the substrate calibration files uploaded
 - 2 data sets on ret29 from a very dry sample obtained on succeeding days. Two different QCL chips used for those hyperspectral scans. They failed not at the same time. So a suggestion would be to just analyse the matching range to Ret24 and leave the other one out
