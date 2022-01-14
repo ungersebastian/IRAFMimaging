@@ -15,7 +15,11 @@ headerfile = 'BacVan30_0013.txt'
 my_data = ir(path_final, headerfile)
 pos =  [my_file['Caption']=='hyPIRFwd' for my_file in my_data['files']]
 hyPIRFwd = np.array(my_data['files'])[pos][0]
-data = np.reshape(hyPIRFwd['data'], (hyPIRFwd['data'].shape[0]*hyPIRFwd['data'].shape[1], hyPIRFwd['data'].shape[2]))
+data = np.reshape(hyPIRFwd['data'], (1,hyPIRFwd['data'].shape[0],hyPIRFwd['data'].shape[1], hyPIRFwd['data'].shape[2]))
+
+
+#%%
+
 
 l2 = np.sqrt(np.sum(data**2, axis = 1))
 n_data = data.shape[0]

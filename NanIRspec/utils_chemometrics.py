@@ -9,7 +9,7 @@ Created on Thu Jun 24 10:18:18 2021
 from sklearn.decomposition import PCA
 import numpy as np
 
-def norm(data, pNorm = None, axis = 1):
+def norm(data, pNorm = None, axis = 1, centered = False):
     if norm == None:
         return data
     if len(data)==0:
@@ -17,16 +17,23 @@ def norm(data, pNorm = None, axis = 1):
         return None
     else:
         data = np.array(data)
-    if pNorm == np.infty:
+    if pNorm == 'var':
+        data_norm = (np.var(data, axis = axis))
+    if pNorm == 'std':
+        data_norm = (np.std(data, axis = axis))
+    elif pNorm == np.infty:
         data_norm = np.amax(np.abs(data), axis = axis)
     elif pNorm > 0:
         data_norm = (np.sum(np.abs(data)**pNorm, axis = axis))**(1/pNorm)
+    
     else:
         print('Warning: norm not implemented')
         return data
     
     data = np.array([d/n if n > 0 else np.zeros(len(d)) for d, n in zip(data, data_norm)])    
     
+    if centered == True:
+        data = np.array([d-np.mean(d) for d in data])
     return data
             
 class pca(object):
