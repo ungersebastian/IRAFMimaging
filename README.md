@@ -55,3 +55,6 @@ Bacillus subtilis (data sets have different spectral range):
 Two hyperspectral data sets of a the peptide D-Ala-D-Ala incubated with Vancomycin:
 - 2104_DalVan_989-1349cm-1 - CaF2 file for calibration not yet ready
 - 2104_DalVan_1351-1659cm-1- CaF2 file for calibration not yet ready
+
+E-coli nissle 1917 data sets
+- 2201_NissleAB-989-1349cm-1 - CaF2 file for calibration not yet ready
