@@ -1,0 +1,254 @@
+
+;ANFATEC Parameterfile
+
+Version : 1.12
+VistaScanVersion : 2.2.0.42
+Date : 01/21/2022
+Time : 07:42:14 AM
+UTCDateTime : 2022/01/21 06:42:14
+UserName : Daniela
+ComputerName : PIFM-1925773
+SampleName : NissleAB
+CantileverType : NCHPt
+CantileverID : NCHPt-dte40
+Scanner : Scan controller (Scanner)
+Scanner calibration : Scanner parameters from VS22 12APR18.ini
+Objective calibration : softlinObjective.ini
+Head calibration : softlinHead.ini
+Lockin calibration : controller_574-580-549-16.ini
+StartDate : 01/20/2022
+StartTime : 02:28:12 PM
+
+FeedbackMode     : pifm_hypir
+FeedbackModePiFM : 22
+SetPoint         : 85
+SetPointPhysUnit : V
+FeedBackModus    : ncAFM R
+Bias             : 0
+BiasPhysUnit     : mV
+Ki               : 3000
+Kp               : 1
+
+FastZKi    : 0.2
+FastZKp    : 0
+FastZTd    : 0
+FastZAlpha : 3
+
+XStage     : -316.632395 ; µm
+YStage     : -244.688995 ; µm
+XScanRange : 0.41796875
+YScanRange : 0.41796875
+XPhysUnit  : µm
+YPhysUnit  : µm
+Speed      : 0.1 ; lines/sec
+Angle      : 0 ; degrees
+xPixel     : 32
+yPixel     : 32
+yCenter    : 7.91862745098039
+xCenter    : 10.3509803921569
+dzdx       : 0
+dzdy       : 0
+overscan[%]: 2.5
+
+LockInFreq         : 1547597.25
+LockInFreqPhysUnit : Hz
+LockInAmpl         : 2.37141937534744
+LockInAmplPhysUnit : V
+LockInPhysAmpl         : 1
+LockInPhysAmplPhysUnit : nm
+
+TimeConstant  : 5 ms
+RollOff       : 12 db/oct
+DetectionFrequency : 248693.796875
+Laser1State     : On
+Laser1Name     : Laser wrapper [Q0259]
+Laser1LaserWavelength: 7401.9245003701 ; nm
+Laser1DutyCycle : 50 ; %
+Laser1VoltageLow: 0.5 ; V
+Laser1VoltageHigh: 5 ; V
+Laser1Frequency : 1298903.453125 ; Hz
+
+FileDescBegin
+FileName : NissleAB0013PiFMFwd.int
+Caption  : PiFMFwd
+Scale    : 1.10166928173087e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDesc2Begin
+FileName : NissleAB0013hyPIRFwd.int
+Caption  : hyPIRFwd
+BytesPerPixel : 1236
+Scale    : 1e-9
+PhysUnit : V
+Offset   : 0
+DataType : Spectrogram
+BytesPerReading : 4
+FileNameWavelengths : NissleAB0013hyPIRFwdWavelengths.txt
+PhysUnitWavelengths : 1/cm
+StitchWavelengths: 10121.4574898785 7407.40740740741 6024.09638554217
+FileDesc2End
+
+FileDescBegin
+FileName : NissleAB0013TopographyFwd.int
+Caption  : TopographyFwd
+Scale    : 3.9014e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : NissleAB0013AFMHead-ZFwd.int
+Caption  : AFMHead-ZFwd
+Scale    : -2.834e-7
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : NissleAB0013Scanner-ZFwd.int
+Caption  : Scanner-ZFwd
+Scale    : -3.618e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : NissleAB0013AmplitudeFwd.int
+Caption  : AmplitudeFwd
+Scale    : 3.01143288806455e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : NissleAB0013PhaseFwd.int
+Caption  : PhaseFwd
+Scale    : 1e-3
+PhysUnit : °
+Offset   : 0
+FileDescEnd
+
+FileDesc2Begin
+FileName : NissleAB0013PiFM TunerFwd.int
+Caption  : PiFM TunerFwd
+BytesPerPixel : 120
+Scale    : 3.01143e-9
+PhysUnit : V
+Offset   : 0
+DataType : Spectrogram
+BytesPerReading : 4
+FileNameWavelengths : NissleAB0013PiFM TunerFwdWavelengths.txt
+PhysUnitWavelengths : Hz
+FileDesc2End
+
+
+AFMSpectrumDescBegin
+FileName  : NissleAB0013_powerspectrum_LaserTune LT-OEM[Q0259].txt
+SpectrumType: Optical
+AFMSpectrumDescEnd
+
+;(at 2022/01/20 14:27:53): Apply parameters (SetFeedback)
+;  Scan position: line=63 dir=Down
+;  feedbackmode=4
+;  setpoint=85
+;  ki=3000
+;  kp=1
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage (with specified scale)
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage (with specified scale)
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage (with specified scale)
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Apply parameters (SetFeedback)
+;  Scan position: line=63 dir=Down
+;  feedbackmode=4
+;  setpoint=85
+;  ki=3000
+;  kp=1
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage (with specified scale)
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage (with specified scale)
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage (with specified scale)
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage (with specified scale)
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage (with specified scale)
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage (with specified scale)
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Apply parameters (SetFeedback)
+;  Scan position: line=63 dir=Down
+;  feedbackmode=4
+;  setpoint=85
+;  ki=3000
+;  kp=1
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage (with specified scale)
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage (with specified scale)
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage (with specified scale)
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Apply parameters (SetFeedback)
+;  Scan position: line=63 dir=Down
+;  feedbackmode=4
+;  setpoint=85
+;  ki=3000
+;  kp=1
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage (with specified scale)
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage (with specified scale)
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage (with specified scale)
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Apply parameters (SetFeedback)
+;  Scan position: line=63 dir=Down
+;  feedbackmode=4
+;  setpoint=85
+;  ki=3000
+;  kp=1
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage (with specified scale)
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage (with specified scale)
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/20 14:27:53): Set cantilever drive voltage (with specified scale)
+;  Scan position: line=63 dir=Down
+;  voltage = 2.37141937534744
+;(at 2022/01/21 07:42:14): Completed scan

@@ -58,3 +58,4 @@ Two hyperspectral data sets of a the peptide D-Ala-D-Ala incubated with Vancomyc
 
 E-coli nissle 1917 data sets
 - 2201_NissleAB-989-1349cm-1 - CaF2 file for calibration not yet ready
+- 2201_NissleAB-1351-1659cm-1 - CaF2 file for calibration not yet ready
