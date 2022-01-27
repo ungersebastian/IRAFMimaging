@@ -44,13 +44,13 @@ Bacillus subtilis (data sets have different spectral range):
 - 2108_BacVan30_1400-1659cm-1 — CaF2 file for calibration available — best data set!
 - 2108_Control30_1400-1659cm-1 — CaF2 file for calibration available
 - 2105_BacVan30_989-1349cm-1 — CaF2 file for calibration available — different data range!
-- 2105_BacVan15_1490-1659cm-1 - CaF2 file for calibration not yet ready
+- 2105_BacVan15_1490-1659cm-1 - CaF2 file for calibration available
 - 2105_BacVan30_1351-1659cm-1 — CaF2 file for calibration available
-- 2107_Control30_1351-1659cm-1 — CaF2 file for calibration not yet ready
-- 2107_BacVan30_1351-1659cm-1 - CaF2 file for calibration not ready
-- 2108_BacVan15_1400-1659cm-1 — CaF2 file for calibration not yet ready
-- 2108_BacVan60_1400-1659cm-1 — CaF2 file for calibration not yet ready
-- 2108_Control60_1400-1659cm-1 — CaF2 file for calibration not yet ready
+- 2107_Control30_1351-1659cm-1 — CaF2 file for calibration available!!
+- 2107_BacVan30_1351-1659cm-1 - CaF2 file for calibration available!!
+- 2108_BacVan15_1400-1659cm-1 — CaF2 file for calibration available!!
+- 2108_BacVan60_1400-1659cm-1 — CaF2 file for calibration available!!
+- 2108_Control60_1400-1659cm-1 — CaF2 file for calibration available!!
 
 Two hyperspectral data sets of a the peptide D-Ala-D-Ala incubated with Vancomycin:
 - 2104_DalVan_989-1349cm-1 - CaF2 file for calibration not yet ready
