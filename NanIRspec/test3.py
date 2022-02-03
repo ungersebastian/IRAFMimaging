@@ -9,9 +9,38 @@ from matplotlib.colors import LightSource
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import matplotlib.image as mpimg
+import os
 
+path_project = path.dirname(path.realpath(__file__))
+path_final = path.join(path_project, r'resources\BacillusSubtilis\2108_BacVan30_1400-1659cm-1')
+headerfile = 'BacVan30_0011.txt'
 
+my_data = ir(path_final, headerfile)
+pos =  [my_file['Caption']=='hyPIRFwd' for my_file in my_data['files']]
+hyPIRFwd = np.array(my_data['files'])[pos][0]
+data = np.reshape(hyPIRFwd['data'], (1,hyPIRFwd['data'].shape[0],hyPIRFwd['data'].shape[1], hyPIRFwd['data'].shape[2]))
 
+pos =  [my_file['Caption']=='TopographyFwd' for my_file in my_data['files']]
+topo = np.array(my_data['files'])[pos][0]
+topo = topo['data']
+
+intim = np.sum(data, axis = -1)[0]
+
+plt.imsave('temp.png',intim)
+img = mpimg.imread('temp.png')
+os.remove('temp.png')
+
+X,Y = np.meshgrid(*(np.arange(s) for s in topo.shape))
+
+#Plotting
+fig = plt.figure(figsize = [5, 5])
+ax = fig.add_subplot(111, projection='3d')
+ax.plot_surface(X, Y, topo, rstride=1, cstride=1, facecolors=img, linewidth=0, antialiased=False, shade=False)
+
+#%%
+
+"""
 data = pd.read_csv('BacVan30_0011hyPIRFwdWavelengths.txt', skiprows=[0], delimiter="\t")
 wave = data.iloc[:,0]
 Inten = data.iloc[:,1]
@@ -45,3 +74,4 @@ ax.plot_surface(X, Y, z, rstride=1, cstride=1, facecolors=rgb, linewidth=0, anti
 
 
 
+"""
