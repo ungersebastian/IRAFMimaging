@@ -1,0 +1,152 @@
+
+;ANFATEC Parameterfile
+
+Version : 1.12
+VistaScanVersion : 2.2.0.42
+Date : 02/20/2022
+Time : 03:22:53 PM
+UTCDateTime : 2022/02/20 14:22:53
+UserName : Daniela
+ComputerName : PIFM-1925773
+SampleName : Nissel Cefo 22-02-15
+CantileverType : NCHPt
+CantileverID : NCHPt-dte43
+Scanner : Scan controller (Scanner)
+Scanner calibration : Scanner parameters from VS22 12APR18.ini
+Objective calibration : softlinObjective.ini
+Head calibration : softlinHead.ini
+Lockin calibration : controller_574-580-549-16.ini
+StartDate : 02/19/2022
+StartTime : 07:36:39 PM
+
+FeedbackMode     : pifm_hypir
+FeedbackModePiFM : 22
+SetPoint         : 85
+SetPointPhysUnit : V
+FeedBackModus    : ncAFM R
+Bias             : 0
+BiasPhysUnit     : mV
+Ki               : 3000
+Kp               : 1
+
+FastZKi    : 0.2
+FastZKp    : 0
+FastZTd    : 0
+FastZAlpha : 3
+
+XStage     : 200.211149999999 ; µm
+YStage     : -301.23142 ; µm
+XScanRange : 0.812530517578125
+YScanRange : 0.812530517578125
+XPhysUnit  : µm
+YPhysUnit  : µm
+Speed      : 0.1 ; lines/sec
+Angle      : 0 ; degrees
+xPixel     : 32
+yPixel     : 32
+yCenter    : 7.38
+xCenter    : 1.1
+dzdx       : 0
+dzdy       : 0
+overscan[%]: 2.5
+
+LockInFreq         : 1583762.375
+LockInFreqPhysUnit : Hz
+LockInAmpl         : 2.81694134103373
+LockInAmplPhysUnit : V
+LockInPhysAmpl         : 1
+LockInPhysAmplPhysUnit : nm
+
+TimeConstant  : 5 ms
+RollOff       : 12 db/oct
+DetectionFrequency : 268741.1875
+Laser1State     : On
+Laser1Name     : Laser wrapper [Q0259]
+Laser1LaserWavelength: 7401.9245003701 ; nm
+Laser1DutyCycle : 50 ; %
+Laser1VoltageLow: 0.5 ; V
+Laser1VoltageHigh: 5 ; V
+Laser1Frequency : 1315021.1875 ; Hz
+
+FileDescBegin
+FileName : NissleAB0008PiFMFwd.int
+Caption  : PiFMFwd
+Scale    : 4.24766723632953e-7
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDesc2Begin
+FileName : NissleAB0008hyPIRFwd.int
+Caption  : hyPIRFwd
+BytesPerPixel : 1236
+Scale    : 1e-9
+PhysUnit : V
+Offset   : 0
+DataType : Spectrogram
+BytesPerReading : 4
+FileNameWavelengths : NissleAB0008hyPIRFwd002Wavelengths.txt
+PhysUnitWavelengths : 1/cm
+StitchWavelengths: 10121.4574898785 7407.40740740741 6024.09638554217
+FileDesc2End
+
+FileDescBegin
+FileName : NissleAB0008TopographyFwd.int
+Caption  : TopographyFwd
+Scale    : 3.9014e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : NissleAB0008AFMHead-ZFwd.int
+Caption  : AFMHead-ZFwd
+Scale    : -2.834e-7
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : NissleAB0008Scanner-ZFwd.int
+Caption  : Scanner-ZFwd
+Scale    : -3.618e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : NissleAB0008AmplitudeFwd.int
+Caption  : AmplitudeFwd
+Scale    : 3.01143288806455e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : NissleAB0008PhaseFwd.int
+Caption  : PhaseFwd
+Scale    : 1e-3
+PhysUnit : °
+Offset   : 0
+FileDescEnd
+
+FileDesc2Begin
+FileName : NissleAB0008PiFM TunerFwd.int
+Caption  : PiFM TunerFwd
+BytesPerPixel : 120
+Scale    : 3.01143e-9
+PhysUnit : V
+Offset   : 0
+DataType : Spectrogram
+BytesPerReading : 4
+FileNameWavelengths : NissleAB0008PiFM TunerFwd002Wavelengths.txt
+PhysUnitWavelengths : Hz
+FileDesc2End
+
+
+AFMSpectrumDescBegin
+FileName  : NissleAB0008_powerspectrum_LaserTune LT-OEM[Q0259].txt
+SpectrumType: Optical
+AFMSpectrumDescEnd
+
+;(at 2022/02/20 15:22:53): Completed scan
