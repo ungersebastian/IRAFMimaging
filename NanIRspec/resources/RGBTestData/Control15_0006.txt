@@ -1,0 +1,415 @@
+
+;ANFATEC Parameterfile
+
+Version : 1.12
+VistaScanVersion : 2.2.0.42
+Date : 08/10/2021
+Time : 09:29:14 PM
+UTCDateTime : 2021/08/10 19:29:14
+UserName : Daniela
+ComputerName : PIFM-1925773
+SampleName : Control15
+CantileverType : NCHPt
+CantileverID : NCHPt-dte33
+Scanner : Scan controller (Scanner)
+Scanner calibration : Scanner parameters from VS22 12APR18.ini
+Objective calibration : softlinObjective.ini
+Head calibration : softlinHead.ini
+Lockin calibration : controller_574-580-549-16.ini
+StartDate : 08/10/2021
+StartTime : 08:46:01 PM
+
+FeedbackMode     : opticalforce
+FeedbackModePiFM : 22
+SetPoint         : 85
+SetPointPhysUnit : V
+FeedBackModus    : ncAFM R
+Bias             : 0
+BiasPhysUnit     : mV
+Ki               : 3000
+Kp               : 1
+
+FastZKi    : 0.2
+FastZKp    : 0
+FastZTd    : 0
+FastZAlpha : 3
+
+XStage     : 212.54291 ; µm
+YStage     : -184.342 ; µm
+XScanRange : 9
+YScanRange : 9
+XPhysUnit  : µm
+YPhysUnit  : µm
+Speed      : 0.2 ; lines/sec
+Angle      : 0 ; degrees
+xPixel     : 512
+yPixel     : 512
+yCenter    : -7.63983970315399
+xCenter    : 9.2362241187384
+dzdx       : 0
+dzdy       : 0
+overscan[%]: 2.5
+
+LockInFreq         : 1700415.5625
+LockInFreqPhysUnit : Hz
+LockInAmpl         : 0.0456358496665072
+LockInAmplPhysUnit : V
+LockInPhysAmpl         : 1
+LockInPhysAmplPhysUnit : nm
+
+TimeConstant  : 2 ms
+RollOff       : 12 db/oct
+DetectionFrequency : 270562.65625
+Laser1State     : On
+Laser1Name     : Laser wrapper [Q0259]
+Laser1LaserWavelength: 6203.47394540943 ; nm
+Laser1DutyCycle : 50 ; %
+Laser1VoltageLow: 0.5 ; V
+Laser1VoltageHigh: 5 ; V
+Laser1Frequency : 1429852.90625 ; Hz
+
+FileDescBegin
+FileName : Control15_0006TopographyFwd.int
+Caption  : TopographyFwd
+Scale    : 3.9014e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Control15_0006TopographyBwd.int
+Caption  : TopographyBwd
+Scale    : 3.9014e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Control15_0006AFMHead-ZFwd.int
+Caption  : AFMHead-ZFwd
+Scale    : -2.834e-7
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Control15_0006AFMHead-ZBwd.int
+Caption  : AFMHead-ZBwd
+Scale    : -2.834e-7
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Control15_0006Scanner-ZFwd.int
+Caption  : Scanner-ZFwd
+Scale    : -3.618e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Control15_0006Scanner-ZBwd.int
+Caption  : Scanner-ZBwd
+Scale    : -3.618e-6
+PhysUnit : nm
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Control15_0006AmplitudeFwd.int
+Caption  : AmplitudeFwd
+Scale    : 3.01143288806455e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Control15_0006AmplitudeBwd.int
+Caption  : AmplitudeBwd
+Scale    : 3.01143288806455e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Control15_0006PhaseFwd.int
+Caption  : PhaseFwd
+Scale    : 1e-3
+PhysUnit : °
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Control15_0006PhaseBwd.int
+Caption  : PhaseBwd
+Scale    : 1e-3
+PhysUnit : °
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Control15_0006PiFFwd.int
+Caption  : PiFFwd
+Scale    : 3.01143288806455e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Control15_0006PiFBwd.int
+Caption  : PiFBwd
+Scale    : 3.01143288806455e-9
+PhysUnit : V
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Control15_0006PolarizerPositionFwd.int
+Caption  : PolarizerPositionFwd
+Scale    : 1
+PhysUnit : steps
+Offset   : 0
+FileDescEnd
+
+FileDescBegin
+FileName : Control15_0006PolarizerPositionBwd.int
+Caption  : PolarizerPositionBwd
+Scale    : 1
+PhysUnit : steps
+Offset   : 0
+FileDescEnd
+
+
+
+AFMSpectrumDescBegin
+FileName  : Control15_0006_afmspectrum0001.txt
+SpectrumType: Optical
+PositionX : 10.9534452537678
+PositionY : -4.67212933133403
+Attenuation: 1
+Clip      : 0.01
+TimeConstant: 50 ms
+ModulationFrequency: 1429852.90625
+MixMode: Sideband Difference
+StitchWavelengths: 10121.4574898785 7407.40740740741 6024.09638554217
+AFMSpectrumDescEnd
+
+AFMSpectrumDescBegin
+FileName  : Control15_0006_powerspectrum_LaserTune LT-OEM[Q0259].txt
+SpectrumType: Optical
+AFMSpectrumDescEnd
+
+AFMSpectrumDescBegin
+FileName  : Control15_0006_afmspectrum0002.txt
+SpectrumType: Optical
+PositionX : 10.8477701069967
+PositionY : -4.54884166010115
+Attenuation: 1
+Clip      : 0.01
+TimeConstant: 50 ms
+ModulationFrequency: 1429852.90625
+MixMode: Sideband Difference
+StitchWavelengths: 10121.4574898785 7407.40740740741 6024.09638554217
+AFMSpectrumDescEnd
+
+AFMSpectrumDescBegin
+FileName  : Control15_0006_afmspectrum0003.txt
+SpectrumType: Optical
+PositionX : 10.9358327293059
+PositionY : -4.44316651333011
+Attenuation: 1
+Clip      : 0.01
+TimeConstant: 50 ms
+ModulationFrequency: 1429852.90625
+MixMode: Sideband Difference
+StitchWavelengths: 10121.4574898785 7407.40740740741 6024.09638554217
+AFMSpectrumDescEnd
+
+GridDescBegin
+ID    : Grid_20210810_213942_677608475
+StartX: 11.7372025923196
+StartY: -4.68093559356495
+CountX: 11
+CountY: 1
+StepX_x: -0.049767500677765
+StepX_y: -0.00481620974300954
+StepY_x: 0
+StepY_y: 0
+GridDescEnd
+
+AFMSpectrumDescBegin
+FileName  : Control15_0006_afmspectrum0004.txt
+SpectrumType: Optical
+PositionX : 11.7372025923196
+PositionY : -4.68093559356495
+GridID: Grid_20210810_213942_677608475
+GridX: 0
+GridY: 0
+Attenuation: 1
+Clip      : 0.01
+TimeConstant: 50 ms
+ModulationFrequency: 1429852.90625
+MixMode: Sideband Difference
+StitchWavelengths: 10121.4574898785 7407.40740740741 6024.09638554217
+AFMSpectrumDescEnd
+
+AFMSpectrumDescBegin
+FileName  : Control15_0006_afmspectrum0005.txt
+SpectrumType: Optical
+PositionX : 11.6874350916419
+PositionY : -4.68575180330796
+GridID: Grid_20210810_213942_677608475
+GridX: 0
+GridY: 1
+Attenuation: 1
+Clip      : 0.01
+TimeConstant: 50 ms
+ModulationFrequency: 1429852.90625
+MixMode: Sideband Difference
+StitchWavelengths: 10121.4574898785 7407.40740740741 6024.09638554217
+AFMSpectrumDescEnd
+
+AFMSpectrumDescBegin
+FileName  : Control15_0006_afmspectrum0006.txt
+SpectrumType: Optical
+PositionX : 11.6376675909641
+PositionY : -4.69056801305097
+GridID: Grid_20210810_213942_677608475
+GridX: 0
+GridY: 2
+Attenuation: 1
+Clip      : 0.01
+TimeConstant: 50 ms
+ModulationFrequency: 1429852.90625
+MixMode: Sideband Difference
+StitchWavelengths: 10121.4574898785 7407.40740740741 6024.09638554217
+AFMSpectrumDescEnd
+
+AFMSpectrumDescBegin
+FileName  : Control15_0006_afmspectrum0007.txt
+SpectrumType: Optical
+PositionX : 11.5879000902863
+PositionY : -4.69538422279398
+GridID: Grid_20210810_213942_677608475
+GridX: 0
+GridY: 3
+Attenuation: 1
+Clip      : 0.01
+TimeConstant: 50 ms
+ModulationFrequency: 1429852.90625
+MixMode: Sideband Difference
+StitchWavelengths: 10121.4574898785 7407.40740740741 6024.09638554217
+AFMSpectrumDescEnd
+
+AFMSpectrumDescBegin
+FileName  : Control15_0006_afmspectrum0008.txt
+SpectrumType: Optical
+PositionX : 11.5381325896086
+PositionY : -4.70020043253698
+GridID: Grid_20210810_213942_677608475
+GridX: 0
+GridY: 4
+Attenuation: 1
+Clip      : 0.01
+TimeConstant: 50 ms
+ModulationFrequency: 1429852.90625
+MixMode: Sideband Difference
+StitchWavelengths: 10121.4574898785 7407.40740740741 6024.09638554217
+AFMSpectrumDescEnd
+
+AFMSpectrumDescBegin
+FileName  : Control15_0006_afmspectrum0009.txt
+SpectrumType: Optical
+PositionX : 11.4883650889308
+PositionY : -4.70501664227999
+GridID: Grid_20210810_213942_677608475
+GridX: 0
+GridY: 5
+Attenuation: 1
+Clip      : 0.01
+TimeConstant: 50 ms
+ModulationFrequency: 1429852.90625
+MixMode: Sideband Difference
+StitchWavelengths: 10121.4574898785 7407.40740740741 6024.09638554217
+AFMSpectrumDescEnd
+
+AFMSpectrumDescBegin
+FileName  : Control15_0006_afmspectrum0010.txt
+SpectrumType: Optical
+PositionX : 11.438597588253
+PositionY : -4.709832852023
+GridID: Grid_20210810_213942_677608475
+GridX: 0
+GridY: 6
+Attenuation: 1
+Clip      : 0.01
+TimeConstant: 50 ms
+ModulationFrequency: 1429852.90625
+MixMode: Sideband Difference
+StitchWavelengths: 10121.4574898785 7407.40740740741 6024.09638554217
+AFMSpectrumDescEnd
+
+AFMSpectrumDescBegin
+FileName  : Control15_0006_afmspectrum0011.txt
+SpectrumType: Optical
+PositionX : 11.3888300875753
+PositionY : -4.71464906176601
+GridID: Grid_20210810_213942_677608475
+GridX: 0
+GridY: 7
+Attenuation: 1
+Clip      : 0.01
+TimeConstant: 50 ms
+ModulationFrequency: 1429852.90625
+MixMode: Sideband Difference
+StitchWavelengths: 10121.4574898785 7407.40740740741 6024.09638554217
+AFMSpectrumDescEnd
+
+AFMSpectrumDescBegin
+FileName  : Control15_0006_afmspectrum0012.txt
+SpectrumType: Optical
+PositionX : 11.3390625868975
+PositionY : -4.71946527150902
+GridID: Grid_20210810_213942_677608475
+GridX: 0
+GridY: 8
+Attenuation: 1
+Clip      : 0.01
+TimeConstant: 50 ms
+ModulationFrequency: 1429852.90625
+MixMode: Sideband Difference
+StitchWavelengths: 10121.4574898785 7407.40740740741 6024.09638554217
+AFMSpectrumDescEnd
+
+AFMSpectrumDescBegin
+FileName  : Control15_0006_afmspectrum0013.txt
+SpectrumType: Optical
+PositionX : 11.2892950862197
+PositionY : -4.72428148125203
+GridID: Grid_20210810_213942_677608475
+GridX: 0
+GridY: 9
+Attenuation: 1
+Clip      : 0.01
+TimeConstant: 50 ms
+ModulationFrequency: 1429852.90625
+MixMode: Sideband Difference
+StitchWavelengths: 10121.4574898785 7407.40740740741 6024.09638554217
+AFMSpectrumDescEnd
+
+AFMSpectrumDescBegin
+FileName  : Control15_0006_afmspectrum0014.txt
+SpectrumType: Optical
+PositionX : 11.239527585542
+PositionY : -4.72909769099504
+GridID: Grid_20210810_213942_677608475
+GridX: 0
+GridY: 10
+Attenuation: 1
+Clip      : 0.01
+TimeConstant: 50 ms
+ModulationFrequency: 1429852.90625
+MixMode: Sideband Difference
+StitchWavelengths: 10121.4574898785 7407.40740740741 6024.09638554217
+AFMSpectrumDescEnd
