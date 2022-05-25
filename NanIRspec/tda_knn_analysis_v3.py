@@ -24,6 +24,7 @@ from sklearn.neighbors import NearestNeighbors
 import networkx as nx
 import sklearn
 import functools
+from scipy.signal import medfilt
 
 from IRAFM import IRAFM as ir
 """#####################################################"""
@@ -46,10 +47,15 @@ path_project = path.dirname(path.realpath(__file__))
 #hyPIRFwd = np.array(my_data['files'])[pos][0]
 #data = np.reshape(hyPIRFwd['data'], (1,hyPIRFwd['data'].shape[0],hyPIRFwd['data'].shape[1], hyPIRFwd['data'].shape[2]))
 #data = data + 1E-10
-data = np.load(r'N:\Daten_Promotions_Sebastian\raman3D.npy')[:,50:-50,50:-50,250:350]
+#data = np.load(r'N:\Daten_Promotions_Sebastian\raman3D.npy')[:,60:-60,60:-60,260:340]
+data = np.load(r'N:\Daten_Promotions_Sebastian\raman3D.npy')[:,:,:,180:420]
+if data.ndim < 4:
+    data = np.reshape(data, (*list(np.ones(4-data.ndim).astype(int)), *data.shape))
 
+#%%
+
+    
 ################
-
 
 nZ,*imshape, vChan = data.shape
 
@@ -85,31 +91,10 @@ def poolNd(im, windowwidth = 3, fun = np.median):
     
     return data_red
 
-# for trying, rm later
-"""
-ww = [2,1,1,1]
-thresh = 0.005
-
-pool_mean = poolNd(data, ww, np.mean)
-pool_median = poolNd(data, ww, np.median)
-
-d = np.abs((pool_mean-pool_median)/(pool_mean+pool_median+np.mean(pool_mean)*1E-6))
-
-pool_mean[d>=thresh]=pool_median[d>=thresh]
-
-data_red = pool_mean
-
-nZ,*imshape, vChan = data_red.shape
-
-fig = plt.figure()
-fig.canvas.set_window_title('original data')
-plt.imshow(np.sum(data[nZ//2], axis = -1))
-plt.show()
-"""
 
 #%%
 
-def dist_lens(data, metric_name='cosine', nLensSteps=10):
+def fun_dist_lens(data, metric_name='cosine', nLensSteps=10):
     data_rs = np.reshape(data, (np.prod(data.shape[:-1]),data.shape[-1]))
     data_id = list(np.arange(len(data_rs)))
     
@@ -144,9 +129,9 @@ def dist_lens(data, metric_name='cosine', nLensSteps=10):
         distList.append(distOld)
     
     lensIm = np.zeros(len(lensList))
+    #lensIm[lensList] = np.array(distList)[lensList]
     lensIm[lensList] = distList
-    
-    return distList, lensIm
+    return distList, lensIm, lensList
 
 #%%
 # creating the lens
@@ -155,11 +140,15 @@ def dist_lens(data, metric_name='cosine', nLensSteps=10):
 
 metric_name = 'cosine' # euclidean, seuclidean, correlation, cosine
 nLensSteps = 10
-thresh = 0.005
-ww = [3,2,2,1]
+thresh = 0.010
+ww = [2,2,2,1]
 
 if functools.reduce(lambda i, j : i and j, map(lambda m, k: m == k, list(map(int,ww)), np.ones(data.ndim).astype(int)), True) : 
-    dist = squareform(pdist(data, metric_name))
+    distList, lensIm, lensList = fun_dist_lens(data, metric_name, nLensSteps)
+    
+    plt.figure()
+    plt.imshow(np.reshape(lensIm, (nZ,*imshape))[int((nZ/ww[0])//2)], cmap = 'hsv')
+    plt.show()
 else :
     pool_mean = poolNd(data, ww, np.mean)
     pool_median = poolNd(data, ww, np.median)
@@ -171,158 +160,192 @@ else :
     *imshape_red, vChan_red = pool_mean.shape
 
     data_red = np.reshape(pool_mean, (np.prod(pool_mean.shape[:-1]),pool_mean.shape[-1]))
-    """
-    distList, lensIm = dist_lens(data_red, metric_name, nLensSteps)
     
+    distList, lensIm, lensList = fun_dist_lens(data_red, metric_name, nLensSteps)
     
-    plt.figure()
-    plt.imshow(np.reshape(lensIm, imshape_red)[int((nZ/ww[0])//2)], cmap = 'hsv')
-    plt.show()
-    """
-    data_red_id = list(np.arange(len(data_red)))
+    #interpolate data to data_red lens values
+
+    iMax = len(distList)
+    new_lens = []
+    spc = np.reshape(data, (nZ*np.prod(imshape), vChan))
     
-    dist = squareform(pdist(data_red, metric_name))
+    eps = 1E-10
     
-    #np.fill_diagonal(dist, val = np.inf)
+    for i_s, s in enumerate(spc):
     
-    lensList = []
-    
-    mymax = np.amin([nLensSteps, dist.shape[0]])
-    sList = [np.sum(dist[i][np.argsort(dist[i])[:mymax]]) for i in data_red_id]
-    iStart = data_red_id[np.argmin(sList)]
-    lensList.append(data_red_id[iStart])
-    distList = [0]
-    distOld = 0
-    dist_lens = dist.__copy__()
-    id_lens = list(np.array(data_red_id).__copy__())
-    data_red_id = np.array(data_red_id)
-    
-    while(dist_lens.shape[0]>1):
-        iOld = iStart
-        dList = list(dist_lens[iOld])
-        dList = dList[:iOld]+dList[iOld+1:]
-        iList = np.argsort(dList)[:mymax]
+        s = np.reshape(s,(1,vChan))
+        dist_s = cdist(s, data_red, metric_name)[0]
         
-        id_lens.remove(id_lens[iOld])
-        dist_lens = np.delete(np.delete(dist_lens, iOld, axis = 0), iOld, axis = 1)
+        min_s = np.argmin(dist_s)
+        p_min = lensList.index(min_s)
         
-        sList = [np.sum(dist_lens[i][np.argsort(dist_lens[i])[:mymax]]) for i in iList]
+        if p_min == 0:
+            vec_min = [p_min, p_min+1]
+            dist_s = dist_s[np.asarray(lensList)[vec_min]]
+            dist_n = dist_s[1]-dist_s[0]
+            
+            o = dist_n / distList[1]
+            if o < 1:
+                dist_s = dist_s / (np.sum(dist_s) + eps)
+                
+                p = distList[vec_min[0]] * dist_s[1] + distList[vec_min[1]] * dist_s[0]
+            else:
+                dp = distList[1]-distList[0]
+                p = distList[0] - (dist_n-dp)
+                
+        elif p_min == iMax-1:
+            vec_min = [p_min-1, p_min]
+            
+            dist_s = dist_s[np.asarray(lensList)[vec_min]]
+            dist_n = dist_s[0]-dist_s[1]
+            o = dist_n / distList[-1]
+            if o < 1:
+                dist_s = dist_s / (np.sum(dist_s) + eps)
+                p = distList[vec_min[0]] * dist_s[1] + distList[vec_min[1]] * dist_s[0]
+            else:
+                dp = distList[-1]-distList[-2]
+                p = distList[-1] + np.abs(dist_n-dp)
         
-        iStart = iList[np.argmin(sList)]
-        lensList.append(id_lens[iStart])
-        distOld = distOld + dist[iOld, id_lens[iStart]]
-        distList.append(distOld)
-    
-    lensIm = np.zeros(len(lensList))
-    lensIm[lensList] = distList
-    
-    fig = plt.figure()
-    fig.canvas.set_window_title('scaled down data')
-    plt.imshow(np.sum(pool_mean[int((nZ/ww[0])//2)], axis = -1))
-    plt.show()
-    
-    plt.figure()
-    plt.imshow(np.reshape(lensIm, imshape_red)[int((nZ/ww[0])//2)], cmap = 'hsv')
-    plt.show()
-#%%
-
-
-
-
-
-
-
-#%%
-
-
-    
-if functools.reduce(lambda i, j : i and j, map(lambda m, k: m == k, [nZ,*imshape], imshape_red), True) : 
-    print ("The lists are identical")
-else :
-    print ("The lists are not identical")
-#%%
-#interpolate data to data_red lens values
-
-iMax = len(distList)
-new_lens = []
-spc = np.reshape(data, (nZ*np.prod(imshape), vChan))
-
-eps = 1E-10
-
-for i_s, s in enumerate(spc):
-
-    s = np.reshape(s,(1,vChan))
-    dist_s = cdist(s, data_red, metric_name)[0]
-    
-    min_s = np.argmin(dist_s)
-    p_min = lensList.index(min_s)
-    
-    if p_min == 0:
-        vec_min = [p_min, p_min+1]
-        dist_s = dist_s[np.asarray(lensList)[vec_min]]
-        dist_n = dist_s[1]-dist_s[0]
-        
-        o = dist_n / distList[1]
-        if o < 1:
+        else:
+            vec_min = [p_min-1, p_min, p_min+1]
+            dist_s = dist_s[np.asarray(lensList)[vec_min]]
+            
+            amin = np.argsort(dist_s)[:2]
+            
+            dist_s = np.asarray(dist_s)[amin]
             dist_s = dist_s / (np.sum(dist_s) + eps)
             
-            p = distList[vec_min[0]] * dist_s[1] + distList[vec_min[1]] * dist_s[0]
-        else:
-            dp = distList[1]-distList[0]
-            p = distList[0] - (dist_n-dp)
+            p = distList[vec_min[amin[0]]] * dist_s[1] + distList[vec_min[amin[1]]] * dist_s[0]
             
-    elif p_min == iMax-1:
-        vec_min = [p_min-1, p_min]
+        new_lens.append(p)
         
-        dist_s = dist_s[np.asarray(lensList)[vec_min]]
-        dist_n = dist_s[0]-dist_s[1]
-        o = dist_n / distList[-1]
-        if o < 1:
-            dist_s = dist_s / (np.sum(dist_s) + eps)
-            p = distList[vec_min[0]] * dist_s[1] + distList[vec_min[1]] * dist_s[0]
-        else:
-            dp = distList[-1]-distList[-2]
-            p = distList[-1] + np.abs(dist_n-dp)
+    new_lens = np.array(new_lens)
+    new_lens[np.isnan(new_lens)==True] = 0
     
-    else:
-        vec_min = [p_min-1, p_min, p_min+1]
-        dist_s = dist_s[np.asarray(lensList)[vec_min]]
-        
-        amin = np.argsort(dist_s)[:2]
-        
-        dist_s = np.asarray(dist_s)[amin]
-        dist_s = dist_s / (np.sum(dist_s) + eps)
-        
-        p = distList[vec_min[amin[0]]] * dist_s[1] + distList[vec_min[amin[1]]] * dist_s[0]
-        
-    new_lens.append(p)
+    plt.figure()
+    plt.imshow(np.reshape(new_lens, (nZ,*imshape))[int(nZ//2)], cmap = 'hsv')
+    plt.show()
     
-new_lens = np.array(new_lens)
-new_lens[np.isnan(new_lens)==True] = 0
-new_lens = (new_lens - np.amin(new_lens)) / (np.abs(np.amax(new_lens) - np.amin(new_lens))+eps)     
-new_lens[new_lens == np.NAN] = 0
-new_lens_im = np.reshape(new_lens, (nZ,*imshape))
-
-fig = plt.figure()
-fig.canvas.set_window_title('lens image')
-plt.imshow(new_lens_im[nZ//2])
-plt.show()
+"""    
+#%% start here
+distList, lensIm, lensList, new_lens
+imshape_red, nZ, imshape
 
 #%%
-plt.figure()
-plt.imshow(np.reshape(lensIm, imshape_red)[int((nZ/ww[0])//2)], cmap = 'hsv')
-plt.show()
+"""
+def get_coords(imshape, index):
+    
+    n_dim = len(imshape)
+    t = index
+    xl = []
+    
+    for it in range(n_dim):
+        p = np.prod(imshape[it+1:])
+        x = int(t // p)
+        t = t - x * p
+        xl.append(x)
+    
+    return tuple(xl)
+def extract(im, coords, widths):
+    shape = im.shape
+    tup = (slice(max((0,cc-ww)), min((cc+ww+1, ss)), 1) for cc, ww, ss in zip(coords, widths, shape))
+    return list(np.asarray(im[tuple(tup)]).flatten())
+def flatten_unique(t):
+    return list(np.sort(np.unique([item for sublist in t for item in sublist])))
 
-plt.figure()
-plt.imshow(np.reshape(new_lens, (nZ,*imshape))[nZ//2], cmap = 'hsv')
-plt.show()
-lens = (lensIm - np.amin(lensIm)) / (np.amax(lensIm) - np.amin(lensIm))
+dim = (nZ, *imshape)
+id_im = np.reshape(np.arange(np.prod(dim)),dim)
+
+
+spc = np.reshape(data.__copy__(), (nZ*np.prod(imshape), vChan))
+extra_width = (0,1,1)
+step = 3
+window = 600
+
+pre_sort = np.argsort(new_lens)
+
+id_list = []
+d_list = [0]
+ds_list = [0]
+
+d_old = 0
+
+while len(pre_sort)>0:
+
+    # das erste Element ist das in der ersten Zeile
+
+    i_old = 0
+    
+    id_sort = pre_sort[:window+1]
+    
+    #### ND hinzufügen
+
+    # um die vorgewählten Spektren werden die räumlichen Nachbarn hinzugefügt
+    extra_id = [get_coords((nZ,*imshape), ids) for ids in id_sort]
+    list_extra_id = [extract(id_im, tt, extra_width) for tt in extra_id]
+    list_extra_id = flatten_unique(list_extra_id)
+    # es werden nur die Spektren genommen, welche noch verfügbar sind
+    list_extra_id = list(set(pre_sort).intersection(list_extra_id))
+    
+    id_sort = np.array(list_extra_id)
+
+    #### Ende ND
+    
+    sort_dist = squareform(pdist(spc[id_sort], metric = metric_name))
+    np.fill_diagonal(sort_dist, np.infty)
+
+    for i_step in range(step):
+        
+        # alte ID hinzufügen
+        t = id_sort[i_old]
+        id_list.append(t)
+        
+        # 1 aktuelle Achse nehmen und auf neue Größe reduzieren
+        
+        ax = list(sort_dist[:,i_old])
+        ax = ax[:i_old]+ax[i_old+1:]
+        if len(ax) > 0:
+            
+            # Position neues Minimum auf redzierter Achse
+            i_new = np.argmin(ax)
+            d_new = ax[i_new]
+            
+            
+            # alte Einträge löschen
+            sort_dist = np.delete(np.delete(sort_dist, i_old, axis = 0), i_old, axis = 1)
+            id_sort = np.delete(id_sort, np.where(id_sort == t)[0][0])
+            pre_sort = np.delete(pre_sort, np.where(pre_sort == t)[0][0])
+            
+            # Distanzen hinzufügen
+            d_list.append(d_new)
+            ds_list.append(d_old+d_new)
+            
+            # aktualiserung der Einträge
+            d_old = d_old + d_new
+            i_old = i_new
+        else:
+            # alte Einträge löschen
+            pre_sort = np.delete(pre_sort, i_old)
+            break
+    if len(pre_sort)>0:
+        # an der Stelle wurden step-1 Elemente hinzugefügt     
+        # das nächste Element ist Startpunkt der nächsten step Elemente
+        pre_sort = list(pre_sort)
+        index = pre_sort.index(id_sort[i_old])
+        pre_sort = np.array([pre_sort[index]] + pre_sort[:index] + pre_sort[index+1:])
+    
+    print(float(int(1000*len(id_list)/len(spc)))/10)
+    
+#
+
+#%%
+print(len(id_list))
+print(len(np.unique(id_list)))
 
 #%%
 bins = 100
 
 b0 = np.round(bins * np.prod(imshape_red) / np.prod(imshape)*nZ).astype(int)
-
 
 plt.figure()
 plt.hist(new_lens, bins = bins)
@@ -332,14 +355,207 @@ plt.figure()
 plt.hist(lensIm, bins = b0)
 plt.show()
 
+plt.figure()
+plt.hist(ds_list, bins = b0)
+plt.show()
+
+#%%
+
+new_im = np.zeros(len(ds_list))
+new_im[id_list] = ds_list
+new_im = np.reshape(new_im, (nZ, *imshape))
+
+fig = plt.figure()
+fig.canvas.set_window_title('intensity image')
+plt.imshow(np.sum(data[nZ//2], axis = -1) , cmap = 'gray')
+plt.show()
+
+fig = plt.figure()
+fig.canvas.set_window_title('lens, pooling')
+plt.imshow(np.reshape(lensIm, imshape_red)[int((nZ/ww[0])//2)], cmap = 'gray')
+plt.show()
+
+fig = plt.figure()
+fig.canvas.set_window_title('lens, interpolation')
+plt.imshow(np.reshape(new_lens, (nZ,*imshape))[nZ//2], cmap = 'gray')
+plt.show()
+
+fig = plt.figure()
+fig.canvas.set_window_title('lens, sorting')
+plt.imshow(new_im[nZ//2], cmap = 'gray')
+plt.show()
+
+fig = plt.figure()
+fig.canvas.set_window_title('lens, pooling')
+plt.imshow(np.reshape(lensIm, imshape_red)[int((nZ/ww[0])//2)], cmap = 'hsv')
+plt.show()
+
+fig = plt.figure()
+fig.canvas.set_window_title('lens, interpolation')
+plt.imshow(np.reshape(new_lens, (nZ,*imshape))[nZ//2], cmap = 'hsv')
+plt.show()
+
+fig = plt.figure()
+fig.canvas.set_window_title('lens, sorting')
+plt.imshow(new_im[nZ//2], cmap = 'hsv')
+plt.show()
+
+#%%
+
+np.save("sorting_lens_2-2-2-1_0-1-1_3_600.npy", new_im)
+
+#%%
+
+metric_name = 'cosine'
+new_im = np.load("sorting_lens_2-2-2-1_0-1-1_3_600.npy")
+
+
+fig = plt.figure()
+fig.canvas.set_window_title('lens, sorting')
+plt.imshow(new_im[nZ//2], cmap = 'hsv')
+plt.show()
+
+plt.figure()
+plt.hist(new_im.flatten(), bins = 1000)
+plt.show()
+
+from scipy.ndimage import median_filter
+from scipy.ndimage.filters import convolve
+
+sorting = np.argsort(new_im.flatten())
+dl = np.sort(new_im.flatten())
+dl = dl[1:] - dl[:-1]
+
+fSize = 5
+thresh = 0.1
+q1 = 1
+q2 = 2
+eps = 1E-10
+
+weight = np.full((fSize), 1.0/fSize)
+dl_med = median_filter(dl, fSize)
+dl_mea = convolve(dl, weight)
+t = np.abs((dl_mea-dl_med)/(dl_med+dl_mea+eps))
+dl_mea[t>thresh] = dl_med[t>thresh]
+mea = np.mean(dl_mea)
+std = np.std(dl_mea)
+sel = dl_mea >= mea+q1*std
+off = dl_mea[sel]
+mi, ma = min(off), max(off)
+off = ((off-mi)/(ma-mi)) * ((q2-q1)*std) + mea+q1*std
+dl_mea[sel]=off
+
+old = 0
+lens = [0]
+for d in dl_mea:
+    old = old+d
+    lens.append(old)
+    
+plt.figure()
+plt.hist(lens, bins = 100)
+new_im_flat = np.zeros(len(lens))
+new_im_flat[sorting] = lens
+new_im_flat = np.reshape(new_im_flat, (nZ, *imshape))
+
+fig = plt.figure()
+fig.canvas.set_window_title('lens, sorting')
+plt.imshow(new_im_flat[nZ//2], cmap = 'hsv')
+plt.show()
+
+#%%
+
+resolution = 60
+resolution_windows = 1
+gain = 6
+method = 'ward'
+t = 10
+limit = 5
+
+
+my_lens = new_im_flat.flatten()
+
+resolution = np.ceil(resolution/resolution_windows).astype(int)*resolution_windows
+
+eps = 1E-3 # stretch the borders to get every point
+overlap = (gain-1)/gain
+
+data = np.reshape(data,(np.prod(data.shape[:-1]), data.shape[-1]))
+data_id = np.arange(len(data))
+
+minmax = np.amax(my_lens, axis = 0) - np.amin(my_lens, axis = 0)
+eps = (minmax/resolution)*eps
+mins = np.amin(my_lens, axis = 0)
+
+c_width = (minmax+2*eps)/(1+(resolution-1)*(1-overlap))
+c_dist  = c_width*(1-overlap)
+
+subset_borders = [[mins - eps + r*c_dist, mins - eps + r*c_dist + c_width] for r in range(resolution)]
+border_select = [[i*resolution//resolution_windows+j for i in range(resolution_windows)] for j in range(resolution//resolution_windows)]
+#%%
+bs = border_select[0]
+
+my_border = [ (my_lens>=subset_borders[i_sb][0])*(my_lens<=subset_borders[i_sb][1]) for i_sb in bs]
+my_border = np.sum(np.array(my_border), axis = 0)>0
+
+a = my_border
+
+spc_id = data_id[a]
+
+idd = pdist(data[a], metric_name)
+idd[np.isnan(idd)] = 0
+Z = linkage(idd, method)
+
+#cluster analyse
+lens_dist = np.median(my_lens[a][1:]-my_lens[a][:-1])
+c = fcluster(Z, t = t*lens_dist, criterion='distance')
+n0=len(np.unique(c))
+
+# nur cluster nehmen, welche groß geng sind
+c_uni = np.unique(c)
+c_o = [np.sum(c==ic)<limit for ic in c_uni]
+c_n = [np.sum(c==ic)>=limit for ic in c_uni]
+c_out = c_uni[c_o]
+c_uni = c_uni[c_n]
+if len(c_uni)>0:
+    for co in c_out:
+        c[c==co] = 0
+    
+    # cluster mediane bilden und spektren spektral median filtern
+    
+    spc_filt = medfilt(data[a].__copy__(), (1,3))
+    c_spc = np.array([np.median(spc_filt[c==cu], axis = 0) for cu in c_uni])
+    
+    co_id = np.arange(len(c))[c==0]
+    co_spc = spc_filt[c==0]
+    
+    # übrige spektren einem der großen cluster zuordnen
+    
+    co_c_dist = cdist(co_spc, c_spc, metric = metric_name)
+    mins = np.argmin(co_c_dist, axis = 1)
+    c[co_id] = c_uni[mins]
+    
+    print(n0, " -> ", len(c_uni), ": ",[np.sum(c==cu) for cu in c_uni])
+    
+    
+    c_spc = [np.median(spc_filt[c==cu], axis = 0) for cu in c_uni]
+    c_std = [np.std(spc_filt[c==cu], axis = 0) for cu in c_uni]
+    plt.figure()
+    for cs, ct in zip(c_spc, c_std):
+        plt.plot(cs)
+        #plt.fill_between(np.arange(len(cs)), cs+ct, cs-ct, alpha = 0.2)
+    plt.show()
+    
+else:
+    print(n0, ", no unique clusters")
 #%% pca lens?
 
 v = 2
 
-ds = np.reshape(data, (np.prod(data.shape[:-1]), data.shape[-1])).__copy__()
+ds = data[a].__copy__()
 s = np.sum(ds, axis = 1)
 ds = np.array([i_ds/i_s if i_s > 0 else i_ds*0 for i_ds, i_s in zip(ds, s)])
 mean = np.mean(ds, axis = 0)
+sd = np.std(ds, axis = 0)
 ds = ds - mean
 
 from sklearn.decomposition import PCA
@@ -347,48 +563,17 @@ pca = PCA(n_components=1)
 sc = pca.fit_transform(ds)
 
 plt.figure()
-plt.imshow(np.reshape(sc, (nZ,*imshape))[nZ//2], cmap = 'hsv')
+plt.plot(mean+sd)
+plt.plot(mean)
+plt.plot(mean-sd)
 plt.show()
 
-sv = np.std(sc)
-me = np.median(sc)
-
-mask = np.zeros(sc.shape)
-mask[sc<me-v*sv]=1
-mask[sc>me+v*sv]=1
-
-
-pca = PCA(n_components=1)
-pca.fit(ds[mask.flatten()==0])
-sc = pca.transform(ds)
-
-sv = np.std(sc)
-me = np.median(sc)
-
-sc[sc<me-v*sv]=me-v*sv
-sc[sc>me+v*sv]=me+v*sv
-
-plt.figure()
-plt.imshow(np.reshape(sc, (nZ,*imshape))[nZ//2], cmap = 'hsv')
-plt.show()
-
-plt.figure()
-plt.imshow(np.reshape((sc.flatten()-np.amin(sc)) * new_lens, (nZ,*imshape))[nZ//2], cmap = 'hsv')
-plt.show()
-
-plt.figure()
-plt.hist(sc, bins = bins)
-plt.show()
-
-plt.figure()
-plt.hist((sc.flatten()-np.amin(sc)) * new_lens, bins = bins)
-plt.show()
 #%%
 # creating sub sets (only 1D lenses from now on)
 
-resolution = 300
-gain = 4
-c_ideal = 6
+resolution = 10
+gain = 8
+c_ideal = 4
 
 data = np.reshape(data,(np.prod(data.shape[:-1]), data.shape[-1]))
 data_id = np.arange(len(data))
@@ -396,7 +581,8 @@ data_id = np.arange(len(data))
 eps = 1E-3 # stretch the borders to get every point
 
 overlap = (gain-1)/gain
-my_lens = new_lens
+#my_lens = new_lens
+my_lens = new_im_flat.flatten()
 
 minmax = np.amax(my_lens, axis = 0) - np.amin(my_lens, axis = 0)
 eps = (minmax/resolution)*eps
@@ -409,18 +595,22 @@ p1 = mins - eps + (resolution-1)*c_dist
 p2 = mins - eps + (resolution-1)*c_dist + c_width
 
 subset_borders = [[mins - eps + r*c_dist, mins - eps + r*c_dist + c_width] for r in range(resolution)]
-method = 'complete'
+#method = 'complete'
+method = 'ward'
 # part 2: look into each subset and look for possible spc ids
 
 topo_graph = nx.Graph()
 i_node = 0
 nb = len(subset_borders)
 ib = 0
+
+
+#%%
 for sb in subset_borders:
     break1 = 0
-    
     ib = ib+1
     a=(my_lens>=sb[0])*(my_lens<=sb[1])
+    print(np.sum(a))
     
     if np.sum(a) == 1:
         spc_id = data_id[a]
@@ -516,13 +706,83 @@ for sb in subset_borders:
                     cluster = cList[pos]
                     n_cluster = nList[pos]
                     break
+        print("nc = ", n_cluster)        
+        for i_c in range(n_cluster):
+            id_list = spc_id[cluster==i_c+1]
+            print(i_c, " ", len(id_list))
+            #if  len(id_list) == 1:
+            #    break
 
         for i_c in range(n_cluster):
             id_list = spc_id[cluster==i_c+1]
             if len(id_list) > 0: #more than 1 spc per cluster?
                 topo_graph.add_node(i_node, ids = id_list, height = len(id_list))
                 i_node = i_node+1
-        
+    break
+
+#%%
+
+
+#%% pca lens?
+
+v = 2
+
+ds = data[a].__copy__()
+s = np.sum(ds, axis = 1)
+ds = np.array([i_ds/i_s if i_s > 0 else i_ds*0 for i_ds, i_s in zip(ds, s)])
+mean = np.mean(ds, axis = 0)
+sd = np.std(ds, axis = 0)
+ds = ds - mean
+
+from sklearn.decomposition import PCA
+pca = PCA(n_components=1)
+sc = pca.fit_transform(ds)
+
+plt.figure()
+plt.plot(mean+sd)
+plt.plot(mean)
+plt.plot(mean-sd)
+plt.show()
+#%%
+
+
+sv = np.std(sc)
+me = np.median(sc)
+
+mask = np.zeros(sc.shape)
+mask[sc<me-v*sv]=1
+mask[sc>me+v*sv]=1
+
+
+pca = PCA(n_components=1)
+pca.fit(ds[mask.flatten()==0])
+sc = pca.transform(ds)
+
+sv = np.std(sc)
+me = np.median(sc)
+
+sc[sc<me-v*sv]=me-v*sv
+sc[sc>me+v*sv]=me+v*sv
+
+plt.figure()
+plt.imshow(np.reshape(sc, (nZ,*imshape))[nZ//2], cmap = 'hsv')
+plt.show()
+
+plt.figure()
+plt.imshow(np.reshape((sc.flatten()-np.amin(sc)) * new_lens, (nZ,*imshape))[nZ//2], cmap = 'hsv')
+plt.show()
+
+plt.figure()
+plt.hist(sc, bins = bins)
+plt.show()
+
+plt.figure()
+plt.hist((sc.flatten()-np.amin(sc)) * new_lens, bins = bins)
+plt.show()
+
+
+
+#%%        
 n_nodes = len(topo_graph)   
 
 rm = []
