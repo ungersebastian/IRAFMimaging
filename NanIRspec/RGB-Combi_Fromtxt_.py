@@ -12,25 +12,31 @@ from matplotlib import pyplot as plt
 
 
 #Reading the data
-Data1 = pd.read_csv('Topo2.txt', delimiter=('\t'))
-Data2 = pd.read_csv('Topo3.txt', delimiter=('\t'))
-Data3 = pd.read_csv('Topo4.txt', delimiter=('\t'))
+Data1 = pd.read_csv('Topo2.txt', delimiter=('\t'), header = None)
+Data2 = pd.read_csv('Topo3.txt', delimiter=('\t'), header = None)
+Data3 = pd.read_csv('Topo4.txt', delimiter=('\t'), header = None)
 
 def RGBCmbi(Data1, Data2, Data3):
     #Reshaping arrays of the images
     Arr = np.array(np.ones(shape = (1,1,3)))
 
-    Greens = [(Data1 / Data1.max())]
-    Green = np.array(Greens).T
-    G = np.multiply(Arr, Green)
+    Green = np.array(Data1)
+    Gmax = np.max(Green)
+    Greens = (Green / Gmax)
+    Greens = Greens[:, :, np.newaxis]
+    G = np.multiply(Arr, Greens)
 
-    Reds = [(Data2 / Data2.max())]
-    Red = np.array(Reds).T
-    R = np.multiply(Arr, Red)
+    Red = np.array(Data2)
+    Rmax = np.max(Red)
+    Reds = (Red / Rmax)
+    Reds = Reds[:, :, np.newaxis]
+    R = np.multiply(Arr, Reds)
 
-    Blues = [(Data3 / Data3.max())]
-    Blue = np.array(Blues).T
-    B = np.multiply(Arr, Blue)
+    Blue = np.array(Data3)
+    Bmax = np.max(Blue)
+    Blues = (Blue / Bmax)
+    Blues = Blues[:, :, np.newaxis]
+    B = np.multiply(Arr, Blues)
 
     #plotting R, G, B images
     plt.subplot(141)
